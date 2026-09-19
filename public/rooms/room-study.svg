@@ -1,0 +1,10 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="560" fill="#292622"/>
+  <rect y="560" width="1200" height="240" fill="#1A1816"/>
+  <!-- Dark Wood Bookshelves on Left -->
+  <rect x="60" y="40" width="220" height="520" fill="#1C1815" stroke="#3D352E" stroke-width="4"/>
+  <!-- Leather Desk Chair & Executive Table -->
+  <rect x="420" y="480" width="460" height="140" rx="8" fill="#11100F"/>
+  <circle cx="650" cy="440" r="50" fill="#481E25"/>
+  <polygon points="650,0 450,560 850,560" fill="#F4EFE7" opacity="0.05"/>
+</svg>

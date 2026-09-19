@@ -1,0 +1,10 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="560" fill="#E5DFD4"/>
+  <rect y="560" width="1200" height="240" fill="#3D322B"/>
+  <rect y="545" width="1200" height="15" fill="#D6CDBF"/>
+  <!-- Bed Headboard & Pillows -->
+  <rect x="280" y="420" width="640" height="160" rx="20" fill="#292622"/>
+  <rect x="320" y="480" width="260" height="70" rx="10" fill="#F4EFE7"/>
+  <rect x="620" y="480" width="260" height="70" rx="10" fill="#F4EFE7"/>
+  <rect x="300" y="540" width="600" height="180" rx="12" fill="#E4DBCF"/>
+</svg>

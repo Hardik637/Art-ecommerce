@@ -1,0 +1,17 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Minimalist Living Room Canvas Wall -->
+  <rect width="1200" height="560" fill="#EFE9DE"/>
+  <!-- Dark Herringbone Parquet Floor -->
+  <rect y="560" width="1200" height="240" fill="#241E1A"/>
+  <!-- Thin architectural baseboard -->
+  <rect y="545" width="1200" height="15" fill="#E4DBCF"/>
+  <!-- Designer Lowline Sofa -->
+  <rect x="250" y="520" width="700" height="140" rx="16" fill="#11100F"/>
+  <rect x="280" y="470" width="640" height="80" rx="14" fill="#1C1A18"/>
+  <!-- Side table with sculptural lamp -->
+  <rect x="1000" y="500" width="120" height="120" rx="6" fill="#292622"/>
+  <ellipse cx="1060" cy="460" rx="25" ry="40" fill="#F4EFE7"/>
+  <line x1="1060" y1="500" x2="1060" y2="460" stroke="#B08A4A" stroke-width="4"/>
+  <!-- Warm overhead gallery spotlight cone -->
+  <polygon points="600,0 300,560 900,560" fill="#FFFFFF" opacity="0.07"/>
+</svg>

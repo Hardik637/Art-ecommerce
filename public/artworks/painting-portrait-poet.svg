@@ -1,0 +1,14 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1000" fill="#E4DBCF"/>
+  <ellipse cx="400" cy="420" rx="180" ry="240" fill="#292622"/>
+  <!-- Minimalist facial plane abstraction -->
+  <path d="M 330 320 C 350 250, 450 250, 470 320 C 490 400, 450 500, 400 560 C 350 500, 310 400, 330 320 Z" fill="#F4EFE7"/>
+  <!-- Angular shadow -->
+  <path d="M 400 260 L 400 560 C 450 500, 490 400, 470 320 Z" fill="#D6C4B0"/>
+  <path d="M 370 420 L 400 440 L 400 420 Z" fill="#481E25"/>
+  <line x1="370" y1="480" x2="430" y2="480" stroke="#481E25" stroke-width="4" stroke-linecap="round"/>
+  <!-- Shoulders & Coat -->
+  <path d="M 180 850 C 220 620, 320 580, 400 580 C 480 580, 580 620, 620 850 Z" fill="#11100F"/>
+  <line x1="400" y1="580" x2="400" y2="850" stroke="#B08A4A" stroke-width="2"/>
+  <rect x="24" y="24" width="752" height="952" fill="none" stroke="rgba(17,16,15,0.15)" stroke-width="1"/>
+</svg>

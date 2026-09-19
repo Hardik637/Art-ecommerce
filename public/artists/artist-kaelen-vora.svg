@@ -1,0 +1,10 @@
+<svg width="600" height="750" viewBox="0 0 600 750" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="750" fill="#11100F"/>
+  <circle cx="300" cy="270" r="130" fill="#D5C5B5"/>
+  <!-- Futuristic frame glasses -->
+  <rect x="210" y="240" width="70" height="35" rx="4" fill="#292622" stroke="#B08A4A" stroke-width="2"/>
+  <rect x="320" y="240" width="70" height="35" rx="4" fill="#292622" stroke="#B08A4A" stroke-width="2"/>
+  <line x1="280" y1="255" x2="320" y2="255" stroke="#B08A4A" stroke-width="3"/>
+  <polygon points="160,460 440,460 500,750 100,750" fill="#1F1C1A"/>
+  <rect x="15" y="15" width="570" height="720" fill="none" stroke="rgba(176,138,74,0.3)" stroke-width="1"/>
+</svg>

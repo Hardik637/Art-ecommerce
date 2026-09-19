@@ -1,0 +1,18 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="marble" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4EFE7"/>
+      <stop offset="50%" stop-color="#E4DBCF"/>
+      <stop offset="100%" stop-color="#C2B7A5"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="#11100F"/>
+  <!-- Black Granite Pedestal -->
+  <rect x="280" y="820" width="240" height="140" fill="#1F1C1A"/>
+  <rect x="260" y="800" width="280" height="20" fill="#292622"/>
+  <!-- Classical Modern Torso Silhouette in Carrara Marble -->
+  <path d="M 330 300 C 370 280, 430 280, 470 300 C 510 380, 530 460, 490 560 C 460 640, 470 720, 460 800 L 340 800 C 330 720, 340 640, 310 560 C 270 460, 290 380, 330 300 Z" fill="url(#marble)"/>
+  <!-- Marble Veins -->
+  <path d="M 360 360 Q 420 440, 400 520 T 440 680" stroke="rgba(17,16,15,0.15)" stroke-width="2" fill="none"/>
+  <rect x="24" y="24" width="752" height="952" fill="none" stroke="rgba(244,239,231,0.15)" stroke-width="1"/>
+</svg>

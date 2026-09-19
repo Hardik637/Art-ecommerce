@@ -1,0 +1,25 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="burgundyRad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#6E2833"/>
+      <stop offset="60%" stop-color="#481E25"/>
+      <stop offset="100%" stop-color="#1A0A0D"/>
+    </radialGradient>
+    <linearGradient id="goldLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D06B"/>
+      <stop offset="50%" stop-color="#B08A4A"/>
+      <stop offset="100%" stop-color="#705220"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#burgundyRad)"/>
+  <!-- Royal Archway Geometry -->
+  <path d="M 150 900 L 150 450 C 150 250, 650 250, 650 450 L 650 900 Z" fill="none" stroke="url(#goldLeaf)" stroke-width="3" opacity="0.8"/>
+  <path d="M 200 900 L 200 470 C 200 300, 600 300, 600 470 L 600 900 Z" fill="none" stroke="url(#goldLeaf)" stroke-width="1.5" opacity="0.4" stroke-dasharray="6 4"/>
+  <!-- Central Stylized Royal Figure / Essence -->
+  <path d="M 400 320 C 440 320 470 360 470 420 C 470 500 400 580 400 580 C 400 580 330 500 330 420 C 330 360 360 320 400 320 Z" fill="url(#goldLeaf)" opacity="0.85"/>
+  <circle cx="400" cy="270" r="30" fill="url(#goldLeaf)"/>
+  <!-- Floor reflections -->
+  <polygon points="250,750 550,750 620,950 180,950" fill="#11100F" opacity="0.6"/>
+  <line x1="250" y1="750" x2="550" y2="750" stroke="url(#goldLeaf)" stroke-width="2"/>
+  <rect x="24" y="24" width="752" height="952" fill="none" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+</svg>

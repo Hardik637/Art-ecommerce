@@ -1,0 +1,11 @@
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="700" fill="#11100F"/>
+  <!-- Mountain peaks with heavy white oil knife strokes -->
+  <polygon points="100,550 350,150 550,550" fill="#F4EFE7"/>
+  <polygon points="350,150 550,550 460,550" fill="#D2C5B3"/>
+  <polygon points="380,550 620,220 820,550" fill="#E4DBCF"/>
+  <polygon points="620,220 820,550 730,550" fill="#B5A490"/>
+  <rect x="0" y="550" width="900" height="150" fill="#0A0909"/>
+  <line x1="0" y1="550" x2="900" y2="550" stroke="#B08A4A" stroke-width="2"/>
+  <rect x="20" y="20" width="860" height="660" fill="none" stroke="rgba(244,239,231,0.2)" stroke-width="1"/>
+</svg>

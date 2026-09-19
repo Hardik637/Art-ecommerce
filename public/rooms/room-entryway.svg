@@ -1,0 +1,10 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="580" fill="#F4EFE7"/>
+  <rect y="580" width="1200" height="220" fill="#1F1C1A"/>
+  <!-- Marble Console Table -->
+  <rect x="350" y="500" width="500" height="24" rx="3" fill="#E4DBCF" stroke="#B08A4A" stroke-width="2"/>
+  <line x1="390" y1="524" x2="390" y2="680" stroke="#B08A4A" stroke-width="6"/>
+  <line x1="810" y1="524" x2="810" y2="680" stroke="#B08A4A" stroke-width="6"/>
+  <!-- Brutalist vase on console -->
+  <rect x="420" y="420" width="50" height="80" rx="4" fill="#11100F"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle border with antique gold accent -->
+  <circle cx="100" cy="100" r="92" stroke="#B08A4A" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <circle cx="100" cy="100" r="84" stroke="#11100F" stroke-width="1.2"/>
+  <!-- Minimal geometric monogram: Atelier & Art House Seal -->
+  <path d="M 100 38 L 138 120 L 62 120 Z" stroke="#11100F" stroke-width="2.5" fill="none"/>
+  <line x1="78" y1="98" x2="122" y2="98" stroke="#B08A4A" stroke-width="2"/>
+  <circle cx="100" cy="68" r="4" fill="#B08A4A"/>
+  <!-- Arch & Horizon motif -->
+  <path d="M 80 148 C 80 137, 120 137, 120 148" stroke="#11100F" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="148" x2="140" y2="148" stroke="#11100F" stroke-width="1.5"/>
+  <circle cx="100" cy="136" r="3" fill="#481E25"/>
+  <!-- Roman year MMXXVI / Curated -->
+  <text x="100" y="172" font-family="'Cormorant Garamond', serif" font-size="10" font-weight="600" fill="#11100F" text-anchor="middle" letter-spacing="3">ATELIER</text>
+</svg>

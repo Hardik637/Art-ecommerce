@@ -1,0 +1,19 @@
+<svg width="900" height="900" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="oceanRad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0E3A40"/>
+      <stop offset="70%" stop-color="#07191C"/>
+      <stop offset="100%" stop-color="#11100F"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#oceanRad)"/>
+  <g fill="none" stroke="#B08A4A" opacity="0.75">
+    <circle cx="450" cy="450" r="360" stroke-width="1.5" stroke-dasharray="8 6"/>
+    <circle cx="450" cy="450" r="280" stroke-width="2"/>
+    <circle cx="450" cy="450" r="190" stroke-width="1" stroke-dasharray="4 8"/>
+    <circle cx="450" cy="450" r="100" stroke-width="3"/>
+  </g>
+  <circle cx="450" cy="450" r="40" fill="#F4EFE7"/>
+  <path d="M 100 450 Q 300 250, 450 450 T 800 450" stroke="#481E25" stroke-width="8" fill="none" opacity="0.8"/>
+  <rect x="25" y="25" width="850" height="850" fill="none" stroke="rgba(176,138,74,0.3)" stroke-width="1"/>
+</svg>

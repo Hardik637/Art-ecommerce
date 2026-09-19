@@ -1,0 +1,8 @@
+<svg width="600" height="750" viewBox="0 0 600 750" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="750" fill="#20181A"/>
+  <circle cx="300" cy="280" r="135" fill="#E8D5C4"/>
+  <!-- Kashmiri Pashmina Drape -->
+  <path d="M 170 240 C 170 120, 430 120, 430 240 L 470 540 L 130 540 Z" fill="#481E25" opacity="0.9"/>
+  <polygon points="140,520 460,520 520,750 80,750" fill="#11100F"/>
+  <rect x="15" y="15" width="570" height="720" fill="none" stroke="rgba(176,138,74,0.3)" stroke-width="1"/>
+</svg>
