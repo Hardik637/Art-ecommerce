@@ -22,8 +22,8 @@
 }
 
 :root {
-  --bg-primary: #F4EFE7;
-  --text-primary: #11100F;
+  --bg-primary: #FAFAF9;
+  --text-primary: #0F0F0F;
 }
 
 body {
@@ -35,33 +35,24 @@ body {
   overflow-x: hidden;
 }
 
-/* Luxury selection color */
+/* Modern luxury selection color */
 ::selection {
-  background-color: #481E25;
-  color: #F4EFE7;
+  background-color: #0F0F0F;
+  color: #FAFAF9;
 }
 
-/* Editorial subtle paper texture */
-.paper-texture {
-  background-image: radial-gradient(rgba(17, 16, 15, 0.04) 1px, transparent 0);
-  background-size: 24px 24px;
-}
-
-/* Thin hairline rules */
+/* Hairline rules */
 .hairline-b {
-  border-bottom: 1px solid rgba(17, 16, 15, 0.08);
+  border-bottom: 1px solid #E4E4E7;
 }
 .hairline-t {
-  border-top: 1px solid rgba(17, 16, 15, 0.08);
+  border-top: 1px solid #E4E4E7;
 }
 .hairline-l {
-  border-left: 1px solid rgba(17, 16, 15, 0.08);
+  border-left: 1px solid #E4E4E7;
 }
 .hairline-r {
-  border-right: 1px solid rgba(17, 16, 15, 0.08);
-}
-.hairline-gold {
-  border-color: rgba(176, 138, 74, 0.35);
+  border-right: 1px solid #E4E4E7;
 }
 
 /* Image reveal transitions */
@@ -102,21 +93,21 @@ body {
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F4EFE7;
+  background: #FAFAF9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C8BCAB;
-  border-radius: 3px;
+  background: #D4D4D8;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B08A4A;
+  background: #71717A;
 }
 
 /* Respect reduced motion */

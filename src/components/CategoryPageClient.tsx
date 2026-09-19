@@ -9,14 +9,11 @@ import {
 } from '@/lib/artCatalog';
 import { ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
-import ProductQuickView from '@/components/ProductQuickView';
 import {
   SlidersHorizontal,
   X,
-  ChevronDown,
   RotateCcw,
   Search,
-  ArrowRight,
   ChevronRight,
 } from 'lucide-react';
 
@@ -46,21 +43,8 @@ export default function CategoryPageClient({
   const [sortOrder, setSortOrder] = useState<string>('recommended');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Mobile drawer state & quick view
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [quickViewArtwork, setQuickViewArtwork] = useState<ArtworkProduct | null>(null);
-
-  // Accordion state
-  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({
-    subcategory: true,
-    price: true,
-    special: true,
-    orientation: true,
-  });
-
-  const toggleAccordion = (key: string) => {
-    setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  // Filter drawer state
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   const clearAllFilters = () => {
     setSelectedSubcategory('all');
@@ -90,7 +74,7 @@ export default function CategoryPageClient({
     return Array.from(subs);
   }, [baseCategoryArtworks]);
 
-  // Filter & Sort
+  // Filter & Sort logic
   const filteredArtworks = useMemo(() => {
     let list = [...baseCategoryArtworks];
 
@@ -112,12 +96,12 @@ export default function CategoryPageClient({
       list = list.filter((a) => a.subcategory === selectedSubcategory);
     }
 
-    // Orientation (relevant especially for wall art)
+    // Orientation
     if (selectedOrientation !== 'all') {
       list = list.filter((a) => a.orientation === selectedOrientation);
     }
 
-    // Special edition / badge filters
+    // Special filter
     if (specialFilter === 'one-of-one') {
       list = list.filter((a) => a.isOneOfOne);
     } else if (specialFilter === 'limited-editions') {
@@ -171,139 +155,118 @@ export default function CategoryPageClient({
   };
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen text-[#11100F]">
-      {/* ── 1. CATEGORY EDITORIAL HERO ────────────────────────────────── */}
-      <section className="border-b border-[#E4DBCF] bg-[#FAF7F2]/60 pt-8 pb-12 md:pt-12 md:pb-16">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+    <div className="bg-[#FAFAF9] min-h-screen text-[#0F0F0F]">
+      {/* ── 1. CLEAN E-COMMERCE CATEGORY HEADER ───────────────────────── */}
+      <section className="border-b border-neutral-200 bg-white pt-6 pb-8 md:pt-10 md:pb-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs font-sans text-[#78716C] mb-6">
-            <Link href="/" className="hover:text-[#11100F] transition-colors">
+          <nav className="flex items-center gap-2 text-xs font-sans text-neutral-500 mb-4 uppercase tracking-wider">
+            <Link href="/" className="hover:text-black transition-colors">
               Home
             </Link>
             <ChevronRight size={12} />
-            <span className="text-[#11100F] font-medium">{title}</span>
+            <span className="text-black font-semibold">{title}</span>
           </nav>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E4DBCF]/80 border border-[#D6CDBF]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#B08A4A]" />
-                <span className="text-[10px] font-sans font-semibold tracking-[0.25em] uppercase text-[#11100F]">
-                  Curated Category
-                </span>
-              </div>
-
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#11100F] tracking-tight leading-[1.08]">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h1 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#0F0F0F] tracking-tight uppercase">
                 {title}
               </h1>
-
-              <p className="font-serif text-lg md:text-xl text-[#481E25] italic max-w-2xl leading-relaxed">
-                &ldquo;{description}&rdquo;
-              </p>
-
-              <p className="text-xs md:text-sm font-sans text-[#78716C] max-w-xl leading-relaxed">
-                {subtitle} Every work is created in the atelier with archival materials, accompanied by a signed Certificate of Authenticity, and delivered in custom protective crates.
+              <p className="text-xs sm:text-sm font-sans text-neutral-600 mt-2 max-w-2xl leading-relaxed">
+                {description} {subtitle}
               </p>
             </div>
 
-            <div className="lg:col-span-4 flex lg:justify-end">
-              <div className="bg-[#FAF7F2] border border-[#E4DBCF] p-5 md:p-6 w-full max-w-xs space-y-2">
-                <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-[#B08A4A] uppercase block">
-                  Collection Status
-                </span>
-                <p className="font-serif text-3xl font-medium text-[#11100F]">
-                  {baseCategoryArtworks.length}{' '}
-                  <span className="text-sm font-sans font-normal text-[#78716C]">
-                    Pieces in Collection
-                  </span>
-                </p>
-                <div className="pt-2 border-t border-[#E4DBCF] text-[11px] font-sans text-[#78716C]">
-                  Insured white-glove art delivery pan-India
-                </div>
-              </div>
+            <div className="text-xs font-sans text-neutral-500 flex-shrink-0">
+              <span className="font-bold text-neutral-900 text-sm">{filteredArtworks.length}</span>{' '}
+              {filteredArtworks.length === 1 ? 'Product' : 'Products'} Available
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. CONTROLS & FILTER BAR ──────────────────────────────────── */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E4DBCF]">
-          {/* Search within category */}
-          <div className="relative w-full md:w-80">
-            <Search
-              size={15}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#78716C]"
-            />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`Search in ${title.toLowerCase()}...`}
-              className="w-full bg-[#FAF7F2] border border-[#E4DBCF] pl-9 pr-8 py-2.5 text-xs text-[#11100F] placeholder-[#78716C] outline-none focus:border-[#11100F] transition-colors"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#78716C] hover:text-[#11100F]"
-              >
-                <X size={13} />
-              </button>
-            )}
-          </div>
-
-          {/* Quick Subcategory Pills on Desktop */}
-          {availableSubcategories.length > 1 && (
-            <div className="hidden xl:flex items-center gap-2 overflow-x-auto text-xs font-sans">
-              <button
-                onClick={() => setSelectedSubcategory('all')}
-                className={`px-3 py-1.5 uppercase tracking-wider text-[11px] border transition-colors ${
-                  selectedSubcategory === 'all'
-                    ? 'bg-[#11100F] text-[#F4EFE7] border-[#11100F]'
-                    : 'bg-[#FAF7F2] text-[#78716C] border-[#E4DBCF] hover:text-[#11100F]'
-                }`}
-              >
-                All {title}
-              </button>
-              {availableSubcategories.map((sub) => (
-                <button
-                  key={sub}
-                  onClick={() => setSelectedSubcategory(sub)}
-                  className={`px-3 py-1.5 uppercase tracking-wider text-[11px] border transition-colors ${
-                    selectedSubcategory === sub
-                      ? 'bg-[#11100F] text-[#F4EFE7] border-[#11100F]'
-                      : 'bg-[#FAF7F2] text-[#78716C] border-[#E4DBCF] hover:text-[#11100F]'
-                  }`}
-                >
-                  {formatSubcategoryLabel(sub)}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Sort & Mobile Filter Trigger */}
-          <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+      {/* ── 2. CONTROLS BAR: SEARCH, FILTERS & SORTING ─────────────────── */}
+      <div className="sticky top-16 md:top-18 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 py-3">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-wrap items-center justify-between gap-3">
+          {/* Left: Quick Subcategory Pills & Filter Drawer Button */}
+          <div className="flex items-center gap-2 overflow-x-auto py-1">
             <button
-              onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden bg-[#11100F] text-[#F4EFE7] px-4 py-2.5 text-xs font-sans font-semibold uppercase tracking-wider flex items-center gap-2"
+              onClick={() => setFilterDrawerOpen(true)}
+              className="bg-[#0F0F0F] hover:bg-neutral-800 text-white px-3.5 py-2 text-xs font-sans font-semibold uppercase tracking-wider flex items-center gap-2 flex-shrink-0 transition-colors"
             >
-              <SlidersHorizontal size={14} />
+              <SlidersHorizontal size={13} />
               <span>Filters {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}</span>
             </button>
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-sans text-[#78716C] hidden sm:inline">
+            {availableSubcategories.length > 0 && (
+              <>
+                <button
+                  onClick={() => setSelectedSubcategory('all')}
+                  className={`px-3 py-1.5 uppercase tracking-wider text-[11px] font-sans font-semibold border transition-colors flex-shrink-0 ${
+                    selectedSubcategory === 'all'
+                      ? 'bg-neutral-900 text-white border-neutral-900'
+                      : 'bg-white text-neutral-600 border-neutral-200 hover:text-black hover:border-neutral-400'
+                  }`}
+                >
+                  All {title}
+                </button>
+                {availableSubcategories.map((sub) => (
+                  <button
+                    key={sub}
+                    onClick={() => setSelectedSubcategory(sub)}
+                    className={`px-3 py-1.5 uppercase tracking-wider text-[11px] font-sans font-semibold border transition-colors flex-shrink-0 ${
+                      selectedSubcategory === sub
+                        ? 'bg-neutral-900 text-white border-neutral-900'
+                        : 'bg-white text-neutral-600 border-neutral-200 hover:text-black hover:border-neutral-400'
+                    }`}
+                  >
+                    {formatSubcategoryLabel(sub)}
+                  </button>
+                ))}
+              </>
+            )}
+          </div>
+
+          {/* Right: Search & Sort Dropdown */}
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            {/* Search Input */}
+            <div className="relative w-full sm:w-56">
+              <Search
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={`Search ${title.toLowerCase()}...`}
+                className="w-full bg-neutral-50 border border-neutral-200 pl-8 pr-7 py-1.5 text-xs text-[#0F0F0F] placeholder-neutral-400 outline-none focus:border-black transition-colors"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <span className="text-[11px] font-sans text-neutral-500 uppercase tracking-wider hidden md:inline">
                 Sort:
               </span>
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
-                className="bg-[#FAF7F2] border border-[#E4DBCF] px-3 py-2 text-xs font-sans text-[#11100F] outline-none focus:border-[#11100F] transition-colors cursor-pointer"
+                className="bg-white border border-neutral-200 px-2.5 py-1.5 text-xs font-sans text-neutral-900 outline-none focus:border-black cursor-pointer"
               >
-                <option value="recommended">Curated / Recommended</option>
+                <option value="recommended">Featured</option>
+                <option value="newest">Newest Releases</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
-                <option value="newest">Newest Releases</option>
                 <option value="rating">Highest Rated</option>
               </select>
             </div>
@@ -312,405 +275,207 @@ export default function CategoryPageClient({
 
         {/* Active Filter Chips */}
         {activeFiltersCount > 0 && (
-          <div className="flex flex-wrap items-center gap-2 pt-4">
-            <span className="text-xs font-sans text-[#78716C]">Active Filters:</span>
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-wrap items-center gap-2 pt-2.5">
+            <span className="text-xs font-sans text-neutral-500">Active Filters:</span>
             {selectedSubcategory !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E4DBCF] text-[#11100F] text-xs font-sans">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
                 <span>{formatSubcategoryLabel(selectedSubcategory)}</span>
                 <button
                   onClick={() => setSelectedSubcategory('all')}
-                  className="hover:text-[#481E25]"
+                  className="hover:text-black"
                 >
                   <X size={11} />
                 </button>
               </span>
             )}
             {selectedOrientation !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E4DBCF] text-[#11100F] text-xs font-sans capitalize">
-                <span>Orientation: {selectedOrientation}</span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans capitalize">
+                <span>{selectedOrientation}</span>
                 <button
                   onClick={() => setSelectedOrientation('all')}
-                  className="hover:text-[#481E25]"
+                  className="hover:text-black"
                 >
                   <X size={11} />
                 </button>
               </span>
             )}
             {priceRange !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E4DBCF] text-[#11100F] text-xs font-sans">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
                 <span>Price: {priceRange.replace('-', ' to ')}</span>
-                <button
-                  onClick={() => setPriceRange('all')}
-                  className="hover:text-[#481E25]"
-                >
+                <button onClick={() => setPriceRange('all')} className="hover:text-black">
                   <X size={11} />
                 </button>
               </span>
             )}
             {specialFilter !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E4DBCF] text-[#11100F] text-xs font-sans capitalize">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans capitalize">
                 <span>{specialFilter.replace('-', ' ')}</span>
-                <button
-                  onClick={() => setSpecialFilter('all')}
-                  className="hover:text-[#481E25]"
-                >
+                <button onClick={() => setSpecialFilter('all')} className="hover:text-black">
                   <X size={11} />
                 </button>
               </span>
             )}
             {searchQuery && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E4DBCF] text-[#11100F] text-xs font-sans">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
                 <span>&ldquo;{searchQuery}&rdquo;</span>
-                <button onClick={() => setSearchQuery('')} className="hover:text-[#481E25]">
+                <button onClick={() => setSearchQuery('')} className="hover:text-black">
                   <X size={11} />
                 </button>
               </span>
             )}
             <button
               onClick={clearAllFilters}
-              className="text-xs font-sans text-[#481E25] hover:underline ml-2"
+              className="text-xs font-sans font-semibold text-neutral-900 hover:underline ml-2"
             >
-              Reset All
+              Clear All
             </button>
           </div>
         )}
-
-        {/* ── 3. MAIN PRODUCT GRID WITH SIDEBAR ───────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-8">
-          {/* Desktop Filter Sidebar */}
-          <aside className="hidden lg:block lg:col-span-3 space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-[#E4DBCF]">
-              <span className="text-xs font-sans font-semibold uppercase tracking-[0.2em] text-[#11100F]">
-                Refine {title}
-              </span>
-              {activeFiltersCount > 0 && (
-                <button
-                  onClick={clearAllFilters}
-                  className="text-[10px] font-sans font-semibold text-[#481E25] hover:underline flex items-center gap-1 uppercase tracking-wider"
-                >
-                  <RotateCcw size={11} />
-                  <span>Reset All</span>
-                </button>
-              )}
-            </div>
-
-            {/* Accordion: Subcategory */}
-            {availableSubcategories.length > 0 && (
-              <div className="border-b border-[#E4DBCF] pb-4">
-                <button
-                  onClick={() => toggleAccordion('subcategory')}
-                  className="w-full flex items-center justify-between py-1 text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F]"
-                >
-                  <span>Subcategory</span>
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform ${openAccordions.subcategory ? 'rotate-180' : ''}`}
-                  />
-                </button>
-                {openAccordions.subcategory && (
-                  <div className="pt-3 space-y-2 text-xs font-sans text-[#78716C]">
-                    <label className="flex items-center gap-2.5 cursor-pointer hover:text-[#11100F] transition-colors">
-                      <input
-                        type="radio"
-                        name="subcategory"
-                        checked={selectedSubcategory === 'all'}
-                        onChange={() => setSelectedSubcategory('all')}
-                        className="accent-[#11100F]"
-                      />
-                      <span>All Subcategories ({baseCategoryArtworks.length})</span>
-                    </label>
-                    {availableSubcategories.map((sub) => {
-                      const count = baseCategoryArtworks.filter(
-                        (a) => a.subcategory === sub
-                      ).length;
-                      return (
-                        <label
-                          key={sub}
-                          className="flex items-center gap-2.5 cursor-pointer hover:text-[#11100F] transition-colors"
-                        >
-                          <input
-                            type="radio"
-                            name="subcategory"
-                            checked={selectedSubcategory === sub}
-                            onChange={() => setSelectedSubcategory(sub)}
-                            className="accent-[#11100F]"
-                          />
-                          <span>
-                            {formatSubcategoryLabel(sub)} ({count})
-                          </span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Accordion: Orientation (for Wall Art) */}
-            {category === 'wall-art' && (
-              <div className="border-b border-[#E4DBCF] pb-4">
-                <button
-                  onClick={() => toggleAccordion('orientation')}
-                  className="w-full flex items-center justify-between py-1 text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F]"
-                >
-                  <span>Orientation</span>
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform ${openAccordions.orientation ? 'rotate-180' : ''}`}
-                  />
-                </button>
-                {openAccordions.orientation && (
-                  <div className="pt-3 space-y-2 text-xs font-sans text-[#78716C]">
-                    {[
-                      { id: 'all', label: 'All Orientations' },
-                      { id: 'vertical', label: 'Vertical / Portrait' },
-                      { id: 'horizontal', label: 'Horizontal / Landscape' },
-                      { id: 'square', label: 'Square' },
-                    ].map((ori) => (
-                      <label
-                        key={ori.id}
-                        className="flex items-center gap-2.5 cursor-pointer hover:text-[#11100F] transition-colors"
-                      >
-                        <input
-                          type="radio"
-                          name="orientation"
-                          checked={selectedOrientation === ori.id}
-                          onChange={() => setSelectedOrientation(ori.id)}
-                          className="accent-[#11100F]"
-                        />
-                        <span>{ori.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Accordion: Price */}
-            <div className="border-b border-[#E4DBCF] pb-4">
-              <button
-                onClick={() => toggleAccordion('price')}
-                className="w-full flex items-center justify-between py-1 text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F]"
-              >
-                <span>Price (INR)</span>
-                <ChevronDown
-                  size={14}
-                  className={`transition-transform ${openAccordions.price ? 'rotate-180' : ''}`}
-                />
-              </button>
-              {openAccordions.price && (
-                <div className="pt-3 space-y-2 text-xs font-sans text-[#78716C]">
-                  {[
-                    { id: 'all', label: 'All Price Tiers' },
-                    { id: 'under-5000', label: 'Under ₹5,000' },
-                    { id: '5000-15000', label: '₹5,000 – ₹15,000' },
-                    { id: '15000-30000', label: '₹15,000 – ₹30,000' },
-                    { id: 'above-30000', label: 'Above ₹30,000' },
-                  ].map((tier) => (
-                    <label
-                      key={tier.id}
-                      className="flex items-center gap-2.5 cursor-pointer hover:text-[#11100F] transition-colors"
-                    >
-                      <input
-                        type="radio"
-                        name="price"
-                        checked={priceRange === tier.id}
-                        onChange={() => setPriceRange(tier.id)}
-                        className="accent-[#11100F]"
-                      />
-                      <span>{tier.label}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Accordion: Special Collections */}
-            <div className="border-b border-[#E4DBCF] pb-4">
-              <button
-                onClick={() => toggleAccordion('special')}
-                className="w-full flex items-center justify-between py-1 text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F]"
-              >
-                <span>Acquisition Type</span>
-                <ChevronDown
-                  size={14}
-                  className={`transition-transform ${openAccordions.special ? 'rotate-180' : ''}`}
-                />
-              </button>
-              {openAccordions.special && (
-                <div className="pt-3 space-y-2 text-xs font-sans text-[#78716C]">
-                  {[
-                    { id: 'all', label: 'All Works' },
-                    { id: 'one-of-one', label: 'One of One Originals' },
-                    { id: 'limited-editions', label: 'Limited Editions' },
-                    { id: 'bestsellers', label: 'Best Sellers' },
-                    { id: 'new', label: 'New Releases' },
-                  ].map((s) => (
-                    <label
-                      key={s.id}
-                      className="flex items-center gap-2.5 cursor-pointer hover:text-[#11100F] transition-colors"
-                    >
-                      <input
-                        type="radio"
-                        name="special"
-                        checked={specialFilter === s.id}
-                        onChange={() => setSpecialFilter(s.id)}
-                        className="accent-[#11100F]"
-                      />
-                      <span>{s.label}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Category Navigation Links */}
-            <div className="pt-4 space-y-2">
-              <span className="text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-[#78716C] block mb-2">
-                Other Collections
-              </span>
-              {category !== 'wall-art' && (
-                <Link
-                  href="/wall-art"
-                  className="text-xs font-sans text-[#78716C] hover:text-[#11100F] flex items-center justify-between py-1.5 transition-colors"
-                >
-                  <span>Explore Wall Art</span>
-                  <ArrowRight size={12} />
-                </Link>
-              )}
-              {category !== 'sculptures' && (
-                <Link
-                  href="/sculptures"
-                  className="text-xs font-sans text-[#78716C] hover:text-[#11100F] flex items-center justify-between py-1.5 transition-colors"
-                >
-                  <span>Explore Sculptures</span>
-                  <ArrowRight size={12} />
-                </Link>
-              )}
-              {category !== 'decorative-pieces' && (
-                <Link
-                  href="/decorative-pieces"
-                  className="text-xs font-sans text-[#78716C] hover:text-[#11100F] flex items-center justify-between py-1.5 transition-colors"
-                >
-                  <span>Explore Decorative Pieces</span>
-                  <ArrowRight size={12} />
-                </Link>
-              )}
-            </div>
-          </aside>
-
-          {/* Product Grid Area */}
-          <main className="lg:col-span-9">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-xs font-sans text-[#78716C]">
-                Showing <span className="font-semibold text-[#11100F]">{filteredArtworks.length}</span>{' '}
-                {filteredArtworks.length === 1 ? 'piece' : 'pieces'}
-              </p>
-            </div>
-
-            {filteredArtworks.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredArtworks.map((art, index) => (
-                  <ArtworkCard
-                    key={art.id}
-                    artwork={art}
-                    priority={index < 3}
-                    onQuickView={(a) => setQuickViewArtwork(a)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-24 px-4 bg-[#FAF7F2] border border-[#E4DBCF]">
-                <p className="font-serif text-2xl text-[#11100F] mb-2">
-                  No artworks found in {title}
-                </p>
-                <p className="text-xs font-sans text-[#78716C] max-w-md mx-auto mb-6">
-                  No pieces matched your selected filters or search query. Try broadening your criteria.
-                </p>
-                <button
-                  onClick={clearAllFilters}
-                  className="bg-[#11100F] text-[#F4EFE7] px-6 py-3 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-[#481E25] transition-colors"
-                >
-                  Clear All Filters
-                </button>
-              </div>
-            )}
-          </main>
-        </div>
       </div>
 
-      {/* ── 4. MOBILE FILTER DRAWER ───────────────────────────────────── */}
-      {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden lg:hidden">
+      {/* ── 3. STANDARD FASHION PRODUCT GRID (4-col Desktop, 2-col Mobile) ── */}
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-8 md:py-12">
+        {filteredArtworks.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {filteredArtworks.map((art, index) => (
+              <ArtworkCard
+                key={art.id}
+                artwork={art}
+                priority={index < 4}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 px-4 bg-white border border-neutral-200">
+            <h3 className="font-sans font-bold text-xl text-neutral-900 uppercase mb-2">
+              No matching products found
+            </h3>
+            <p className="text-xs font-sans text-neutral-500 max-w-md mx-auto mb-6">
+              We couldn&apos;t find any items matching your active criteria. Try clearing filters or searching for another term.
+            </p>
+            <button
+              onClick={clearAllFilters}
+              className="bg-[#0F0F0F] text-white px-6 py-3 text-xs font-sans font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors"
+            >
+              Reset All Filters
+            </button>
+          </div>
+        )}
+      </main>
+
+      {/* ── 4. SLIDE-OUT FILTER DRAWER ─────────────────────────────────── */}
+      {filterDrawerOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden">
           <div
-            onClick={() => setMobileFilterOpen(false)}
-            className="absolute inset-0 bg-[#11100F]/60 backdrop-blur-sm"
+            onClick={() => setFilterDrawerOpen(false)}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
           />
+
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-sm bg-[#F4EFE7] flex flex-col shadow-2xl">
-              <div className="p-6 border-b border-[#E4DBCF] flex items-center justify-between">
-                <span className="text-xs font-sans font-semibold uppercase tracking-[0.2em] text-[#11100F]">
+            <div className="w-screen max-w-sm bg-white flex flex-col shadow-2xl">
+              {/* Drawer Header */}
+              <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
+                <span className="font-sans font-bold text-sm uppercase tracking-wider text-[#0F0F0F]">
                   Filter {title}
                 </span>
                 <button
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="p-1.5 text-[#78716C] hover:text-[#11100F]"
+                  onClick={() => setFilterDrawerOpen(false)}
+                  className="p-1.5 text-neutral-500 hover:text-black"
                 >
                   <X size={20} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                {/* Mobile Subcategories */}
+              {/* Drawer Filter Groups */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-6">
+                {/* Subcategory */}
                 {availableSubcategories.length > 0 && (
                   <div className="space-y-3">
-                    <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] block">
+                    <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
                       Subcategory
                     </span>
-                    <div className="space-y-2 text-xs font-sans text-[#78716C]">
-                      <label className="flex items-center gap-2.5">
+                    <div className="space-y-2 text-xs font-sans text-neutral-600">
+                      <label className="flex items-center gap-2.5 cursor-pointer">
                         <input
                           type="radio"
-                          name="m-subcategory"
+                          name="drawer-sub"
                           checked={selectedSubcategory === 'all'}
                           onChange={() => setSelectedSubcategory('all')}
+                          className="accent-black"
                         />
-                        <span>All Subcategories</span>
+                        <span>All Subcategories ({baseCategoryArtworks.length})</span>
                       </label>
-                      {availableSubcategories.map((sub) => (
-                        <label key={sub} className="flex items-center gap-2.5">
+                      {availableSubcategories.map((sub) => {
+                        const count = baseCategoryArtworks.filter(
+                          (a) => a.subcategory === sub
+                        ).length;
+                        return (
+                          <label key={sub} className="flex items-center gap-2.5 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="drawer-sub"
+                              checked={selectedSubcategory === sub}
+                              onChange={() => setSelectedSubcategory(sub)}
+                              className="accent-black"
+                            />
+                            <span>
+                              {formatSubcategoryLabel(sub)} ({count})
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Orientation (Wall Art) */}
+                {category === 'wall-art' && (
+                  <div className="space-y-3 pt-3 border-t border-neutral-100">
+                    <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
+                      Orientation
+                    </span>
+                    <div className="space-y-2 text-xs font-sans text-neutral-600">
+                      {[
+                        { id: 'all', label: 'All Orientations' },
+                        { id: 'vertical', label: 'Vertical / Portrait' },
+                        { id: 'horizontal', label: 'Horizontal / Landscape' },
+                        { id: 'square', label: 'Square' },
+                      ].map((ori) => (
+                        <label key={ori.id} className="flex items-center gap-2.5 cursor-pointer">
                           <input
                             type="radio"
-                            name="m-subcategory"
-                            checked={selectedSubcategory === sub}
-                            onChange={() => setSelectedSubcategory(sub)}
+                            name="drawer-ori"
+                            checked={selectedOrientation === ori.id}
+                            onChange={() => setSelectedOrientation(ori.id)}
+                            className="accent-black"
                           />
-                          <span>{formatSubcategoryLabel(sub)}</span>
+                          <span>{ori.label}</span>
                         </label>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Mobile Price */}
-                <div className="space-y-3">
-                  <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] block">
-                    Price Range
+                {/* Price Range */}
+                <div className="space-y-3 pt-3 border-t border-neutral-100">
+                  <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
+                    Price Range (INR)
                   </span>
-                  <div className="space-y-2 text-xs font-sans text-[#78716C]">
+                  <div className="space-y-2 text-xs font-sans text-neutral-600">
                     {[
-                      { id: 'all', label: 'All Prices' },
+                      { id: 'all', label: 'All Price Tiers' },
                       { id: 'under-5000', label: 'Under ₹5,000' },
                       { id: '5000-15000', label: '₹5,000 – ₹15,000' },
                       { id: '15000-30000', label: '₹15,000 – ₹30,000' },
                       { id: 'above-30000', label: 'Above ₹30,000' },
                     ].map((tier) => (
-                      <label key={tier.id} className="flex items-center gap-2.5">
+                      <label key={tier.id} className="flex items-center gap-2.5 cursor-pointer">
                         <input
                           type="radio"
-                          name="m-price"
+                          name="drawer-price"
                           checked={priceRange === tier.id}
                           onChange={() => setPriceRange(tier.id)}
+                          className="accent-black"
                         />
                         <span>{tier.label}</span>
                       </label>
@@ -718,25 +483,26 @@ export default function CategoryPageClient({
                   </div>
                 </div>
 
-                {/* Mobile Special */}
-                <div className="space-y-3">
-                  <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] block">
-                    Special Collections
+                {/* Acquisition Type */}
+                <div className="space-y-3 pt-3 border-t border-neutral-100">
+                  <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
+                    Product Type
                   </span>
-                  <div className="space-y-2 text-xs font-sans text-[#78716C]">
+                  <div className="space-y-2 text-xs font-sans text-neutral-600">
                     {[
-                      { id: 'all', label: 'All Works' },
-                      { id: 'one-of-one', label: 'One of One Originals' },
-                      { id: 'limited-editions', label: 'Limited Editions' },
-                      { id: 'bestsellers', label: 'Best Sellers' },
-                      { id: 'new', label: 'New Releases' },
+                      { id: 'all', label: 'All Products' },
+                      { id: 'one-of-one', label: '1/1 Original Pieces' },
+                      { id: 'limited-editions', label: 'Numbered Editions' },
+                      { id: 'bestsellers', label: 'Bestselling Curations' },
+                      { id: 'new', label: 'New Arrivals' },
                     ].map((s) => (
-                      <label key={s.id} className="flex items-center gap-2.5">
+                      <label key={s.id} className="flex items-center gap-2.5 cursor-pointer">
                         <input
                           type="radio"
-                          name="m-special"
+                          name="drawer-special"
                           checked={specialFilter === s.id}
                           onChange={() => setSpecialFilter(s.id)}
+                          className="accent-black"
                         />
                         <span>{s.label}</span>
                       </label>
@@ -745,30 +511,25 @@ export default function CategoryPageClient({
                 </div>
               </div>
 
-              <div className="p-6 border-t border-[#E4DBCF] bg-[#FAF7F2] flex gap-3">
+              {/* Drawer Footer Actions */}
+              <div className="p-5 border-t border-neutral-200 bg-neutral-50 flex gap-3">
                 <button
                   onClick={clearAllFilters}
-                  className="w-1/2 border border-[#11100F] py-2.5 text-xs font-semibold uppercase tracking-wider"
+                  className="w-1/2 border border-neutral-300 py-3 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-neutral-100 transition-colors"
                 >
                   Reset
                 </button>
                 <button
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="w-1/2 bg-[#11100F] text-[#F4EFE7] py-2.5 text-xs font-semibold uppercase tracking-wider"
+                  onClick={() => setFilterDrawerOpen(false)}
+                  className="w-1/2 bg-[#0F0F0F] text-white py-3 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
                 >
-                  Apply
+                  Apply ({filteredArtworks.length})
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      {/* Quick View Modal */}
-      <ProductQuickView
-        artwork={quickViewArtwork}
-        onClose={() => setQuickViewArtwork(null)}
-      />
     </div>
   );
 }

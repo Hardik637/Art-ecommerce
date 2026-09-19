@@ -51,23 +51,23 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#11100F]/70 backdrop-blur-sm flex items-center justify-center p-4 md:p-8">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
       <div
-        className="relative w-full max-w-4xl bg-[#F4EFE7] border border-[#E4DBCF] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+        className="relative w-full max-w-3xl bg-white border border-neutral-200 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#E4DBCF] flex items-center justify-center text-[#78716C] hover:text-[#11100F] transition-colors"
+          className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-black transition-colors"
           aria-label="Close"
         >
           <X size={18} />
         </button>
 
         {/* Left: Gallery preview */}
-        <div className="w-full md:w-1/2 bg-[#E4DBCF] p-6 flex flex-col items-center justify-center">
-          <div className="relative w-full aspect-[4/5] bg-[#FAF7F2] border border-[#D6CDBF] shadow-inner mb-4">
+        <div className="w-full md:w-1/2 bg-neutral-100 p-5 flex flex-col items-center justify-center">
+          <div className="relative w-full aspect-[4/5] bg-white border border-neutral-200 shadow-xs mb-3">
             <Image
               src={currentImage}
               alt={artwork.name}
@@ -84,8 +84,8 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
                 <button
                   key={i}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-12 h-14 relative bg-[#FAF7F2] border ${
-                    currentImage === img ? 'border-[#11100F] ring-1 ring-[#11100F]' : 'border-[#D6CDBF]'
+                  className={`w-12 h-14 relative bg-white border ${
+                    currentImage === img ? 'border-black ring-1 ring-black' : 'border-neutral-200'
                   } overflow-hidden`}
                 >
                   <Image src={img} alt="" fill className="object-contain p-0.5" />
@@ -95,65 +95,65 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
           )}
         </div>
 
-        {/* Right: Artwork Acquisition Details */}
-        <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col overflow-y-auto">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-sans font-semibold tracking-[0.2em] text-[#B08A4A] uppercase">
+        {/* Right: Product Details */}
+        <div className="w-full md:w-1/2 p-6 flex flex-col overflow-y-auto bg-white">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] font-sans font-bold tracking-wider text-[#B08A4A] uppercase">
               {getCategoryLabel(artwork.category)}
             </span>
-            <span className="text-[10px] font-sans text-[#78716C] tracking-wider uppercase">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase">
               {artwork.catalogNumber}
             </span>
           </div>
 
-          <h2 className="font-serif text-2xl md:text-3xl font-normal text-[#11100F] leading-snug mb-2">
+          <h2 className="font-sans font-bold text-xl sm:text-2xl text-[#0F0F0F] leading-snug mb-1 uppercase">
             {artwork.name}
           </h2>
 
-          <p className="text-xs text-[#78716C] font-sans mb-4">
+          <p className="text-xs text-neutral-500 font-sans mb-3">
             {artwork.medium} • {artwork.dimensions.width} × {artwork.dimensions.height} {artwork.dimensions.unit}
           </p>
 
-          <div className="flex items-baseline gap-3 mb-6 pb-6 border-b border-[#E4DBCF]">
-            <span className="font-serif text-2xl font-semibold text-[#11100F]">
+          <div className="flex items-baseline gap-2.5 mb-4 pb-4 border-b border-neutral-100">
+            <span className="font-sans font-bold text-2xl text-[#0F0F0F]">
               {formatPrice(totalPrice)}
             </span>
             {artwork.originalPrice && (
-              <span className="font-sans text-sm text-[#A8A29E] line-through">
+              <span className="font-sans text-xs text-neutral-400 line-through">
                 {formatPrice(artwork.originalPrice + framePrice)}
               </span>
             )}
-            <span className="text-[10px] text-[#78716C] ml-auto uppercase tracking-wider">
+            <span className="text-[10px] text-neutral-500 ml-auto uppercase">
               Taxes included
             </span>
           </div>
 
-          <p className="text-xs text-[#292622] font-sans leading-relaxed mb-6 line-clamp-3">
+          <p className="text-xs text-neutral-600 font-sans leading-relaxed mb-4 line-clamp-3">
             {artwork.shortDescription || artwork.description}
           </p>
 
           {/* Framing Selection */}
           {artwork.frameAvailable && (
-            <div className="mb-6">
-              <label className="block text-[11px] font-sans font-semibold tracking-[0.18em] text-[#11100F] uppercase mb-2">
-                Museum Framing Option
+            <div className="mb-4">
+              <label className="block text-[10px] font-sans font-bold tracking-wider text-neutral-900 uppercase mb-1.5">
+                Framing Option
               </label>
               <div className="space-y-1.5">
                 {STANDARD_FRAME_OPTIONS.map((frame) => (
                   <button
                     key={frame.id}
                     onClick={() => setSelectedFrame(frame)}
-                    className={`w-full text-left p-2.5 border text-xs font-sans transition-all flex items-center justify-between ${
+                    className={`w-full text-left p-2 border text-xs font-sans transition-all flex items-center justify-between ${
                       selectedFrame.id === frame.id
-                        ? 'border-[#11100F] bg-[#FAF7F2]'
-                        : 'border-[#E4DBCF] hover:border-[#11100F]'
+                        ? 'border-black bg-neutral-50 font-medium'
+                        : 'border-neutral-200 hover:border-neutral-400'
                     }`}
                   >
                     <div>
-                      <span className="font-medium text-[#11100F] block">{frame.name}</span>
-                      <span className="text-[10px] text-[#78716C]">{frame.material}</span>
+                      <span className="text-neutral-900 block">{frame.name}</span>
+                      <span className="text-[10px] text-neutral-500">{frame.material}</span>
                     </div>
-                    <span className="font-medium text-[#11100F]">
+                    <span className="text-neutral-900 font-semibold">
                       {frame.price === 0 ? 'Included' : `+${formatPrice(frame.price)}`}
                     </span>
                   </button>
@@ -163,24 +163,26 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
           )}
 
           {/* Certificate Badge */}
-          <div className="bg-[#FAF7F2] p-3 border border-[#E4DBCF] mb-6 flex items-center gap-2.5">
-            <ShieldCheck size={18} className="text-[#B08A4A] flex-shrink-0" />
-            <p className="text-[11px] font-sans text-[#78716C]">
-              Includes signed provenance &amp; Certificate of Authenticity.
+          <div className="bg-neutral-50 p-2.5 border border-neutral-200 mb-4 flex items-center gap-2">
+            <ShieldCheck size={16} className="text-[#B08A4A] flex-shrink-0" />
+            <p className="text-[11px] font-sans text-neutral-600">
+              Includes signed Certificate of Authenticity.
             </p>
           </div>
 
           {/* Actions */}
-          <div className="mt-auto pt-4 flex gap-3">
+          <div className="mt-auto pt-3 flex gap-2.5">
             <button
               onClick={handleAddToCart}
               disabled={added}
-              className="flex-1 bg-[#11100F] hover:bg-[#481E25] text-[#F4EFE7] py-3.5 px-6 font-sans text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-colors disabled:bg-[#10B981]"
+              className={`flex-1 py-3 px-4 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors ${
+                added ? 'bg-emerald-600 text-white' : 'bg-[#0F0F0F] text-white hover:bg-neutral-800'
+              }`}
             >
               {added ? (
                 <>
                   <Check size={15} />
-                  <span>Added to Bag</span>
+                  <span>Added</span>
                 </>
               ) : (
                 <>
@@ -192,13 +194,13 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
 
             <button
               onClick={() => toggleWishlist(artwork)}
-              className="w-12 h-12 border border-[#E4DBCF] bg-[#FAF7F2] hover:border-[#11100F] flex items-center justify-center text-[#11100F] transition-colors"
+              className="w-11 h-11 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-neutral-900 transition-colors"
               aria-label="Wishlist"
             >
               <Heart
                 size={18}
-                fill={isInWishlist ? '#481E25' : 'none'}
-                className={isInWishlist ? 'text-[#481E25]' : 'text-[#78716C]'}
+                fill={isInWishlist ? '#0F0F0F' : 'none'}
+                className={isInWishlist ? 'text-[#0F0F0F]' : 'text-neutral-500'}
               />
             </button>
           </div>
@@ -207,9 +209,9 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
             <Link
               href={`/products/${artwork.slug || artwork.id}`}
               onClick={onClose}
-              className="text-[11px] font-sans font-semibold tracking-wider text-[#78716C] hover:text-[#11100F] inline-flex items-center gap-1 uppercase underline underline-offset-4"
+              className="text-[11px] font-sans font-bold tracking-wider text-neutral-600 hover:text-black inline-flex items-center gap-1 uppercase underline underline-offset-4"
             >
-              <span>View Product Details</span>
+              <span>View Full Details</span>
               <ArrowRight size={11} />
             </Link>
           </div>

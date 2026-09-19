@@ -13,6 +13,7 @@ import {
   Heart,
   Menu,
   X,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function Header() {
@@ -57,90 +58,113 @@ export default function Header() {
 
   return (
     <>
-      {/* ── Main Editorial Header ───────────────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-[#F4EFE7]/95 backdrop-blur-md border-b border-[#E4DBCF]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-[76px] flex items-center justify-between">
-          {/* Mobile Menu Trigger */}
-          <div className="flex items-center gap-3 lg:hidden">
+      {/* ── Top Announcement Promo Bar ─────────────────────────────── */}
+      <div className="bg-[#0F0F0F] text-[#FAFAF9] text-[11px] font-sans tracking-widest uppercase py-2 px-4 text-center border-b border-neutral-800">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-center gap-3">
+          <span>Complimentary Insured White-Glove Delivery</span>
+          <span className="text-[#A1A1AA]">•</span>
+          <span className="hidden sm:inline">7-Day In-Home Trial with Full Refund</span>
+        </div>
+      </div>
+
+      {/* ── Main Modern E-Commerce Header ──────────────────────────── */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 h-16 md:h-18 flex items-center justify-between">
+          {/* Mobile Menu & Search Triggers */}
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="p-1.5 text-[#11100F] hover:text-[#B08A4A] transition-colors"
-              aria-label="Open menu"
+              className="p-2 text-[#0F0F0F] hover:text-black transition-colors -ml-2"
+              aria-label="Open mobile navigation"
             >
               <Menu size={22} strokeWidth={1.8} />
             </button>
-            <Link href="/search" className="p-1.5 text-[#11100F]" aria-label="Search">
+            <Link
+              href="/search"
+              className="p-2 text-[#0F0F0F] hover:text-black transition-colors"
+              aria-label="Search catalog"
+            >
               <Search size={20} strokeWidth={1.8} />
             </Link>
           </div>
 
-          {/* Brand Logo / Seal */}
+          {/* Brand Logo / Fashion Wordmark */}
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center gap-3 hover:opacity-90 transition-opacity group"
+              className="flex items-center gap-2.5 hover:opacity-90 transition-opacity group"
             >
-              <div className="w-9 h-9 relative flex-shrink-0">
+              <div className="w-7 h-7 relative flex-shrink-0">
                 <Image
                   src="/brand-seal.svg"
-                  alt="Atelier Seal"
+                  alt="Atelier"
                   fill
                   className="object-contain"
                 />
               </div>
               <div className="flex flex-col text-left">
-                <span className="font-serif text-xl md:text-2xl font-semibold tracking-[0.14em] text-[#11100F] leading-none">
+                <span className="font-sans font-bold text-lg md:text-xl tracking-[0.2em] text-[#0F0F0F] leading-none uppercase">
                   ATELIER
                 </span>
-                <span className="text-[7.5px] font-sans font-semibold tracking-[0.3em] text-[#78716C] uppercase mt-0.5">
-                  Art &amp; Living
+                <span className="text-[8px] font-sans font-medium tracking-[0.3em] text-[#71717A] uppercase mt-0.5">
+                  Home &amp; Living
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation Links — Strictly 3 Curated Categories */}
-          <nav className="hidden lg:flex items-center space-x-10 text-xs font-sans font-medium tracking-[0.2em] text-[#11100F]">
+          {/* Desktop Navigation Links — Clean Modern Fashion E-Commerce */}
+          <nav className="hidden lg:flex items-center space-x-8 text-xs font-sans font-medium tracking-[0.14em] text-[#18181B]">
+            <Link
+              href="/"
+              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+            >
+              Home
+            </Link>
             <Link
               href="/wall-art"
-              className="hover:text-[#B08A4A] py-6 uppercase transition-colors"
+              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Wall Art
             </Link>
-
             <Link
               href="/sculptures"
-              className="hover:text-[#B08A4A] py-6 uppercase transition-colors"
+              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Sculptures
             </Link>
-
             <Link
               href="/decorative-pieces"
-              className="hover:text-[#B08A4A] py-6 uppercase transition-colors"
+              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Decorative Pieces
             </Link>
+            <Link
+              href="/products"
+              className="py-5 uppercase transition-colors text-[#71717A] hover:text-black"
+            >
+              All Products
+            </Link>
           </nav>
 
-          {/* Header Action Icons */}
-          <div className="flex items-center gap-4 md:gap-6">
+          {/* Utility Action Icons */}
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
             <Link
               href="/search"
-              className="hidden lg:flex p-2 text-[#11100F] hover:text-[#B08A4A] transition-colors"
-              aria-label="Search catalog"
+              className="hidden lg:flex p-2 text-[#0F0F0F] hover:text-black transition-colors"
+              aria-label="Search products"
             >
-              <Search size={19} strokeWidth={1.7} />
+              <Search size={19} strokeWidth={1.8} />
             </Link>
 
             <Link
               href="/account/wishlist"
-              className="relative p-2 text-[#11100F] hover:text-[#B08A4A] transition-colors"
+              className="relative p-2 text-[#0F0F0F] hover:text-black transition-colors"
               aria-label="Wishlist"
             >
-              <Heart size={19} strokeWidth={1.7} />
+              <Heart size={20} strokeWidth={1.8} />
               {mounted && wishlistItems.length > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-[#481E25] text-[#F4EFE7] rounded-full text-[9px] font-sans font-semibold flex items-center justify-center">
+                <span className="absolute top-1 right-0.5 w-4 h-4 bg-[#0F0F0F] text-white rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
                   {wishlistItems.length}
                 </span>
               )}
@@ -148,26 +172,26 @@ export default function Header() {
 
             <Link
               href={isLoggedIn ? '/account' : '/login'}
-              className="p-2 text-[#11100F] hover:text-[#B08A4A] transition-colors flex items-center gap-2"
+              className="p-2 text-[#0F0F0F] hover:text-black transition-colors flex items-center gap-1.5"
               aria-label="Account"
             >
               {mounted && isLoggedIn && userInitial ? (
-                <div className="w-6 h-6 rounded-full bg-[#11100F] text-[#F4EFE7] text-[10px] font-serif flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-[#0F0F0F] text-white text-[10px] font-sans font-bold flex items-center justify-center">
                   {userInitial}
                 </div>
               ) : (
-                <User size={19} strokeWidth={1.7} />
+                <User size={20} strokeWidth={1.8} />
               )}
             </Link>
 
             <button
               onClick={openCart}
-              className="relative p-2 text-[#11100F] hover:text-[#B08A4A] transition-colors flex items-center gap-2"
-              aria-label="Open Cart"
+              className="relative p-2 text-[#0F0F0F] hover:text-black transition-colors flex items-center gap-1.5"
+              aria-label="Shopping Bag"
             >
-              <ShoppingBag size={19} strokeWidth={1.7} />
+              <ShoppingBag size={20} strokeWidth={1.8} />
               {mounted && cartItemCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-[#B08A4A] text-[#11100F] rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
+                <span className="absolute top-1 right-0.5 w-4 h-4 bg-[#B08A4A] text-black rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}
@@ -181,38 +205,51 @@ export default function Header() {
         <div className="fixed inset-0 z-50 overflow-hidden lg:hidden">
           <div
             onClick={() => setMobileMenuOpen(false)}
-            className="absolute inset-0 bg-[#11100F]/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
           />
 
-          <div className="fixed inset-y-0 left-0 max-w-full flex pr-10">
-            <div className="w-screen max-w-xs bg-[#F4EFE7] border-r border-[#E4DBCF] flex flex-col shadow-2xl">
-              {/* Mobile Header */}
-              <div className="p-6 border-b border-[#E4DBCF] flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 relative">
+          <div className="fixed inset-y-0 left-0 max-w-full flex pr-12">
+            <div className="w-screen max-w-xs bg-white border-r border-neutral-200 flex flex-col shadow-2xl">
+              {/* Mobile Drawer Header */}
+              <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 relative">
                     <Image src="/brand-seal.svg" alt="Atelier" fill className="object-contain" />
                   </div>
-                  <span className="font-serif text-lg font-semibold tracking-wider text-[#11100F]">
+                  <span className="font-sans font-bold text-base tracking-wider text-[#0F0F0F]">
                     ATELIER
                   </span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-1.5 text-[#78716C] hover:text-[#11100F]"
+                  className="p-1.5 text-neutral-500 hover:text-black"
+                  aria-label="Close menu"
                 >
                   <X size={20} />
                 </button>
               </div>
 
-              {/* Mobile Navigation List — Strictly 3 Curated Categories */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-2 text-sm font-sans font-medium text-[#11100F]">
+              {/* Mobile Navigation List */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-1 text-sm font-sans font-medium text-[#0F0F0F]">
+                <div>
+                  <Link
+                    href="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
+                  >
+                    <span>Home</span>
+                    <ChevronRight size={14} className="text-neutral-400" />
+                  </Link>
+                </div>
+
                 <div>
                   <Link
                     href="/wall-art"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-3.5 uppercase tracking-widest text-xs font-semibold border-b border-[#E4DBCF] hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
                   >
-                    Wall Art
+                    <span>Wall Art</span>
+                    <ChevronRight size={14} className="text-neutral-400" />
                   </Link>
                 </div>
 
@@ -220,9 +257,10 @@ export default function Header() {
                   <Link
                     href="/sculptures"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-3.5 uppercase tracking-widest text-xs font-semibold border-b border-[#E4DBCF] hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
                   >
-                    Sculptures
+                    <span>Sculptures</span>
+                    <ChevronRight size={14} className="text-neutral-400" />
                   </Link>
                 </div>
 
@@ -230,19 +268,20 @@ export default function Header() {
                   <Link
                     href="/decorative-pieces"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-3.5 uppercase tracking-widest text-xs font-semibold border-b border-[#E4DBCF] hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
                   >
-                    Decorative Pieces
+                    <span>Decorative Pieces</span>
+                    <ChevronRight size={14} className="text-neutral-400" />
                   </Link>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-3">
                   <Link
                     href="/products"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2.5 uppercase tracking-wider text-xs text-[#78716C] hover:text-[#11100F] transition-colors"
+                    className="block py-2.5 uppercase tracking-wider text-xs text-neutral-600 hover:text-black transition-colors"
                   >
-                    All Works &amp; Catalog
+                    All Products Catalog
                   </Link>
                 </div>
 
@@ -250,9 +289,9 @@ export default function Header() {
                   <Link
                     href="/about"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2.5 uppercase tracking-wider text-xs text-[#78716C] hover:text-[#11100F] transition-colors"
+                    className="block py-2.5 uppercase tracking-wider text-xs text-neutral-600 hover:text-black transition-colors"
                   >
-                    About Atelier &amp; Studio
+                    About Atelier
                   </Link>
                 </div>
 
@@ -260,29 +299,29 @@ export default function Header() {
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2.5 uppercase tracking-wider text-xs text-[#78716C] hover:text-[#11100F] transition-colors"
+                    className="block py-2.5 uppercase tracking-wider text-xs text-neutral-600 hover:text-black transition-colors"
                   >
-                    Contact &amp; Inquiries
+                    Contact &amp; Customer Care
                   </Link>
                 </div>
               </div>
 
-              {/* Mobile Footer Links */}
-              <div className="p-6 border-t border-[#E4DBCF] bg-[#FAF7F2] space-y-3">
+              {/* Mobile Drawer Footer Actions */}
+              <div className="p-5 border-t border-neutral-200 bg-neutral-50 space-y-3">
                 <Link
                   href={isLoggedIn ? '/account' : '/login'}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full bg-[#11100F] text-[#F4EFE7] py-2.5 text-center text-xs font-semibold uppercase tracking-wider block"
+                  className="w-full bg-[#0F0F0F] text-white py-3 text-center text-xs font-semibold uppercase tracking-wider block transition-colors hover:bg-neutral-800"
                 >
-                  {isLoggedIn ? 'My Collector Account' : 'Sign In'}
+                  {isLoggedIn ? 'My Account' : 'Sign In / Register'}
                 </Link>
-                <div className="flex justify-around text-xs text-[#78716C] pt-2">
-                  <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
-                    About Atelier
+                <div className="flex justify-around text-xs text-neutral-500 pt-1">
+                  <Link href="/shipping" onClick={() => setMobileMenuOpen(false)}>
+                    Shipping &amp; Delivery
                   </Link>
                   <span>•</span>
-                  <Link href="/shipping" onClick={() => setMobileMenuOpen(false)}>
-                    Shipping &amp; FAQ
+                  <Link href="/faq" onClick={() => setMobileMenuOpen(false)}>
+                    Help &amp; FAQs
                   </Link>
                 </div>
               </div>

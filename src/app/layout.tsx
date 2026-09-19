@@ -112,7 +112,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${cormorantGaramond.variable} ${manrope.variable} bg-[#F4EFE7] text-[#11100F] antialiased selection:bg-[#481E25] selection:text-[#F4EFE7]`}
+        className={`${cormorantGaramond.variable} ${manrope.variable} bg-[#FAFAF9] text-[#0F0F0F] font-sans antialiased selection:bg-[#0F0F0F] selection:text-[#FAFAF9]`}
         suppressHydrationWarning
       >
         <Header />

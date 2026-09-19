@@ -7,7 +7,7 @@ import { ArtworkProduct } from '@/types/art';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice, getCategoryLabel } from '@/lib/artCatalog';
-import { Heart, Eye, ShoppingBag, Check } from 'lucide-react';
+import { Heart, ShoppingBag, Check } from 'lucide-react';
 
 interface ArtworkCardProps {
   artwork: ArtworkProduct;
@@ -49,146 +49,149 @@ export default function ArtworkCard({
       dimensions: `${artwork.dimensions.width} × ${artwork.dimensions.height} ${artwork.dimensions.unit}`,
     });
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => setAdded(false), 1800);
   };
 
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col bg-[#FAF7F2] border border-[#E4DBCF] hover:border-[#11100F] transition-all duration-300"
+      className="group relative flex flex-col bg-white border border-neutral-200 hover:border-neutral-900 transition-all duration-300 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md"
     >
-      {/* Artwork Image Container */}
-      <div className="relative aspect-[4/5] bg-[#E4DBCF] overflow-hidden">
-        {/* Badges */}
-        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 pointer-events-none">
+      {/* ── Product Image Container ─────────────────────────────────── */}
+      <div className="relative aspect-[3/4] sm:aspect-[4/5] bg-neutral-100 overflow-hidden">
+        {/* Subtle Retail Badges */}
+        <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1 pointer-events-none">
           {artwork.isOneOfOne && (
-            <span className="bg-[#481E25] text-[#F4EFE7] text-[9px] font-sans font-semibold tracking-[0.2em] px-2.5 py-1 uppercase shadow-sm">
-              One of One
+            <span className="bg-[#0F0F0F] text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
+              1/1 Original
             </span>
           )}
           {artwork.isLimitedEdition && !artwork.isOneOfOne && (
-            <span className="bg-[#11100F] text-[#F4EFE7] text-[9px] font-sans font-semibold tracking-[0.2em] px-2.5 py-1 uppercase shadow-sm">
-              Limited Edition {artwork.editionSize ? `(${artwork.editionSize})` : ''}
-            </span>
-          )}
-          {artwork.stock === 1 && !artwork.isOneOfOne && (
-            <span className="bg-[#B08A4A] text-[#11100F] text-[9px] font-sans font-bold tracking-[0.2em] px-2 py-0.5 uppercase">
-              Low Stock
+            <span className="bg-neutral-800 text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
+              Edition {artwork.editionSize ? `of ${artwork.editionSize}` : ''}
             </span>
           )}
           {artwork.isBestseller && !artwork.isOneOfOne && !artwork.isLimitedEdition && (
-            <span className="bg-[#11100F] text-[#F4EFE7] text-[9px] font-sans font-semibold tracking-[0.2em] px-2.5 py-1 uppercase">
+            <span className="bg-[#B08A4A] text-black text-[8.5px] sm:text-[9px] font-sans font-bold tracking-wider px-2 py-0.5 uppercase">
               Bestseller
+            </span>
+          )}
+          {artwork.isNew && !artwork.isBestseller && !artwork.isOneOfOne && (
+            <span className="bg-neutral-900 text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
+              New
             </span>
           )}
         </div>
 
-        {/* Wishlist Button */}
+        {/* Wishlist Heart Button */}
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             toggleWishlist(artwork);
           }}
-          className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-[#F4EFE7]/90 backdrop-blur-sm flex items-center justify-center text-[#11100F] hover:scale-110 transition-transform shadow-sm"
-          aria-label="Save to wishlist"
+          className="absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-neutral-800 hover:text-black hover:scale-110 transition-all shadow-sm"
+          aria-label="Wishlist"
         >
           <Heart
             size={15}
             strokeWidth={1.8}
-            fill={isWishlisted ? '#481E25' : 'none'}
-            className={isWishlisted ? 'text-[#481E25]' : 'text-[#78716C] hover:text-[#11100F]'}
+            fill={isWishlisted ? '#0F0F0F' : 'none'}
+            className={isWishlisted ? 'text-[#0F0F0F]' : 'text-neutral-600'}
           />
         </button>
 
-        {/* Artwork Link with Secondary Image Reveal */}
-        <Link href={`/products/${artwork.slug || artwork.id}`} className="block w-full h-full p-3">
-          <div className="relative w-full h-full bg-[#E4DBCF]">
+        {/* Product Image Link with Clean Hover Zoom */}
+        <Link
+          href={`/products/${artwork.slug || artwork.id}`}
+          className="block w-full h-full p-2 sm:p-3"
+        >
+          <div className="relative w-full h-full bg-neutral-100">
             <Image
               src={isHovered && secondaryImage ? secondaryImage : artwork.images[0] || artwork.thumbnail}
               alt={artwork.name}
               fill
-              className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               priority={priority}
             />
           </div>
         </Link>
 
-        {/* Quick Actions Hover Overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#11100F]/80 via-[#11100F]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 flex gap-2">
-          {onQuickView && (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onQuickView(artwork);
-              }}
-              className="flex-1 bg-[#F4EFE7] text-[#11100F] text-[10px] font-sans font-semibold uppercase tracking-[0.16em] py-2 px-3 flex items-center justify-center gap-1.5 hover:bg-[#B08A4A] hover:text-[#11100F] transition-colors"
-            >
-              <Eye size={12} />
-              <span>Quick View</span>
-            </button>
-          )}
-
+        {/* Slide-Up Quick Add Button (Desktop Hover + Mobile Always Accessible) */}
+        <div className="absolute inset-x-0 bottom-0 p-2 sm:p-2.5 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-200 hidden sm:block">
           <button
             onClick={handleQuickAdd}
             disabled={added}
-            className="flex-1 bg-[#11100F] text-[#F4EFE7] text-[10px] font-sans font-semibold uppercase tracking-[0.16em] py-2 px-3 flex items-center justify-center gap-1.5 hover:bg-[#481E25] transition-colors disabled:bg-[#10B981]"
+            className={`w-full py-2.5 px-3 text-[10px] font-sans font-semibold uppercase tracking-[0.16em] flex items-center justify-center gap-1.5 transition-colors shadow-md ${
+              added
+                ? 'bg-emerald-600 text-white'
+                : 'bg-[#0F0F0F] text-white hover:bg-neutral-800'
+            }`}
           >
             {added ? (
               <>
-                <Check size={12} />
-                <span>Added</span>
+                <Check size={13} />
+                <span>Added to Bag</span>
               </>
             ) : (
               <>
-                <ShoppingBag size={12} />
-                <span>Add to Bag</span>
+                <ShoppingBag size={13} />
+                <span>+ Quick Add</span>
               </>
             )}
           </button>
         </div>
       </div>
 
-      {/* Artwork Metadata */}
-      <div className="p-4 flex flex-col flex-1">
+      {/* ── Product Card Information ─────────────────────────────────── */}
+      <div className="p-3 sm:p-3.5 flex flex-col flex-1 bg-white">
+        {/* Category Label */}
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-[#B08A4A] uppercase truncate">
+          <span className="text-[9.5px] sm:text-[10px] font-sans font-semibold tracking-wider text-neutral-500 uppercase truncate">
             {getCategoryLabel(artwork.category)}
           </span>
-          <span className="text-[9px] font-sans text-[#A8A29E] tracking-wider uppercase">
+          <span className="text-[9px] font-sans text-neutral-400 uppercase hidden sm:inline">
             {artwork.catalogNumber}
           </span>
         </div>
 
+        {/* Product Name */}
         <Link
           href={`/products/${artwork.slug || artwork.id}`}
-          className="font-serif text-base font-normal text-[#11100F] leading-snug group-hover:text-[#481E25] transition-colors mb-1.5"
+          className="font-sans text-xs sm:text-sm font-medium text-neutral-900 hover:text-black leading-snug line-clamp-1 mb-1 transition-colors"
         >
           {artwork.name}
         </Link>
 
-        <p className="text-[11px] text-[#78716C] font-sans mb-3 line-clamp-1">
+        {/* Medium / Subtitle */}
+        <p className="text-[11px] text-neutral-500 font-sans line-clamp-1 mb-2">
           {artwork.medium}
         </p>
 
-        <div className="mt-auto pt-2 border-t border-[#E4DBCF]/80 flex items-baseline justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="font-serif text-base font-semibold text-[#11100F]">
+        {/* Price & Mobile Quick Add Row */}
+        <div className="mt-auto pt-2 border-t border-neutral-100 flex items-center justify-between">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-sans font-semibold text-xs sm:text-sm text-[#0F0F0F]">
               {formatPrice(artwork.price)}
             </span>
             {artwork.originalPrice && (
-              <span className="font-sans text-xs text-[#A8A29E] line-through">
+              <span className="font-sans text-[11px] text-neutral-400 line-through">
                 {formatPrice(artwork.originalPrice)}
               </span>
             )}
           </div>
 
-          <span className="text-[10px] font-sans text-[#78716C] tracking-wide">
-            {artwork.dimensions.width}×{artwork.dimensions.height} {artwork.dimensions.unit}
-          </span>
+          {/* Mobile Tap-To-Add Button */}
+          <button
+            onClick={handleQuickAdd}
+            disabled={added}
+            className="sm:hidden p-1.5 text-neutral-800 hover:text-black transition-colors"
+            aria-label="Add to bag"
+          >
+            {added ? <Check size={15} className="text-emerald-600" /> : <ShoppingBag size={15} />}
+          </button>
         </div>
       </div>
     </div>
