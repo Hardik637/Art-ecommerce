@@ -178,10 +178,10 @@ export default function CartDrawer() {
                   <div className="flex-1 min-w-0 flex flex-col">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-sans font-semibold text-xs sm:text-sm text-black leading-snug truncate">
+                        <h4 className="type-product-title text-sm text-black leading-snug truncate">
                           {item.name}
                         </h4>
-                        <p className="text-[10px] font-sans text-neutral-500 uppercase tracking-wider mt-0.5">
+                        <p className="type-label text-neutral-500 mt-0.5">
                           {item.artistName}
                         </p>
                       </div>
@@ -252,10 +252,10 @@ export default function CartDrawer() {
                           className="object-contain p-1 group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <p className="font-sans text-xs text-black font-medium truncate">
+                      <p className="type-product-title text-xs text-black truncate">
                         {rec.name}
                       </p>
-                      <p className="text-[11px] font-bold text-black mt-0.5">
+                      <p className="type-price text-[11px] text-black mt-0.5">
                         {formatPrice(rec.price)}
                       </p>
                     </Link>

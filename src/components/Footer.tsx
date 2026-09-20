@@ -18,7 +18,7 @@ export default function Footer() {
               <div className="w-7 h-7 relative">
                 <Image src="/brand-seal.svg" alt="Atelier" fill className="object-contain" />
               </div>
-              <span className="font-sans font-bold text-lg tracking-[0.2em] text-white uppercase">
+              <span className="font-sans font-bold text-lg tracking-[0.14em] text-white uppercase">
                 ATELIER
               </span>
             </Link>

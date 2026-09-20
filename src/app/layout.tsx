@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Plus_Jakarta_Sans, Lora } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -7,19 +7,19 @@ import CartDrawer from '@/components/CartDrawer';
 import CartToast from '@/components/CartToast';
 import { SITE_CONFIG } from '@/config/site';
 
-const cormorantGaramond = Cormorant_Garamond({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-cormorant',
+  variable: '--font-sans',
   weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
   display: 'swap',
   preload: true,
 });
 
-const manrope = Manrope({
+const lora = Lora({
   subsets: ['latin'],
-  variable: '--font-manrope',
-  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-serif',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
   display: 'swap',
   preload: true,
 });
@@ -102,7 +102,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${cormorantGaramond.variable} ${manrope.variable} bg-white text-black font-sans antialiased selection:bg-black selection:text-white`}
+        className={`${plusJakartaSans.variable} ${lora.variable} bg-white text-black font-sans antialiased selection:bg-black selection:text-white`}
         suppressHydrationWarning
       >
         <Header />

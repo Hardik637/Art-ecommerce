@@ -38,24 +38,24 @@ export default function HomeClient() {
           <div className="lg:col-span-6 space-y-5 md:space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-neutral-300 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-black" />
-              <span className="text-[10px] font-sans font-semibold tracking-widest uppercase text-neutral-800">
-                New Season Collection • Home Décor
+              <span className="type-label text-neutral-800">
+                1000+ Curated Works • Modern Art &amp; Living
               </span>
             </div>
 
-            <h1 className="font-sans font-extrabold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.06] uppercase">
-              Art For Your Space
+            <h1 className="type-hero text-3xl sm:text-4xl md:text-5xl lg:text-[3.35rem] text-black">
+              Exceptional Art Pieces, Priced Just Right
             </h1>
 
             <p className="text-sm md:text-base font-sans text-neutral-600 leading-relaxed max-w-lg">
-              Curated wall art, sculptures and decorative pieces designed for modern interiors. Pan-India insured delivery with 7-day in-home trial.
+              Curated wall art, sculptures and decorative pieces designed for modern spaces. Pan-India insured delivery with 7-day in-home trial.
             </p>
 
             {/* Direct Commercial E-Commerce CTAs */}
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
               <Link
                 href="/products"
-                className="bg-black hover:bg-neutral-800 text-white text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors shadow-sm flex items-center gap-2.5"
+                className="type-btn bg-black hover:bg-neutral-800 text-white text-xs px-8 py-4 transition-colors shadow-sm flex items-center gap-2.5"
               >
                 <span>Shop Collection</span>
                 <ArrowRight size={14} />
@@ -63,7 +63,7 @@ export default function HomeClient() {
 
               <Link
                 href="/wall-art"
-                className="bg-white hover:bg-neutral-100 border border-black text-black text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors"
+                className="type-btn bg-white hover:bg-neutral-100 border border-black text-black text-xs px-8 py-4 transition-colors"
               >
                 Explore Wall Art
               </Link>
@@ -103,16 +103,16 @@ export default function HomeClient() {
                 {/* Clean Product Label Tag */}
                 <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3 border border-neutral-200 flex items-center justify-between shadow-xs">
                   <div>
-                    <span className="text-[9.5px] font-sans font-bold tracking-wider text-neutral-500 uppercase block">
+                    <span className="type-label text-neutral-500 block">
                       Featured Work
                     </span>
-                    <span className="text-xs font-sans font-semibold text-black truncate block">
+                    <span className="type-product-title text-sm text-black truncate block mt-0.5">
                       Monsoon Over the Ghats
                     </span>
                   </div>
                   <Link
                     href="/products/monsoon-over-the-ghats"
-                    className="bg-black text-white hover:bg-neutral-800 px-3 py-1.5 text-[10px] font-sans font-semibold uppercase tracking-wider transition-colors"
+                    className="type-btn bg-black text-white hover:bg-neutral-800 px-3 py-1.5 text-[10px] transition-colors"
                   >
                     View
                   </Link>
@@ -127,10 +127,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 gap-2">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+            <span className="type-label text-neutral-500 block mb-1">
               Curated Collections
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
+            <h2 className="type-heading text-2xl sm:text-3xl md:text-4xl text-black">
               Shop by Category
             </h2>
           </div>
@@ -186,16 +186,16 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-8 md:mb-10">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+            <span className="type-label text-neutral-500 block mb-1">
               Fresh From The Studio
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
+            <h2 className="type-heading text-2xl sm:text-3xl md:text-4xl text-black">
               New Arrivals
             </h2>
           </div>
           <Link
             href="/products?filter=new"
-            className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-800 hover:text-black flex items-center gap-1.5 transition-colors"
+            className="type-btn text-xs text-neutral-800 hover:text-black underline underline-offset-4 flex items-center gap-1.5 transition-colors"
           >
             <span>View All</span>
             <ArrowRight size={13} />
@@ -214,16 +214,16 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-8 md:mb-10">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
-              Popular Choices
+            <span className="type-label text-neutral-500 block mb-1">
+              Curated Favorites
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
-              Bestsellers
+            <h2 className="type-heading text-2xl sm:text-3xl md:text-4xl text-black">
+              Popular Items
             </h2>
           </div>
           <Link
             href="/products?filter=bestseller"
-            className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-800 hover:text-black flex items-center gap-1.5 transition-colors"
+            className="type-btn text-xs text-neutral-800 hover:text-black underline underline-offset-4 flex items-center gap-1.5 transition-colors"
           >
             <span>View All</span>
             <ArrowRight size={13} />
@@ -284,10 +284,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+            <span className="type-label text-neutral-500 block mb-1">
               Explore The Catalog
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
+            <h2 className="type-heading text-2xl sm:text-3xl md:text-4xl text-black">
               Explore Collection
             </h2>
           </div>

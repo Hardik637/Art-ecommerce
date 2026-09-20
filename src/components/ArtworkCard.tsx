@@ -183,20 +183,20 @@ export default function ArtworkCard({
 
       {/* ── Product Card Information ─────────────────────────────────── */}
       <div className="p-3 sm:p-3.5 flex flex-col flex-1 bg-white">
-        {/* Category Label */}
+        {/* Category / Brand Kicker (Matches Reference "PORTLAND INDIAN SUMMER") */}
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[9.5px] sm:text-[10px] font-sans font-semibold tracking-wider text-neutral-500 uppercase truncate">
+          <span className="type-label text-neutral-500 truncate">
             {getCategoryLabel(artwork.category)}
           </span>
-          <span className="text-[9px] font-sans text-neutral-400 uppercase hidden sm:inline">
+          <span className="text-[9px] font-sans text-neutral-400 uppercase hidden sm:inline tracking-wider">
             {artwork.catalogNumber}
           </span>
         </div>
 
-        {/* Product Name */}
+        {/* Product Name (Matches Reference "Dependor", "Dignize" in contemporary serif) */}
         <Link
           href={`/products/${artwork.slug || artwork.id}`}
-          className="font-sans text-xs sm:text-sm font-medium text-black hover:text-neutral-700 leading-snug line-clamp-1 mb-1 transition-colors"
+          className="type-product-title text-sm sm:text-[15px] text-black hover:text-neutral-600 line-clamp-1 mb-1 transition-colors"
         >
           {artwork.name}
         </Link>
@@ -206,10 +206,10 @@ export default function ArtworkCard({
           {artwork.medium}
         </p>
 
-        {/* Price & Mobile Quick Add Row */}
+        {/* Price & Mobile Quick Add Row (Matches Reference "$400.00 $450.00") */}
         <div className="mt-auto pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="font-sans font-semibold text-xs sm:text-sm text-black">
+            <span className="type-price text-xs sm:text-sm text-black">
               {formatPrice(artwork.price)}
             </span>
             {artwork.originalPrice && artwork.originalPrice > artwork.price && (

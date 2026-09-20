@@ -98,10 +98,10 @@ export default function Header() {
                 />
               </div>
               <div className="flex flex-col text-left">
-                <span className="font-sans font-bold text-lg md:text-xl tracking-[0.2em] text-[#0F0F0F] leading-none uppercase">
+                <span className="font-sans font-bold text-lg md:text-xl tracking-[0.14em] text-[#0F0F0F] leading-none uppercase">
                   ATELIER
                 </span>
-                <span className="text-[8px] font-sans font-medium tracking-[0.3em] text-[#71717A] uppercase mt-0.5">
+                <span className="text-[8px] font-sans font-semibold tracking-[0.16em] text-[#71717A] uppercase mt-0.5">
                   Home &amp; Living
                 </span>
               </div>
@@ -109,7 +109,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation Links — Clean Modern Fashion E-Commerce */}
-          <nav className="hidden lg:flex items-center space-x-8 text-xs font-sans font-medium tracking-[0.14em] text-[#18181B]">
+          <nav className="hidden lg:flex items-center space-x-8 text-xs font-sans font-semibold tracking-[0.06em] text-[#18181B]">
             <Link
               href="/"
               className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"

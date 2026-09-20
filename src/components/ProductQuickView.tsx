@@ -99,15 +99,15 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
         {/* Right: Product Details */}
         <div className="w-full md:w-1/2 p-6 flex flex-col overflow-y-auto bg-white">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[10px] font-sans font-bold tracking-wider text-neutral-500 uppercase">
+            <span className="type-label text-neutral-500">
               {getCategoryLabel(artwork.category)}
             </span>
-            <span className="text-[10px] font-sans text-neutral-400 uppercase">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider">
               {artwork.catalogNumber}
             </span>
           </div>
 
-          <h2 className="font-sans font-bold text-xl sm:text-2xl text-black leading-snug mb-1 uppercase">
+          <h2 className="type-hero text-xl sm:text-2xl text-black leading-snug mb-1">
             {artwork.name}
           </h2>
 
@@ -116,7 +116,7 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
           </p>
 
           <div className="flex items-baseline gap-2.5 mb-4 pb-4 border-b border-neutral-100">
-            <span className="font-sans font-bold text-2xl text-black">
+            <span className="type-price text-2xl text-black">
               {formatPrice(totalPrice)}
             </span>
             {artwork.originalPrice && artwork.originalPrice > artwork.price && (

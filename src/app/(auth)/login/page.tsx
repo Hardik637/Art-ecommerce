@@ -64,14 +64,14 @@ function LoginForm() {
         {/* Brand Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex flex-col items-center gap-1 group">
-            <span className="font-sans text-2xl md:text-3xl tracking-[0.2em] font-extrabold text-black uppercase">
+            <span className="font-sans text-2xl md:text-3xl tracking-[0.14em] font-bold text-black uppercase">
               ATELIER
             </span>
-            <span className="text-[9px] tracking-[0.3em] text-neutral-500 uppercase font-sans">
+            <span className="text-[9px] tracking-[0.16em] text-neutral-500 uppercase font-sans font-semibold">
               Home &amp; Living
             </span>
           </Link>
-          <h1 className="font-sans text-xl md:text-2xl font-bold uppercase tracking-tight text-black mt-4 mb-1">
+          <h1 className="type-heading text-xl md:text-2xl text-black mt-4 mb-1">
             Customer Sign In
           </h1>
           <p className="text-neutral-500 font-sans text-xs max-w-xs mx-auto leading-relaxed">

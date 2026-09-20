@@ -259,15 +259,15 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             {/* Header info */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase">
+                <span className="type-label text-neutral-500">
                   {getCategoryLabel(artwork.category)}
                 </span>
-                <span className="text-[10px] font-sans text-neutral-400 uppercase">
+                <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider">
                   SKU: {artwork.catalogNumber}
                 </span>
               </div>
 
-              <h1 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight leading-tight uppercase mb-2">
+              <h1 className="type-hero text-2xl sm:text-3xl md:text-4xl text-black mb-2">
                 {artwork.name}
               </h1>
 
@@ -300,7 +300,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             <div className="p-5 bg-white border border-neutral-200 space-y-2">
               <div className="flex items-baseline justify-between">
                 <div className="flex items-baseline gap-2.5">
-                  <span className="font-sans font-extrabold text-2xl sm:text-3xl text-black">
+                  <span className="type-price text-2xl sm:text-3xl text-black">
                     {formatPrice(totalPrice)}
                   </span>
                   {artwork.originalPrice && artwork.originalPrice > artwork.price && (
