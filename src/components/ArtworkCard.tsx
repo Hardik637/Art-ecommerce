@@ -193,10 +193,10 @@ export default function ArtworkCard({
           </span>
         </div>
 
-        {/* Product Name (Matches Reference "Dependor", "Dignize" in contemporary serif) */}
+        {/* Product Name (Matches Zorodoor uppercase bold commercial style) */}
         <Link
           href={`/products/${artwork.slug || artwork.id}`}
-          className="type-product-title text-sm sm:text-[15px] text-black hover:text-neutral-600 line-clamp-1 mb-1 transition-colors"
+          className="type-product-title text-xs sm:text-sm text-black hover:text-neutral-600 line-clamp-1 mb-1 transition-colors uppercase font-bold tracking-[0.02em]"
         >
           {artwork.name}
         </Link>
@@ -206,10 +206,10 @@ export default function ArtworkCard({
           {artwork.medium}
         </p>
 
-        {/* Price & Mobile Quick Add Row (Matches Reference "$400.00 $450.00") */}
+        {/* Price & Mobile Quick Add Row */}
         <div className="mt-auto pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="type-price text-xs sm:text-sm text-black">
+            <span className="type-price text-xs sm:text-sm text-black font-bold">
               {formatPrice(artwork.price)}
             </span>
             {artwork.originalPrice && artwork.originalPrice > artwork.price && (
@@ -219,14 +219,14 @@ export default function ArtworkCard({
             )}
           </div>
 
-          {/* Mobile Tap-To-Add Button */}
+          {/* Mobile Tap-To-Add Button (Comfortable touch target) */}
           <button
             onClick={handleQuickAdd}
             disabled={added}
-            className="sm:hidden p-1.5 text-neutral-800 hover:text-black transition-colors"
+            className="sm:hidden p-2 text-neutral-800 hover:text-black transition-colors min-w-[32px] min-h-[32px] flex items-center justify-center -mr-1"
             aria-label="Add to bag"
           >
-            {added ? <Check size={15} className="text-black" /> : <ShoppingBag size={15} />}
+            {added ? <Check size={16} className="text-black" /> : <ShoppingBag size={16} />}
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans, Lora } from 'next/font/google';
+import { Space_Grotesk, Bebas_Neue } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -7,19 +7,18 @@ import CartDrawer from '@/components/CartDrawer';
 import CartToast from '@/components/CartToast';
 import { SITE_CONFIG } from '@/config/site';
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-space-grotesk',
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   preload: true,
 });
 
-const lora = Lora({
+const bebasNeue = Bebas_Neue({
   subsets: ['latin'],
-  variable: '--font-serif',
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
+  variable: '--font-bebas-neue',
+  weight: ['400'],
   display: 'swap',
   preload: true,
 });
@@ -102,7 +101,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${plusJakartaSans.variable} ${lora.variable} bg-white text-black font-sans antialiased selection:bg-black selection:text-white`}
+        className={`${spaceGrotesk.variable} ${bebasNeue.variable} bg-white text-black font-sans antialiased selection:bg-black selection:text-white`}
         suppressHydrationWarning
       >
         <Header />

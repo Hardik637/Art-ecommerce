@@ -64,22 +64,22 @@ export default function Header() {
 
       {/* ── Main Modern E-Commerce Header ──────────────────────────── */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 h-16 md:h-18 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-[54px] md:h-[60px] flex items-center justify-between">
           {/* Mobile Menu & Search Triggers */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="p-2 text-[#0F0F0F] hover:text-black transition-colors -ml-2"
+              className="p-1.5 text-[#0F0F0F] hover:text-black transition-colors -ml-1.5"
               aria-label="Open mobile navigation"
             >
-              <Menu size={22} strokeWidth={1.8} />
+              <Menu size={20} strokeWidth={2} />
             </button>
             <Link
               href="/search"
-              className="p-2 text-[#0F0F0F] hover:text-black transition-colors"
+              className="p-1.5 text-[#0F0F0F] hover:text-black transition-colors"
               aria-label="Search catalog"
             >
-              <Search size={20} strokeWidth={1.8} />
+              <Search size={19} strokeWidth={2} />
             </Link>
           </div>
 
@@ -87,9 +87,9 @@ export default function Header() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center gap-2.5 hover:opacity-90 transition-opacity group"
+              className="flex items-center gap-2 hover:opacity-85 transition-opacity group"
             >
-              <div className="w-7 h-7 relative flex-shrink-0">
+              <div className="w-5.5 h-5.5 relative flex-shrink-0">
                 <Image
                   src="/brand-seal.svg"
                   alt="Atelier"
@@ -98,68 +98,68 @@ export default function Header() {
                 />
               </div>
               <div className="flex flex-col text-left">
-                <span className="font-sans font-bold text-lg md:text-xl tracking-[0.14em] text-[#0F0F0F] leading-none uppercase">
+                <span className="font-sans font-bold text-[15px] md:text-base tracking-[0.14em] text-black leading-none uppercase">
                   ATELIER
                 </span>
-                <span className="text-[8px] font-sans font-semibold tracking-[0.16em] text-[#71717A] uppercase mt-0.5">
+                <span className="text-[7px] font-sans font-bold tracking-[0.18em] text-[#71717A] uppercase mt-0.5">
                   Home &amp; Living
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation Links — Clean Modern Fashion E-Commerce */}
-          <nav className="hidden lg:flex items-center space-x-8 text-xs font-sans font-semibold tracking-[0.06em] text-[#18181B]">
+          {/* Desktop Navigation Links — Clean Compact Fashion E-Commerce */}
+          <nav className="hidden lg:flex items-center space-x-7 text-[12px] font-sans font-bold tracking-[0.06em] text-[#18181B]">
             <Link
               href="/"
-              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+              className="py-4 uppercase transition-colors hover:text-black relative after:absolute after:bottom-3 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Home
             </Link>
             <Link
               href="/wall-art"
-              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+              className="py-4 uppercase transition-colors hover:text-black relative after:absolute after:bottom-3 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Wall Art
             </Link>
             <Link
               href="/sculptures"
-              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+              className="py-4 uppercase transition-colors hover:text-black relative after:absolute after:bottom-3 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Sculptures
             </Link>
             <Link
               href="/decorative-pieces"
-              className="py-5 uppercase transition-colors hover:text-black relative after:absolute after:bottom-4 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+              className="py-4 uppercase transition-colors hover:text-black relative after:absolute after:bottom-3 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Decorative Pieces
             </Link>
             <Link
               href="/products"
-              className="py-5 uppercase transition-colors text-[#71717A] hover:text-black"
+              className="py-4 uppercase transition-colors text-[#71717A] hover:text-black"
             >
               All Products
             </Link>
           </nav>
 
           {/* Utility Action Icons */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
             <Link
               href="/search"
-              className="hidden lg:flex p-2 text-[#0F0F0F] hover:text-black transition-colors"
+              className="hidden lg:flex p-1.5 text-[#0F0F0F] hover:text-black transition-colors"
               aria-label="Search products"
             >
-              <Search size={19} strokeWidth={1.8} />
+              <Search size={18} strokeWidth={2} />
             </Link>
 
             <Link
               href="/account/wishlist"
-              className="relative p-2 text-[#0F0F0F] hover:text-black transition-colors"
+              className="relative p-1.5 text-[#0F0F0F] hover:text-black transition-colors"
               aria-label="Wishlist"
             >
-              <Heart size={20} strokeWidth={1.8} />
+              <Heart size={18} strokeWidth={2} />
               {mounted && wishlistItems.length > 0 && (
-                <span className="absolute top-1 right-0.5 w-4 h-4 bg-[#0F0F0F] text-white rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
+                <span className="absolute top-0.5 right-0 w-3.5 h-3.5 bg-[#0F0F0F] text-white rounded-full text-[8.5px] font-sans font-bold flex items-center justify-center">
                   {wishlistItems.length}
                 </span>
               )}
@@ -167,26 +167,26 @@ export default function Header() {
 
             <Link
               href={isLoggedIn ? '/account' : '/login'}
-              className="p-2 text-[#0F0F0F] hover:text-black transition-colors flex items-center gap-1.5"
+              className="p-1.5 text-[#0F0F0F] hover:text-black transition-colors flex items-center gap-1.5"
               aria-label="Account"
             >
               {mounted && isLoggedIn && userInitial ? (
-                <div className="w-6 h-6 rounded-full bg-[#0F0F0F] text-white text-[10px] font-sans font-bold flex items-center justify-center">
+                <div className="w-5.5 h-5.5 rounded-full bg-[#0F0F0F] text-white text-[9.5px] font-sans font-bold flex items-center justify-center">
                   {userInitial}
                 </div>
               ) : (
-                <User size={20} strokeWidth={1.8} />
+                <User size={18} strokeWidth={2} />
               )}
             </Link>
 
             <button
               onClick={openCart}
-              className="relative p-2 text-black hover:text-neutral-700 transition-colors flex items-center gap-1.5"
+              className="relative p-1.5 text-black hover:text-neutral-700 transition-colors flex items-center gap-1.5"
               aria-label="Shopping Bag"
             >
-              <ShoppingBag size={20} strokeWidth={1.8} />
+              <ShoppingBag size={18} strokeWidth={2} />
               {mounted && cartItemCount > 0 && (
-                <span className="absolute top-1 right-0.5 w-4 h-4 bg-black text-white rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
+                <span className="absolute top-0.5 right-0 w-3.5 h-3.5 bg-black text-white rounded-full text-[8.5px] font-sans font-bold flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}

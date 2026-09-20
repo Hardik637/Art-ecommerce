@@ -191,8 +191,8 @@ export default function CategoryPageClient({
       </section>
 
       {/* ── 2. CONTROLS BAR: SEARCH, FILTERS & SORTING ─────────────────── */}
-      <div className="sticky top-16 md:top-18 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 py-3">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-wrap items-center justify-between gap-3">
+      <div className="sticky top-[54px] md:top-[60px] z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 py-2.5 sm:py-3">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           {/* Left: Quick Subcategory Pills & Filter Drawer Button */}
           <div className="flex items-center gap-2 overflow-x-auto py-1">
             <button
