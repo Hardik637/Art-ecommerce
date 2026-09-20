@@ -33,7 +33,7 @@ export default function AnnouncementBar({
           {trackItems.map((text, idx) => (
             <span
               key={`primary-${idx}`}
-              className="inline-flex items-center text-[10px] sm:text-[11px] font-sans font-medium tracking-[0.10em] uppercase text-neutral-100"
+              className="inline-flex items-center text-[10px] sm:text-[11px] font-sans font-bold tracking-[0.08em] uppercase text-neutral-100"
             >
               <span className="px-4 sm:px-7 whitespace-nowrap">{text}</span>
               <span
@@ -51,7 +51,7 @@ export default function AnnouncementBar({
           {trackItems.map((text, idx) => (
             <span
               key={`clone-${idx}`}
-              className="inline-flex items-center text-[10px] sm:text-[11px] font-sans font-medium tracking-[0.10em] uppercase text-neutral-100"
+              className="inline-flex items-center text-[10px] sm:text-[11px] font-sans font-bold tracking-[0.08em] uppercase text-neutral-100"
             >
               <span className="px-4 sm:px-7 whitespace-nowrap">{text}</span>
               <span

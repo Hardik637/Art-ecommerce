@@ -156,7 +156,7 @@ export default function ProductsClient({ initialProducts }: ProductsClientProps 
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#0F0F0F] tracking-tight uppercase">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black tracking-tight uppercase leading-none">
                 All Products
               </h1>
               <p className="text-xs sm:text-sm font-sans text-neutral-600 mt-2 max-w-2xl leading-relaxed">

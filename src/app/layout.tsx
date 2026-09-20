@@ -10,7 +10,7 @@ import { SITE_CONFIG } from '@/config/site';
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '700'],
   display: 'swap',
   preload: true,
 });

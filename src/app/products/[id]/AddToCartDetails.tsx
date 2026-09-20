@@ -32,27 +32,27 @@ export default function AddToCartDetails({ product }: { product: ArtworkProduct 
       <button
         disabled={product.stock <= 0 || added}
         onClick={handleAdd}
-        className="flex-1 bg-[#11100F] hover:bg-[#481E25] text-[#F4EFE7] h-14 font-sans text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-colors disabled:bg-[#10B981]"
+        className="flex-1 bg-black hover:bg-neutral-800 text-white h-12 font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-neutral-300"
       >
         {added ? (
           <>
-            <Check size={16} /> Added to Bag
+            <Check size={16} /> Added to Cart
           </>
         ) : (
           <>
-            <ShoppingBag size={16} /> Acquire — ₹{product.price.toLocaleString('en-IN')}
+            <ShoppingBag size={16} /> Add to Cart — ₹{product.price.toLocaleString('en-IN')}
           </>
         )}
       </button>
 
       <button
         onClick={() => toggleWishlist(product)}
-        className="w-14 h-14 border border-[#E4DBCF] bg-[#FAF7F2] hover:border-[#11100F] flex items-center justify-center text-[#11100F] transition-colors"
+        className="w-12 h-12 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-black transition-colors"
       >
         <Heart
-          size={20}
-          fill={isInWishlist ? '#481E25' : 'none'}
-          className={isInWishlist ? 'text-[#481E25]' : 'text-[#78716C]'}
+          size={18}
+          fill={isInWishlist ? '#000000' : 'none'}
+          className={isInWishlist ? 'text-black' : 'text-neutral-500'}
         />
       </button>
     </div>

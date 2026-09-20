@@ -10,7 +10,7 @@ export default function CollectionPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-serif text-2xl md:text-3xl font-normal text-[#11100F]">
+        <h1 className="font-sans text-2xl md:text-3xl font-bold text-black uppercase tracking-tight">
           Private Collection & Provenance Dossier
         </h1>
         <p className="text-xs text-[#777] font-sans mt-1">

@@ -21,7 +21,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
         <div className="grid grid-cols-5 gap-8 border-b border-[#E4DBCF] pb-10">
           {/* Column 1: WALL ART */}
           <div>
-            <h3 className="font-serif text-lg font-normal text-[#11100F] mb-4 pb-2 border-b border-[#E4DBCF]">
+            <h3 className="font-sans text-xs font-bold text-[#11100F] uppercase tracking-wider mb-4 pb-2 border-b border-[#E4DBCF]">
               Wall Art
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-[#78716C]">
@@ -94,7 +94,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
           {/* Column 2: SCULPTURES & DECORATIVE PIECES */}
           <div>
-            <h3 className="font-serif text-lg font-normal text-[#11100F] mb-4 pb-2 border-b border-[#E4DBCF]">
+            <h3 className="font-sans text-xs font-bold text-[#11100F] uppercase tracking-wider mb-4 pb-2 border-b border-[#E4DBCF]">
               Sculptures &amp; Decor
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-[#78716C]">
@@ -158,7 +158,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
           {/* Column 3: DISCOVER & CURATIONS */}
           <div>
-            <h3 className="font-serif text-lg font-normal text-[#11100F] mb-4 pb-2 border-b border-[#E4DBCF]">
+            <h3 className="font-sans text-xs font-bold text-[#11100F] uppercase tracking-wider mb-4 pb-2 border-b border-[#E4DBCF]">
               Discover
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-[#78716C]">
@@ -221,7 +221,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
           {/* Column 4: SHOP BY ROOM & MOOD */}
           <div>
-            <h3 className="font-serif text-lg font-normal text-[#11100F] mb-4 pb-2 border-b border-[#E4DBCF]">
+            <h3 className="font-sans text-xs font-bold text-[#11100F] uppercase tracking-wider mb-4 pb-2 border-b border-[#E4DBCF]">
               Shop By Room
             </h3>
             <ul className="space-y-2 text-xs font-sans text-[#78716C] mb-5">
@@ -286,7 +286,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               <span className="text-[9px] font-sans font-semibold tracking-[0.2em] text-[#B08A4A] uppercase block mb-1">
                 Featured Spotlight
               </span>
-              <h4 className="font-serif text-base font-normal text-[#11100F] leading-tight mb-2">
+              <h4 className="font-sans text-sm font-bold text-[#11100F] uppercase tracking-tight leading-tight mb-2">
                 The Artist&apos;s Hand: One of One
               </h4>
               <p className="text-[11px] text-[#78716C] leading-relaxed mb-3">

@@ -267,7 +267,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 </span>
               </div>
 
-              <h1 className="type-hero text-2xl sm:text-3xl md:text-4xl text-black mb-2">
+              <h1 className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-black uppercase tracking-tight mb-2">
                 {artwork.name}
               </h1>
 

@@ -107,7 +107,7 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
             </span>
           </div>
 
-          <h2 className="type-hero text-xl sm:text-2xl text-black leading-snug mb-1">
+          <h2 className="font-sans font-bold text-lg sm:text-xl text-black uppercase tracking-tight leading-snug mb-1">
             {artwork.name}
           </h2>
 

@@ -280,7 +280,7 @@ export default function CheckoutPage() {
           Order Confirmed
         </span>
 
-        <h1 className="font-serif text-3xl md:text-4xl font-normal text-[#11100F] tracking-tight mb-3">
+        <h1 className="font-sans text-3xl md:text-4xl font-bold text-[#11100F] uppercase tracking-tight mb-3">
           Thank You For Your Order
         </h1>
 
@@ -307,9 +307,9 @@ export default function CheckoutPage() {
               {completedOrder.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment (Razorpay)'}
             </span>
           </div>
-          <div className="flex justify-between text-base font-serif pt-1">
+          <div className="flex justify-between text-base font-sans pt-1">
             <span>Total Paid</span>
-            <span className="font-semibold text-[#11100F]">{formatPrice(completedOrder.total)}</span>
+            <span className="font-bold text-[#11100F]">{formatPrice(completedOrder.total)}</span>
           </div>
         </div>
 
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
         <div className="w-16 h-16 rounded-full bg-[#FAF7F2] border border-[#E4DBCF] flex items-center justify-center text-[#11100F] mb-4">
           <Truck size={24} />
         </div>
-        <h1 className="font-serif text-3xl font-normal text-[#11100F] mb-2">
+        <h1 className="font-sans text-2xl sm:text-3xl font-bold text-[#11100F] uppercase tracking-tight mb-2">
           Your Shopping Cart is Empty
         </h1>
         <p className="text-xs font-sans text-[#78716C] mb-8 leading-relaxed">
@@ -424,7 +424,7 @@ export default function CheckoutPage() {
                 <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 1 of 3
                 </span>
-                <h2 className="font-serif text-2xl md:text-3xl font-normal text-[#11100F]">
+                <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
                   Customer Contact
                 </h2>
                 <p className="text-xs font-sans text-[#78716C] mt-1">
@@ -495,7 +495,7 @@ export default function CheckoutPage() {
                 <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 2 of 3
                 </span>
-                <h2 className="font-serif text-2xl md:text-3xl font-normal text-[#11100F]">
+                <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
                   Shipping Address
                 </h2>
                 <p className="text-xs font-sans text-[#78716C] mt-1">
@@ -617,7 +617,7 @@ export default function CheckoutPage() {
                 <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 3 of 3
                 </span>
-                <h2 className="font-serif text-2xl md:text-3xl font-normal text-[#11100F]">
+                <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
                   Payment Method
                 </h2>
                 <p className="text-xs font-sans text-[#78716C] mt-1">
@@ -720,7 +720,7 @@ export default function CheckoutPage() {
 
         {/* ── RIGHT: ORDER SUMMARY ─────────────────────────── */}
         <div className="lg:col-span-5 bg-[#FAF7F2] p-6 md:p-8 border border-[#E4DBCF] space-y-6">
-          <h3 className="font-serif text-xl font-normal text-[#11100F] pb-3 border-b border-[#E4DBCF]">
+          <h3 className="font-sans text-base font-bold text-[#11100F] pb-3 border-b border-[#E4DBCF] uppercase tracking-wider">
             Order Summary ({items.length})
           </h3>
 
@@ -733,14 +733,14 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col justify-between">
                   <div>
-                    <h4 className="font-serif text-sm font-normal text-[#11100F] truncate">
+                    <h4 className="font-sans text-xs font-bold text-[#11100F] uppercase truncate">
                       {item.name}
                     </h4>
                     <p className="text-[10px] text-[#78716C]">
                       {item.frameOption?.name || 'Standard'} • Qty: {item.quantity}
                     </p>
                   </div>
-                  <p className="font-serif text-sm font-medium text-[#11100F]">
+                  <p className="font-sans text-xs font-bold text-[#11100F]">
                     {formatPrice((item.price + (item.frameOption?.price || 0)) * item.quantity)}
                   </p>
                 </div>
@@ -802,9 +802,9 @@ export default function CheckoutPage() {
                 <span className="font-medium">-{formatPrice(discountAmount)}</span>
               </div>
             )}
-            <div className="flex justify-between pt-3 border-t border-[#E4DBCF] text-base font-serif text-[#11100F]">
+            <div className="flex justify-between pt-3 border-t border-[#E4DBCF] text-base font-sans text-[#11100F]">
               <span className="font-normal">Total</span>
-              <span className="font-semibold">{formatPrice(grandTotal)}</span>
+              <span className="font-bold">{formatPrice(grandTotal)}</span>
             </div>
           </div>
 
