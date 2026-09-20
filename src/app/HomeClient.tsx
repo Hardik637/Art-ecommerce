@@ -50,27 +50,27 @@ export default function HomeClient() {
           <div className="max-w-2xl flex flex-col items-center">
             {/* Small Eyebrow Badge */}
             <div className="mb-4 sm:mb-6">
-              <span className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-sans font-bold tracking-[0.2em] text-white uppercase bg-black/50 backdrop-blur-md px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-white/20 shadow-lg">
+              <span className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-sans font-bold tracking-[0.16em] text-white uppercase bg-black/60 backdrop-blur-md px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-white/20 shadow-lg">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 <span>New Season Drop • Modern Living</span>
               </span>
             </div>
 
-            {/* Main Campaign Title */}
-            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] text-white leading-[0.92] tracking-tight uppercase mb-4 sm:mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)]">
+            {/* Main Campaign Title — Bebas Neue tightly locked at 0.88 line-height with clamp scaling */}
+            <h1 className="font-display text-[clamp(2.85rem,14vw,4.75rem)] sm:text-[clamp(4.25rem,8.5vw,8.5rem)] text-white text-center leading-[0.88] tracking-[0] uppercase mb-4 sm:mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)]">
               Art That Defines <br className="hidden sm:block" />
               The Room
             </h1>
 
-            {/* Short Supporting Line */}
-            <p className="text-white/90 font-sans font-normal text-xs sm:text-sm md:text-base tracking-[0.03em] max-w-lg mx-auto leading-relaxed mb-8 sm:mb-10 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+            {/* Short Supporting Line — Space Grotesk 400 clean readability */}
+            <p className="text-white/90 font-sans font-normal text-xs sm:text-sm md:text-base tracking-[0.01em] max-w-lg mx-auto leading-relaxed mb-8 sm:mb-10 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
               Original wall art, handcrafted sculptures, and architectural pieces curated for contemporary interiors.
             </p>
 
-            {/* High-Contrast Hero CTA Button */}
+            {/* High-Contrast Hero CTA Button — Space Grotesk 700 uppercase tracking-[0.06em] */}
             <Link
               href="/products"
-              className="inline-flex items-center justify-center gap-2.5 bg-white text-black hover:bg-neutral-200 font-sans font-bold text-xs sm:text-sm px-8 sm:px-10 py-3.5 sm:py-4.5 uppercase tracking-widest transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
+              className="inline-flex items-center justify-center gap-2.5 bg-white text-black hover:bg-neutral-200 font-sans font-bold text-xs sm:text-sm px-8 sm:px-10 py-3.5 sm:py-4 uppercase tracking-[0.06em] transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
             >
               <span>Shop Collection</span>
               <ArrowRight size={15} />
@@ -83,16 +83,16 @@ export default function HomeClient() {
       <section className="py-12 sm:py-16 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-6 sm:mb-8 md:mb-10">
           <div>
-            <span className="type-label text-neutral-500 block mb-1">
+            <span className="text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-500 block mb-1">
               Fresh From The Studio
             </span>
-            <h2 className="type-heading text-xl sm:text-2xl md:text-3xl text-black">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-black uppercase tracking-tight leading-none">
               New Arrivals
             </h2>
           </div>
           <Link
             href="/products?filter=new"
-            className="type-btn text-xs sm:text-[13px] text-black hover:text-neutral-600 underline underline-offset-4 flex items-center gap-1.5 transition-colors"
+            className="font-sans font-bold text-xs uppercase tracking-[0.06em] text-black hover:text-neutral-600 underline underline-offset-4 flex items-center gap-1.5 transition-colors"
           >
             <span>View All</span>
             <ArrowRight size={13} />
@@ -113,16 +113,16 @@ export default function HomeClient() {
       <section className="py-12 sm:py-16 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-6 sm:mb-8 md:mb-10">
           <div>
-            <span className="type-label text-neutral-500 block mb-1">
+            <span className="text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-500 block mb-1">
               Top Ranked Works
             </span>
-            <h2 className="type-heading text-xl sm:text-2xl md:text-3xl text-black">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-black uppercase tracking-tight leading-none">
               Bestsellers
             </h2>
           </div>
           <Link
             href="/products?filter=bestseller"
-            className="type-btn text-xs sm:text-[13px] text-black hover:text-neutral-600 underline underline-offset-4 flex items-center gap-1.5 transition-colors"
+            className="font-sans font-bold text-xs uppercase tracking-[0.06em] text-black hover:text-neutral-600 underline underline-offset-4 flex items-center gap-1.5 transition-colors"
           >
             <span>View All</span>
             <ArrowRight size={13} />

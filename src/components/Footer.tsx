@@ -34,7 +34,7 @@ export default function Footer() {
 
           {/* Col 2: Shop */}
           <div className="space-y-3">
-            <h3 className="text-[11px] font-sans font-bold tracking-widest text-white uppercase">
+            <h3 className="text-[11px] font-sans font-bold tracking-[0.18em] text-white uppercase">
               Shop
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-neutral-400">
@@ -73,7 +73,7 @@ export default function Footer() {
 
           {/* Col 3: Customer Care */}
           <div className="space-y-3">
-            <h3 className="text-[11px] font-sans font-bold tracking-widest text-white uppercase">
+            <h3 className="text-[11px] font-sans font-bold tracking-[0.18em] text-white uppercase">
               Customer Care
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-neutral-400">
@@ -112,7 +112,7 @@ export default function Footer() {
 
           {/* Col 4: Account & Orders */}
           <div className="space-y-3">
-            <h3 className="text-[11px] font-sans font-bold tracking-widest text-white uppercase">
+            <h3 className="text-[11px] font-sans font-bold tracking-[0.18em] text-white uppercase">
               Account
             </h3>
             <ul className="space-y-2.5 text-xs font-sans text-neutral-400">

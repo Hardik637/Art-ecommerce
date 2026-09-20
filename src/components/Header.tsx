@@ -109,7 +109,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation Links — Clean Compact Fashion E-Commerce */}
-          <nav className="hidden lg:flex items-center space-x-7 text-[12px] font-sans font-bold tracking-[0.06em] text-[#18181B]">
+          <nav className="hidden lg:flex items-center space-x-7 text-[13px] font-sans font-bold tracking-[0.06em] uppercase text-[#18181B]">
             <Link
               href="/"
               className="py-4 uppercase transition-colors hover:text-black relative after:absolute after:bottom-3 after:left-0 after:right-0 after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
@@ -230,7 +230,7 @@ export default function Header() {
                   <Link
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-[0.06em] text-[13px] font-sans font-bold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Home</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -241,7 +241,7 @@ export default function Header() {
                   <Link
                     href="/wall-art"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-[0.06em] text-[13px] font-sans font-bold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Wall Art</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -252,7 +252,7 @@ export default function Header() {
                   <Link
                     href="/sculptures"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-[0.06em] text-[13px] font-sans font-bold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Sculptures</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -263,7 +263,7 @@ export default function Header() {
                   <Link
                     href="/decorative-pieces"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-[0.06em] text-[13px] font-sans font-bold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Decorative Pieces</span>
                     <ChevronRight size={14} className="text-neutral-400" />

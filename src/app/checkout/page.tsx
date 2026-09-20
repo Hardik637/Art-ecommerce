@@ -276,7 +276,7 @@ export default function CheckoutPage() {
           <Check size={32} />
         </div>
 
-        <span className="text-[11px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-2">
+        <span className="text-[11px] font-sans font-bold tracking-wider text-[#78716C] uppercase block mb-2">
           Order Confirmed
         </span>
 
@@ -285,7 +285,7 @@ export default function CheckoutPage() {
         </h1>
 
         <p className="text-sm font-sans text-[#78716C] max-w-md mb-8 leading-relaxed">
-          Order reference <span className="font-semibold text-[#11100F]">{completedOrder.orderNumber}</span>. We
+          Order reference <span className="font-bold text-[#11100F]">{completedOrder.orderNumber}</span>. We
           have sent an email receipt with order details and tracking updates.
         </p>
 
@@ -316,13 +316,13 @@ export default function CheckoutPage() {
         <div className="flex flex-wrap gap-4 justify-center">
           <Link
             href="/account/orders"
-            className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-8 py-3.5 text-xs font-sans font-semibold uppercase tracking-wider transition-colors"
+            className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-8 py-3.5 text-xs font-sans font-bold uppercase tracking-wider transition-colors"
           >
             View My Orders
           </Link>
           <Link
             href="/products"
-            className="border border-[#11100F] hover:bg-[#11100F] hover:text-[#F4EFE7] text-[#11100F] px-8 py-3.5 text-xs font-sans font-semibold uppercase tracking-wider transition-colors"
+            className="border border-[#11100F] hover:bg-[#11100F] hover:text-[#F4EFE7] text-[#11100F] px-8 py-3.5 text-xs font-sans font-bold uppercase tracking-wider transition-colors"
           >
             Continue Shopping
           </Link>
@@ -346,7 +346,7 @@ export default function CheckoutPage() {
         </p>
         <Link
           href="/products"
-          className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-8 py-4 text-xs font-sans font-semibold uppercase tracking-wider transition-colors"
+          className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-8 py-4 text-xs font-sans font-bold uppercase tracking-wider transition-colors"
         >
           Explore Collection
         </Link>
@@ -362,7 +362,7 @@ export default function CheckoutPage() {
           <button
             onClick={() => setStep(1)}
             className={`flex items-center gap-1.5 ${
-              step >= 1 ? 'text-[#11100F] font-semibold' : 'text-[#A8A29E]'
+              step >= 1 ? 'text-[#11100F] font-bold' : 'text-[#A8A29E]'
             }`}
           >
             <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">
@@ -377,7 +377,7 @@ export default function CheckoutPage() {
               if (customer.fullName && customer.email) setStep(2);
             }}
             className={`flex items-center gap-1.5 ${
-              step >= 2 ? 'text-[#11100F] font-semibold' : 'text-[#A8A29E]'
+              step >= 2 ? 'text-[#11100F] font-bold' : 'text-[#A8A29E]'
             }`}
           >
             <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
               if (address.addressLine1 && address.city) setStep(3);
             }}
             className={`flex items-center gap-1.5 ${
-              step >= 3 ? 'text-[#11100F] font-semibold' : 'text-[#A8A29E]'
+              step >= 3 ? 'text-[#11100F] font-bold' : 'text-[#A8A29E]'
             }`}
           >
             <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">
@@ -408,7 +408,7 @@ export default function CheckoutPage() {
         <div className="max-w-4xl mx-auto mb-8 p-4 bg-red-50 border border-red-200 rounded text-xs text-red-700 flex items-start gap-3">
           <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-semibold mb-0.5">Order Notice</p>
+            <p className="font-bold mb-0.5">Order Notice</p>
             <p>{errorMessage}</p>
           </div>
         </div>
@@ -421,7 +421,7 @@ export default function CheckoutPage() {
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
+                <span className="text-[10px] font-sans font-bold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 1 of 3
                 </span>
                 <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
@@ -434,7 +434,7 @@ export default function CheckoutPage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Full Name *
                   </label>
                   <input
@@ -448,7 +448,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Email Address *
                   </label>
                   <input
@@ -462,7 +462,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Phone Number * (for delivery courier)
                   </label>
                   <input
@@ -480,7 +480,7 @@ export default function CheckoutPage() {
                 type="button"
                 disabled={!customer.fullName || !customer.email || !customer.phone}
                 onClick={() => setStep(2)}
-                className="w-full bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
+                className="w-full bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
               >
                 <span>Continue to Shipping</span>
                 <ArrowRight size={14} />
@@ -492,7 +492,7 @@ export default function CheckoutPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
+                <span className="text-[10px] font-sans font-bold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 2 of 3
                 </span>
                 <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
@@ -505,7 +505,7 @@ export default function CheckoutPage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Address Line 1 *
                   </label>
                   <input
@@ -519,7 +519,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Address Line 2 (Optional)
                   </label>
                   <input
@@ -533,7 +533,7 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                    <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                       City *
                     </label>
                     <input
@@ -547,7 +547,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                    <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                       Postal Code / PIN *
                     </label>
                     <input
@@ -562,7 +562,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     State *
                   </label>
                   <input
@@ -576,7 +576,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+                  <label className="block text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
                     Delivery Instructions (Optional)
                   </label>
                   <textarea
@@ -593,7 +593,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-6 py-4 border border-[#11100F] text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] hover:bg-[#E4DBCF]"
+                  className="px-6 py-4 border border-[#11100F] text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] hover:bg-[#E4DBCF]"
                 >
                   Back
                 </button>
@@ -601,7 +601,7 @@ export default function CheckoutPage() {
                   type="button"
                   disabled={!address.addressLine1 || !address.city || !address.pincode}
                   onClick={() => setStep(3)}
-                  className="flex-1 bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
+                  className="flex-1 bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
                 >
                   <span>Proceed to Payment</span>
                   <ArrowRight size={14} />
@@ -614,7 +614,7 @@ export default function CheckoutPage() {
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[10px] font-sans font-semibold tracking-wider text-[#78716C] uppercase block mb-1">
+                <span className="text-[10px] font-sans font-bold tracking-wider text-[#78716C] uppercase block mb-1">
                   Step 3 of 3
                 </span>
                 <h2 className="font-sans text-xl md:text-2xl font-bold text-[#11100F] uppercase tracking-tight">
@@ -643,7 +643,7 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <div>
-                      <span className="text-xs font-sans font-semibold text-[#11100F] block">
+                      <span className="text-xs font-sans font-bold text-[#11100F] block">
                         Online Payment (UPI, Cards, Net Banking)
                       </span>
                       <span className="text-[11px] text-[#78716C] font-sans">
@@ -670,7 +670,7 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <div>
-                      <span className="text-xs font-sans font-semibold text-[#11100F] block">
+                      <span className="text-xs font-sans font-bold text-[#11100F] block">
                         Cash on Delivery (COD)
                       </span>
                       <span className="text-[11px] text-[#78716C] font-sans">
@@ -694,7 +694,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="px-6 py-4 border border-[#11100F] text-xs font-sans font-semibold uppercase tracking-wider text-[#11100F] hover:bg-[#E4DBCF]"
+                  className="px-6 py-4 border border-[#11100F] text-xs font-sans font-bold uppercase tracking-wider text-[#11100F] hover:bg-[#E4DBCF]"
                 >
                   Back
                 </button>
@@ -702,7 +702,7 @@ export default function CheckoutPage() {
                   type="button"
                   disabled={isProcessing}
                   onClick={handlePlaceOrder}
-                  className="flex-1 bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
+                  className="flex-1 bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] py-4 text-xs font-sans font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:bg-[#A8A29E]"
                 >
                   {isProcessing ? (
                     <span>Processing Order...</span>
@@ -750,7 +750,7 @@ export default function CheckoutPage() {
 
           {/* Coupon Input */}
           <form onSubmit={handleApplyCoupon} className="pt-2">
-            <label className="block text-[11px] font-sans font-semibold uppercase tracking-wider text-[#11100F] mb-1.5">
+            <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#11100F] mb-1.5">
               Promo Code / Coupon
             </label>
             <div className="flex gap-2">
@@ -764,7 +764,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isCouponValidating}
-                className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-4 py-2 text-xs font-sans font-semibold uppercase tracking-wider transition-colors disabled:opacity-50"
+                className="bg-[#11100F] hover:bg-[#2D2A26] text-[#F4EFE7] px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
               >
                 {isCouponValidating ? '...' : 'Apply'}
               </button>

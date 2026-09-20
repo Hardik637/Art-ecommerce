@@ -43,25 +43,25 @@ function getPrimaryBadge(artwork: ArtworkProduct): { text: string; style: string
   if (artwork.isNew) {
     return {
       text: 'NEW',
-      style: 'bg-neutral-900 text-white font-semibold',
+      style: 'bg-black text-white font-bold',
     };
   }
   if (artwork.isArtistFavorite) {
     return {
       text: 'TRENDING',
-      style: 'bg-neutral-900 text-white font-semibold',
+      style: 'bg-black text-white font-bold',
     };
   }
   if (artwork.isFeatured) {
     return {
       text: 'FEATURED',
-      style: 'bg-neutral-800 text-white font-semibold',
+      style: 'bg-black text-white font-bold',
     };
   }
   if (artwork.isLimitedEdition) {
     return {
       text: 'LIMITED',
-      style: 'bg-neutral-800 text-white font-semibold',
+      style: 'bg-black text-white font-bold',
     };
   }
   return null;
@@ -117,7 +117,7 @@ export default function ArtworkCard({
         {primaryBadge && (
           <div className="absolute top-2.5 left-2.5 z-20 pointer-events-none">
             <span
-              className={`${primaryBadge.style} text-[8.5px] sm:text-[9px] font-sans tracking-wider px-2 py-0.5 uppercase shadow-xs`}
+              className={`${primaryBadge.style} text-[8.5px] sm:text-[9px] font-sans font-bold tracking-[0.06em] px-2 py-0.5 uppercase shadow-xs`}
             >
               {primaryBadge.text}
             </span>
@@ -164,7 +164,7 @@ export default function ArtworkCard({
           <button
             onClick={handleQuickAdd}
             disabled={added}
-            className="w-full py-2.5 px-3 text-[10px] font-sans font-semibold uppercase tracking-[0.16em] flex items-center justify-center gap-1.5 transition-colors shadow-md bg-black text-white hover:bg-neutral-800"
+            className="w-full py-2.5 px-3 text-[11px] font-sans font-bold uppercase tracking-[0.06em] flex items-center justify-center gap-1.5 transition-colors shadow-md bg-black text-white hover:bg-neutral-800"
           >
             {added ? (
               <>
@@ -183,9 +183,9 @@ export default function ArtworkCard({
 
       {/* ── Product Card Information ─────────────────────────────────── */}
       <div className="p-3 sm:p-3.5 flex flex-col flex-1 bg-white">
-        {/* Category / Brand Kicker (Matches Reference "PORTLAND INDIAN SUMMER") */}
+        {/* Category / Brand Kicker (10-11px 700 uppercase tracking 0.10em) */}
         <div className="flex items-center justify-between mb-1">
-          <span className="type-label text-neutral-500 truncate">
+          <span className="text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.10em] text-neutral-500 truncate">
             {getCategoryLabel(artwork.category)}
           </span>
           <span className="text-[9px] font-sans text-neutral-400 uppercase hidden sm:inline tracking-wider">
@@ -193,10 +193,10 @@ export default function ArtworkCard({
           </span>
         </div>
 
-        {/* Product Name (Matches Zorodoor uppercase bold commercial style) */}
+        {/* Product Name (14-16px Space Grotesk 700 uppercase) */}
         <Link
           href={`/products/${artwork.slug || artwork.id}`}
-          className="type-product-title text-xs sm:text-sm text-black hover:text-neutral-600 line-clamp-1 mb-1 transition-colors uppercase font-bold tracking-[0.02em]"
+          className="text-[14px] sm:text-[15px] font-sans font-bold text-black hover:text-neutral-600 line-clamp-1 mb-1 transition-colors uppercase tracking-[0.02em]"
         >
           {artwork.name}
         </Link>
@@ -206,14 +206,14 @@ export default function ArtworkCard({
           {artwork.medium}
         </p>
 
-        {/* Price & Mobile Quick Add Row */}
+        {/* Price & Mobile Quick Add Row (14-16px Space Grotesk 700) */}
         <div className="mt-auto pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="type-price text-xs sm:text-sm text-black font-bold">
+            <span className="text-[14px] sm:text-[15px] font-sans font-bold text-black">
               {formatPrice(artwork.price)}
             </span>
             {artwork.originalPrice && artwork.originalPrice > artwork.price && (
-              <span className="font-sans text-[11px] text-neutral-400 line-through">
+              <span className="font-sans text-[12px] font-normal text-neutral-400 line-through">
                 {formatPrice(artwork.originalPrice)}
               </span>
             )}

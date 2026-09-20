@@ -17,11 +17,11 @@ export default function NewArrivalsPage() {
         <div className="max-w-2xl">
           <div className="flex items-center gap-2 mb-2">
             <span className="w-2 h-2 rounded-full bg-black" />
-            <span className="text-[10px] uppercase font-sans font-semibold tracking-widest text-neutral-500">
+            <span className="text-[10px] uppercase font-sans font-bold tracking-[0.14em] text-neutral-500">
               Fresh Releases
             </span>
           </div>
-          <h1 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl text-black tracking-tight uppercase leading-tight">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black tracking-tight uppercase leading-none">
             New Arrivals
           </h1>
           <p className="text-xs md:text-sm text-neutral-600 font-sans mt-2 leading-relaxed">
