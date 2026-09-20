@@ -15,10 +15,61 @@ interface ArtworkCardProps {
   onQuickView?: (artwork: ArtworkProduct) => void;
 }
 
+/**
+ * Prioritized Retail Badge Hierarchy:
+ * 1. SALE (discount %)
+ * 2. BESTSELLER
+ * 3. NEW
+ * 4. TRENDING
+ * 5. FEATURED
+ * 6. LIMITED
+ * Maximum of ONE primary badge is displayed. Clean retail e-commerce hierarchy.
+ */
+function getPrimaryBadge(artwork: ArtworkProduct): { text: string; style: string } | null {
+  const origPrice = artwork.originalPrice;
+  if (origPrice && origPrice > artwork.price) {
+    const discountPercent = Math.round(((origPrice - artwork.price) / origPrice) * 100);
+    return {
+      text: discountPercent > 0 ? `SALE ${discountPercent}% OFF` : 'SALE',
+      style: 'bg-black text-white font-bold',
+    };
+  }
+  if (artwork.isBestseller) {
+    return {
+      text: 'BESTSELLER',
+      style: 'bg-black text-white font-bold',
+    };
+  }
+  if (artwork.isNew) {
+    return {
+      text: 'NEW',
+      style: 'bg-neutral-900 text-white font-semibold',
+    };
+  }
+  if (artwork.isArtistFavorite) {
+    return {
+      text: 'TRENDING',
+      style: 'bg-neutral-900 text-white font-semibold',
+    };
+  }
+  if (artwork.isFeatured) {
+    return {
+      text: 'FEATURED',
+      style: 'bg-neutral-800 text-white font-semibold',
+    };
+  }
+  if (artwork.isLimitedEdition) {
+    return {
+      text: 'LIMITED',
+      style: 'bg-neutral-800 text-white font-semibold',
+    };
+  }
+  return null;
+}
+
 export default function ArtworkCard({
   artwork,
   priority = false,
-  onQuickView,
 }: ArtworkCardProps) {
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(artwork.id));
@@ -34,6 +85,7 @@ export default function ArtworkCard({
 
   const isWishlisted = mounted ? isInWishlist : false;
   const secondaryImage = artwork.images[1] || artwork.images[0] || artwork.thumbnail;
+  const primaryBadge = getPrimaryBadge(artwork);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,11 +94,12 @@ export default function ArtworkCard({
       productId: artwork.id,
       slug: artwork.slug,
       name: artwork.name,
-      artistName: artwork.artistName,
+      artistName: artwork.artistName || '',
       price: artwork.price,
       image: artwork.images[0] || artwork.thumbnail,
       medium: artwork.medium,
       dimensions: `${artwork.dimensions.width} × ${artwork.dimensions.height} ${artwork.dimensions.unit}`,
+      stock: artwork.stock,
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
@@ -56,33 +109,20 @@ export default function ArtworkCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col bg-white border border-neutral-200 hover:border-neutral-900 transition-all duration-300 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md"
+      className="group relative flex flex-col bg-white border border-neutral-200 hover:border-black transition-all duration-300 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md"
     >
       {/* ── Product Image Container ─────────────────────────────────── */}
       <div className="relative aspect-[3/4] sm:aspect-[4/5] bg-neutral-100 overflow-hidden">
-        {/* Subtle Retail Badges */}
-        <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1 pointer-events-none">
-          {artwork.isOneOfOne && (
-            <span className="bg-[#0F0F0F] text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
-              1/1 Original
+        {/* Single Prioritized Retail Badge */}
+        {primaryBadge && (
+          <div className="absolute top-2.5 left-2.5 z-20 pointer-events-none">
+            <span
+              className={`${primaryBadge.style} text-[8.5px] sm:text-[9px] font-sans tracking-wider px-2 py-0.5 uppercase shadow-xs`}
+            >
+              {primaryBadge.text}
             </span>
-          )}
-          {artwork.isLimitedEdition && !artwork.isOneOfOne && (
-            <span className="bg-neutral-800 text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
-              Edition {artwork.editionSize ? `of ${artwork.editionSize}` : ''}
-            </span>
-          )}
-          {artwork.isBestseller && !artwork.isOneOfOne && !artwork.isLimitedEdition && (
-            <span className="bg-[#B08A4A] text-black text-[8.5px] sm:text-[9px] font-sans font-bold tracking-wider px-2 py-0.5 uppercase">
-              Bestseller
-            </span>
-          )}
-          {artwork.isNew && !artwork.isBestseller && !artwork.isOneOfOne && (
-            <span className="bg-neutral-900 text-white text-[8.5px] sm:text-[9px] font-sans font-semibold tracking-wider px-2 py-0.5 uppercase">
-              New
-            </span>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Wishlist Heart Button */}
         <button
@@ -97,8 +137,8 @@ export default function ArtworkCard({
           <Heart
             size={15}
             strokeWidth={1.8}
-            fill={isWishlisted ? '#0F0F0F' : 'none'}
-            className={isWishlisted ? 'text-[#0F0F0F]' : 'text-neutral-600'}
+            fill={isWishlisted ? '#000000' : 'none'}
+            className={isWishlisted ? 'text-black' : 'text-neutral-600'}
           />
         </button>
 
@@ -124,11 +164,7 @@ export default function ArtworkCard({
           <button
             onClick={handleQuickAdd}
             disabled={added}
-            className={`w-full py-2.5 px-3 text-[10px] font-sans font-semibold uppercase tracking-[0.16em] flex items-center justify-center gap-1.5 transition-colors shadow-md ${
-              added
-                ? 'bg-emerald-600 text-white'
-                : 'bg-[#0F0F0F] text-white hover:bg-neutral-800'
-            }`}
+            className="w-full py-2.5 px-3 text-[10px] font-sans font-semibold uppercase tracking-[0.16em] flex items-center justify-center gap-1.5 transition-colors shadow-md bg-black text-white hover:bg-neutral-800"
           >
             {added ? (
               <>
@@ -138,7 +174,7 @@ export default function ArtworkCard({
             ) : (
               <>
                 <ShoppingBag size={13} />
-                <span>+ Quick Add</span>
+                <span>+ Add to Cart</span>
               </>
             )}
           </button>
@@ -160,7 +196,7 @@ export default function ArtworkCard({
         {/* Product Name */}
         <Link
           href={`/products/${artwork.slug || artwork.id}`}
-          className="font-sans text-xs sm:text-sm font-medium text-neutral-900 hover:text-black leading-snug line-clamp-1 mb-1 transition-colors"
+          className="font-sans text-xs sm:text-sm font-medium text-black hover:text-neutral-700 leading-snug line-clamp-1 mb-1 transition-colors"
         >
           {artwork.name}
         </Link>
@@ -173,10 +209,10 @@ export default function ArtworkCard({
         {/* Price & Mobile Quick Add Row */}
         <div className="mt-auto pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="font-sans font-semibold text-xs sm:text-sm text-[#0F0F0F]">
+            <span className="font-sans font-semibold text-xs sm:text-sm text-black">
               {formatPrice(artwork.price)}
             </span>
-            {artwork.originalPrice && (
+            {artwork.originalPrice && artwork.originalPrice > artwork.price && (
               <span className="font-sans text-[11px] text-neutral-400 line-through">
                 {formatPrice(artwork.originalPrice)}
               </span>
@@ -190,7 +226,7 @@ export default function ArtworkCard({
             className="sm:hidden p-1.5 text-neutral-800 hover:text-black transition-colors"
             aria-label="Add to bag"
           >
-            {added ? <Check size={15} className="text-emerald-600" /> : <ShoppingBag size={15} />}
+            {added ? <Check size={15} className="text-black" /> : <ShoppingBag size={15} />}
           </button>
         </div>
       </div>

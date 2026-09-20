@@ -1,37 +1,35 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { ARTWORKS } from '@/lib/artCatalog';
 import ArtworkCard from '@/components/ArtworkCard';
-import { Sparkles, Award } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Collector Favourites & Celebrated Masterworks | ATELIER & ART HOUSE',
+  title: 'Bestsellers | ATELIER Home & Living',
   description:
-    'The most sought-after fine art paintings, lost-wax bronze sculptures, and limited-run collectible figures acquired by private patrons.',
+    'Our most popular wall art, sculptures, and limited decorative pieces for modern interiors.',
 };
 
 export default function BestSellersPage() {
-  const bestSellers = ARTWORKS.filter((a) => a.isBestseller || a.rating >= 4.9);
+  const bestSellers = ARTWORKS.filter((a) => a.isBestseller || ((a.rating ?? 0) >= 4.9));
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen py-16 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="max-w-3xl">
+    <div className="bg-white min-h-screen py-10 md:py-16 text-black">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 space-y-8 md:space-y-10">
+        <div className="max-w-2xl">
           <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Curator & Patron Selection
+            <span className="w-2 h-2 rounded-full bg-black" />
+            <span className="text-[10px] uppercase font-sans font-semibold tracking-widest text-neutral-500">
+              Popular Choices
             </span>
           </div>
-          <h1 className="font-serif text-4xl md:text-6xl text-[#11100F] font-light tracking-tight leading-tight">
-            Celebrated Masterworks
+          <h1 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl text-black tracking-tight uppercase leading-tight">
+            Bestsellers
           </h1>
-          <p className="text-xs md:text-sm text-[#555] font-sans mt-3 leading-relaxed">
-            The most acclaimed canvases, cast bronzes, and limited collectible sculptures in the Atelier permanent collection — chosen by senior curators and private patrons.
+          <p className="text-xs md:text-sm text-neutral-600 font-sans mt-2 leading-relaxed">
+            Our most popular and highest-rated wall art, sculptures, and decorative pieces designed for modern living spaces.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {bestSellers.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}

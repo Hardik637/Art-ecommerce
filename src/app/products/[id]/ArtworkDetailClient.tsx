@@ -38,6 +38,52 @@ interface ArtworkDetailClientProps {
   artwork: ArtworkProduct;
 }
 
+/**
+ * Data-backed retail badge priority:
+ * SALE (discount %) > BESTSELLER > NEW > TRENDING > FEATURED > LIMITED
+ */
+function getDetailBadge(artwork: ArtworkProduct): { text: string; style: string } | null {
+  const origPrice = artwork.originalPrice;
+  if (origPrice && origPrice > artwork.price) {
+    const discountPercent = Math.round(((origPrice - artwork.price) / origPrice) * 100);
+    return {
+      text: discountPercent > 0 ? `SALE ${discountPercent}% OFF` : 'SALE',
+      style: 'bg-black text-white font-bold',
+    };
+  }
+  if (artwork.isBestseller) {
+    return {
+      text: 'BESTSELLER',
+      style: 'bg-black text-white font-bold',
+    };
+  }
+  if (artwork.isNew) {
+    return {
+      text: 'NEW',
+      style: 'bg-neutral-900 text-white font-semibold',
+    };
+  }
+  if (artwork.isArtistFavorite) {
+    return {
+      text: 'TRENDING',
+      style: 'bg-neutral-900 text-white font-semibold',
+    };
+  }
+  if (artwork.isFeatured) {
+    return {
+      text: 'FEATURED',
+      style: 'bg-neutral-800 text-white font-semibold',
+    };
+  }
+  if (artwork.isLimitedEdition) {
+    return {
+      text: 'LIMITED',
+      style: 'bg-neutral-800 text-white font-semibold',
+    };
+  }
+  return null;
+}
+
 export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProps) {
   const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
@@ -68,37 +114,42 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
   const framePrice = artwork.frameAvailable ? selectedFrame.price : 0;
   const unitPrice = artwork.price + framePrice;
   const totalPrice = unitPrice * quantity;
+  const primaryBadge = getDetailBadge(artwork);
 
   // Handle Cart & Buy Now
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addItem({
-        productId: artwork.id,
-        slug: artwork.slug,
-        name: artwork.name,
-        artistName: artwork.artistName,
-        price: artwork.price,
-        image: currentImage,
-        medium: artwork.medium,
-        dimensions: `${artwork.dimensions.width} × ${artwork.dimensions.height} ${artwork.dimensions.unit}`,
-        frameOption: artwork.frameAvailable ? selectedFrame : undefined,
-      });
-    }
+    if (artwork.stock <= 0) return;
+    addItem({
+      productId: artwork.id,
+      slug: artwork.slug,
+      name: artwork.name,
+      artistName: artwork.artistName || '',
+      price: artwork.price,
+      image: currentImage,
+      medium: artwork.medium,
+      dimensions: `${artwork.dimensions.width} × ${artwork.dimensions.height} ${artwork.dimensions.unit}`,
+      stock: artwork.stock,
+      frameOption: artwork.frameAvailable ? selectedFrame : undefined,
+      quantity,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
 
   const handleBuyNow = () => {
+    if (artwork.stock <= 0) return;
     addItem({
       productId: artwork.id,
       slug: artwork.slug,
       name: artwork.name,
-      artistName: artwork.artistName,
+      artistName: artwork.artistName || '',
       price: artwork.price,
       image: currentImage,
       medium: artwork.medium,
       dimensions: `${artwork.dimensions.width} × ${artwork.dimensions.height} ${artwork.dimensions.unit}`,
+      stock: artwork.stock,
       frameOption: artwork.frameAvailable ? selectedFrame : undefined,
+      quantity: 1,
     });
     router.push('/checkout');
   };
@@ -112,7 +163,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
   const reviews = SAMPLE_REVIEWS.filter((r) => r.productId === artwork.id);
 
   return (
-    <div className="bg-[#FAFAF9] min-h-screen text-[#0F0F0F]">
+    <div className="bg-white min-h-screen text-black">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 md:py-10">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs font-sans text-neutral-500 mb-6 uppercase tracking-wider">
@@ -185,18 +236,18 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             <div className="flex flex-wrap gap-3 pt-2">
               <button
                 onClick={() => setRoomModalOpen(true)}
-                className="flex-1 min-w-[180px] bg-white border border-neutral-300 hover:border-black py-3 px-4 text-xs font-sans font-semibold uppercase tracking-wider text-neutral-900 flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 min-w-[180px] bg-white border border-neutral-300 hover:border-black py-3 px-4 text-xs font-sans font-semibold uppercase tracking-wider text-black flex items-center justify-center gap-2 transition-colors"
               >
-                <Maximize2 size={14} className="text-[#B08A4A]" />
+                <Maximize2 size={14} className="text-black" />
                 <span>View In Room</span>
               </button>
 
-              {(artwork.category === 'sculptures' || artwork.category === 'figures') && (
+              {artwork.category === 'sculptures' && (
                 <button
                   onClick={() => setFigureViewerOpen(true)}
-                  className="flex-1 min-w-[180px] bg-[#0F0F0F] text-white hover:bg-neutral-800 py-3 px-4 text-xs font-sans font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+                  className="flex-1 min-w-[180px] bg-black text-white hover:bg-neutral-800 py-3 px-4 text-xs font-sans font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
                 >
-                  <RotateCw size={14} className="text-[#B08A4A]" />
+                  <RotateCw size={14} className="text-white" />
                   <span>360° Angle Viewer</span>
                 </button>
               )}
@@ -208,7 +259,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             {/* Header info */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase">
+                <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase">
                   {getCategoryLabel(artwork.category)}
                 </span>
                 <span className="text-[10px] font-sans text-neutral-400 uppercase">
@@ -216,7 +267,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 </span>
               </div>
 
-              <h1 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#0F0F0F] tracking-tight leading-tight uppercase mb-2">
+              <h1 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight leading-tight uppercase mb-2">
                 {artwork.name}
               </h1>
 
@@ -226,18 +277,21 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
 
               {/* Status Badges */}
               <div className="flex flex-wrap gap-2 mb-4">
-                {artwork.isOneOfOne && (
-                  <span className="bg-[#0F0F0F] text-white text-[9px] font-sans font-bold tracking-wider px-2.5 py-1 uppercase">
-                    1/1 Original Work
+                {primaryBadge && (
+                  <span
+                    className={`${primaryBadge.style} text-[9px] font-sans tracking-wider px-2.5 py-1 uppercase`}
+                  >
+                    {primaryBadge.text}
                   </span>
                 )}
-                {artwork.isLimitedEdition && !artwork.isOneOfOne && (
-                  <span className="bg-neutral-800 text-white text-[9px] font-sans font-bold tracking-wider px-2.5 py-1 uppercase">
-                    Edition of {artwork.editionSize || 50}
-                  </span>
-                )}
-                <span className="bg-neutral-100 border border-neutral-200 text-neutral-800 text-[9px] font-sans font-semibold tracking-wider px-2.5 py-1 uppercase">
-                  {artwork.stock > 0 ? 'In Stock • Ready to Dispatch' : 'Made to Order'}
+                <span
+                  className={`text-[9px] font-sans font-bold tracking-wider px-2.5 py-1 uppercase ${
+                    artwork.stock > 0
+                      ? 'bg-neutral-100 border border-neutral-300 text-black'
+                      : 'bg-neutral-200 border border-neutral-300 text-neutral-600'
+                  }`}
+                >
+                  {artwork.stock > 0 ? 'In Stock • Ready to Dispatch' : 'SOLD OUT'}
                 </span>
               </div>
             </div>
@@ -246,10 +300,10 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             <div className="p-5 bg-white border border-neutral-200 space-y-2">
               <div className="flex items-baseline justify-between">
                 <div className="flex items-baseline gap-2.5">
-                  <span className="font-sans font-extrabold text-2xl sm:text-3xl text-[#0F0F0F]">
+                  <span className="font-sans font-extrabold text-2xl sm:text-3xl text-black">
                     {formatPrice(totalPrice)}
                   </span>
-                  {artwork.originalPrice && (
+                  {artwork.originalPrice && artwork.originalPrice > artwork.price && (
                     <span className="font-sans text-xs sm:text-sm text-neutral-400 line-through">
                       {formatPrice((artwork.originalPrice + framePrice) * quantity)}
                     </span>
@@ -262,12 +316,12 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
 
               <div className="pt-2 border-t border-neutral-100 space-y-1 text-xs font-sans text-neutral-600">
                 <p className="flex items-center gap-2">
-                  <Truck size={14} className="text-[#B08A4A]" />
-                  <span>Complimentary insured white-glove transit across India</span>
+                  <Truck size={14} className="text-black" />
+                  <span>Complimentary insured shipping across India</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <RotateCcw size={14} className="text-[#B08A4A]" />
-                  <span>7-Day In-Home Trial with complimentary return pickup</span>
+                  <RotateCcw size={14} className="text-black" />
+                  <span>7-Day Return &amp; Exchange Guarantee</span>
                 </p>
               </div>
             </div>
@@ -276,12 +330,12 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             {artwork.frameAvailable && (
               <div className="space-y-2.5">
                 <div className="flex justify-between items-end">
-                  <label className="text-xs font-sans font-bold tracking-wider text-neutral-900 uppercase">
+                  <label className="text-xs font-sans font-bold tracking-wider text-black uppercase">
                     Select Framing Option
                   </label>
                   <Link
                     href="/size-guide"
-                    className="text-[11px] font-sans text-[#B08A4A] hover:underline"
+                    className="text-[11px] font-sans text-black hover:underline"
                   >
                     Framing Guide
                   </Link>
@@ -299,10 +353,10 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                       }`}
                     >
                       <div>
-                        <span className="font-bold text-neutral-900 block">{frame.name}</span>
+                        <span className="font-bold text-black block">{frame.name}</span>
                         <span className="text-[11px] text-neutral-500">{frame.description}</span>
                       </div>
-                      <span className="font-bold text-neutral-900 ml-4 flex-shrink-0">
+                      <span className="font-bold text-black ml-4 flex-shrink-0">
                         {frame.price === 0 ? 'Included' : `+${formatPrice(frame.price)}`}
                       </span>
                     </button>
@@ -318,94 +372,101 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 <div className="flex items-center border border-neutral-300 bg-white h-12">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    disabled={quantity <= 1}
+                    disabled={quantity <= 1 || artwork.stock <= 0}
                     className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30"
                     aria-label="Decrease quantity"
                   >
                     <Minus size={13} />
                   </button>
-                  <span className="px-3 text-xs font-sans font-bold text-neutral-900 min-w-8 text-center">
-                    {quantity}
+                  <span className="px-3 text-xs font-sans font-bold text-black min-w-8 text-center">
+                    {artwork.stock <= 0 ? 0 : quantity}
                   </span>
                   <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="px-3 h-full hover:bg-neutral-100 transition-colors"
+                    onClick={() => setQuantity((q) => Math.min(artwork.stock, q + 1))}
+                    disabled={quantity >= artwork.stock || artwork.stock <= 0}
+                    className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30"
                     aria-label="Increase quantity"
                   >
                     <Plus size={13} />
                   </button>
                 </div>
 
-                {/* Add To Bag CTA */}
-                <button
-                  onClick={handleAddToCart}
-                  disabled={added || artwork.stock <= 0}
-                  className={`flex-1 h-12 px-6 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors shadow-xs ${
-                    added
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#0F0F0F] hover:bg-neutral-800 text-white'
-                  }`}
-                >
-                  {added ? (
-                    <>
-                      <Check size={16} />
-                      <span>Added to Bag</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag size={16} />
-                      <span>Add to Bag</span>
-                    </>
-                  )}
-                </button>
+                {/* Add To Cart CTA - NEVER opens drawer, gives toast feedback */}
+                {artwork.stock <= 0 ? (
+                  <button
+                    disabled
+                    className="flex-1 h-12 px-6 font-sans text-xs font-bold uppercase tracking-widest bg-neutral-200 text-neutral-500 cursor-not-allowed flex items-center justify-center"
+                  >
+                    SOLD OUT
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={added}
+                    className="flex-1 h-12 px-6 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors shadow-xs bg-black hover:bg-neutral-800 text-white"
+                  >
+                    {added ? (
+                      <>
+                        <Check size={16} />
+                        <span>Added to Cart</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag size={16} />
+                        <span>Add to Cart</span>
+                      </>
+                    )}
+                  </button>
+                )}
 
                 {/* Wishlist Button */}
                 <button
                   onClick={() => toggleWishlist(artwork)}
-                  className="w-12 h-12 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-neutral-900 transition-colors"
+                  className="w-12 h-12 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-black transition-colors"
                   aria-label="Wishlist"
                 >
                   <Heart
                     size={20}
-                    fill={isInWishlist ? '#0F0F0F' : 'none'}
-                    className={isInWishlist ? 'text-[#0F0F0F]' : 'text-neutral-500'}
+                    fill={isInWishlist ? '#000000' : 'none'}
+                    className={isInWishlist ? 'text-black' : 'text-neutral-500'}
                   />
                 </button>
               </div>
 
-              {/* Buy Now Direct Button */}
-              <button
-                onClick={handleBuyNow}
-                disabled={artwork.stock <= 0}
-                className="w-full bg-[#B08A4A] hover:bg-[#96743B] text-black h-12 px-6 font-sans text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-xs"
-              >
-                <span>Buy Now</span>
-                <ArrowRight size={14} />
-              </button>
+              {/* Buy Now Direct Button: High-Contrast Secondary Border Treatment */}
+              {artwork.stock > 0 && (
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full border-2 border-black bg-white hover:bg-black hover:text-white text-black h-12 px-6 font-sans text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-xs"
+                >
+                  <span>Buy Now</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
             </div>
 
-            {/* Authenticity Certificate Box */}
+            {/* Authenticity Guarantee Box */}
             <div className="bg-white p-4 border border-neutral-200 flex items-start gap-3">
-              <ShieldCheck size={20} className="text-[#B08A4A] flex-shrink-0 mt-0.5" />
+              <ShieldCheck size={20} className="text-black flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-xs font-sans font-bold text-neutral-900 uppercase tracking-wider mb-0.5">
-                  Signed Authenticity Guaranteed
+                <p className="text-xs font-sans font-bold text-black uppercase tracking-wider mb-0.5">
+                  Authenticity Guaranteed
                 </p>
                 <p className="text-[11px] font-sans text-neutral-500 leading-relaxed">
-                  Every acquisition includes an embossed Certificate of Authenticity individually signed and numbered.
+                  Every product is crafted with premium materials and comes with a certificate of authenticity.
                 </p>
               </div>
             </div>
 
             {/* ── 3 CLEAN RETAIL ACCORDIONS ─────────────────────────── */}
-            <div className="pt-2 border-t border-neutral-200 divide-y divide-neutral-200">
+            <div className="pt-2 border-t border-neutral-200 divide-y border-neutral-200">
               {/* Accordion 1: Description */}
               <div className="py-3.5">
                 <button
                   onClick={() => toggleAccordion('description')}
-                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-neutral-900"
+                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-black"
                 >
-                  <span>Description &amp; Story</span>
+                  <span>Description &amp; Details</span>
                   <ChevronDown
                     size={14}
                     className={`transition-transform ${openAccordions.description ? 'rotate-180' : ''}`}
@@ -415,8 +476,8 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   <div className="pt-3 space-y-2.5 text-xs font-sans text-neutral-700 leading-relaxed">
                     <p>{artwork.description}</p>
                     {artwork.story && (
-                      <div className="bg-neutral-100 p-3 border-l-2 border-[#B08A4A] text-neutral-600 italic">
-                        &ldquo;{artwork.story}&rdquo;
+                      <div className="bg-neutral-100 p-3 border-l-2 border-black text-neutral-600">
+                        {artwork.story}
                       </div>
                     )}
                   </div>
@@ -427,7 +488,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
               <div className="py-3.5">
                 <button
                   onClick={() => toggleAccordion('dimensions')}
-                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-neutral-900"
+                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-black"
                 >
                   <span>Dimensions &amp; Materials</span>
                   <ChevronDown
@@ -438,20 +499,20 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 {openAccordions.dimensions && (
                   <div className="pt-3 space-y-2 text-xs font-sans text-neutral-600">
                     <p>
-                      <strong className="text-neutral-900">Medium:</strong> {artwork.medium}
+                      <strong className="text-black">Medium:</strong> {artwork.medium}
                     </p>
                     <p>
-                      <strong className="text-neutral-900">Base / Substrate:</strong> {artwork.material}
+                      <strong className="text-black">Base / Substrate:</strong> {artwork.material}
                     </p>
                     <p>
-                      <strong className="text-neutral-900">Exact Dimensions:</strong> {artwork.dimensions.width} ×{' '}
+                      <strong className="text-black">Exact Dimensions:</strong> {artwork.dimensions.width} ×{' '}
                       {artwork.dimensions.height} {artwork.dimensions.depth ? `× ${artwork.dimensions.depth}` : ''}{' '}
                       {artwork.dimensions.unit} ({Math.round(artwork.dimensions.width / 2.54)} ×{' '}
                       {Math.round(artwork.dimensions.height / 2.54)} in)
                     </p>
                     {artwork.weight && (
                       <p>
-                        <strong className="text-neutral-900">Weight:</strong> {artwork.weight}
+                        <strong className="text-black">Weight:</strong> {artwork.weight}
                       </p>
                     )}
                     <div className="mt-2 p-2.5 bg-neutral-100 text-[11px] text-neutral-700">
@@ -465,7 +526,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
               <div className="py-3.5">
                 <button
                   onClick={() => toggleAccordion('shipping')}
-                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-neutral-900"
+                  className="w-full flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-black"
                 >
                   <span>Shipping &amp; 7-Day Returns</span>
                   <ChevronDown
@@ -476,13 +537,13 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 {openAccordions.shipping && (
                   <div className="pt-3 space-y-2 text-xs font-sans text-neutral-600 leading-relaxed">
                     <p>
-                      <strong className="text-neutral-900">Packaging:</strong> Reinforced wooden crate with moisture-barrier wrapping and corner guards.
+                      <strong className="text-black">Packaging:</strong> Reinforced wooden crate with moisture-barrier wrapping and corner guards.
                     </p>
                     <p>
-                      <strong className="text-neutral-900">Transit:</strong> Complimentary insured delivery across India within 4–7 business days.
+                      <strong className="text-black">Transit:</strong> Complimentary insured delivery across India within 4–7 business days.
                     </p>
                     <p>
-                      <strong className="text-neutral-900">7-Day In-Home Trial:</strong> Live with the piece in your home. If it doesn&apos;t fit your space, we organize return pickup with full refund.
+                      <strong className="text-black">7-Day In-Home Trial:</strong> Live with the piece in your home. If it doesn&apos;t fit your space, we organize return pickup with full refund.
                     </p>
                   </div>
                 )}
@@ -495,21 +556,21 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
         <section className="mt-16 md:mt-24 pt-12 border-t border-neutral-200">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-3">
             <div>
-              <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
-                Verified Acquisitions
+              <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+                Verified Purchases
               </span>
-              <h2 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#0F0F0F] tracking-tight uppercase">
+              <h2 className="font-sans font-extrabold text-2xl sm:text-3xl text-black tracking-tight uppercase">
                 Customer Reviews
               </h2>
             </div>
 
             <div className="flex items-center gap-2 text-xs font-sans">
-              <div className="flex text-[#B08A4A]">
+              <div className="flex text-black">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} fill="#B08A4A" />
+                  <Star key={i} size={14} fill="#000000" />
                 ))}
               </div>
-              <span className="font-bold text-neutral-900">5.0 / 5.0</span>
+              <span className="font-bold text-black">5.0 / 5.0</span>
               <span className="text-neutral-500">• Verified Purchases</span>
             </div>
           </div>
@@ -522,15 +583,15 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   className="p-5 bg-white border border-neutral-200 space-y-2.5"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex text-[#B08A4A]">
+                    <div className="flex text-black">
                       {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} size={13} fill="#B08A4A" />
+                        <Star key={i} size={13} fill="#000000" />
                       ))}
                     </div>
                     <span className="text-[11px] text-neutral-400">{rev.date}</span>
                   </div>
 
-                  <h4 className="font-sans font-bold text-sm text-neutral-900">
+                  <h4 className="font-sans font-bold text-sm text-black">
                     {rev.title}
                   </h4>
 
@@ -541,7 +602,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   <div className="pt-2 flex items-center justify-between text-[11px] text-neutral-500 border-t border-neutral-100">
                     <span className="font-semibold text-neutral-800">{rev.customerName}</span>
                     {rev.verifiedPurchase && (
-                      <span className="text-emerald-700 flex items-center gap-1 font-medium">
+                      <span className="text-black flex items-center gap-1 font-medium">
                         <Check size={12} />
                         <span>Verified Buyer</span>
                       </span>
@@ -552,7 +613,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             </div>
           ) : (
             <div className="p-8 bg-white border border-neutral-200 text-center max-w-md mx-auto">
-              <p className="font-sans font-bold text-base text-neutral-900 mb-1 uppercase">
+              <p className="font-sans font-bold text-base text-black mb-1 uppercase">
                 Be the first to bring this piece home
               </p>
               <p className="text-xs font-sans text-neutral-500">
@@ -567,16 +628,16 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
           <section className="mt-16 md:mt-24 pt-12 border-t border-neutral-200">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
+                <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
                   You May Also Like
                 </span>
-                <h3 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#0F0F0F] tracking-tight uppercase">
+                <h3 className="font-sans font-extrabold text-2xl sm:text-3xl text-black tracking-tight uppercase">
                   Related Products
                 </h3>
               </div>
               <Link
                 href="/products"
-                className="text-xs font-sans font-bold text-neutral-900 hover:text-black uppercase tracking-wider"
+                className="text-xs font-sans font-bold text-black hover:text-neutral-700 uppercase tracking-wider"
               >
                 View Catalog →
               </Link>

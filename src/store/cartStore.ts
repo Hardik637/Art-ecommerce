@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SITE_CONFIG } from '@/config/site';
+import { calculateShipping } from '@/lib/shipping';
 
 export interface CartItem {
   id: string; // Unique composite key: `${productId}-${frameId || 'unframed'}`
@@ -12,6 +12,7 @@ export interface CartItem {
   image: string;
   medium: string;
   dimensions: string;
+  stock?: number;
   frameOption?: {
     id: string;
     name: string;
@@ -20,13 +21,24 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface CartToastInfo {
+  visible: boolean;
+  message: string;
+  productName?: string;
+  productImage?: string;
+  price?: number;
+}
+
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
+  toast: CartToastInfo | null;
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (item: Omit<CartItem, 'quantity' | 'id'> & { id?: string }) => void;
+  showToast: (toast: Omit<CartToastInfo, 'visible'>) => void;
+  hideToast: () => void;
+  addItem: (item: Omit<CartItem, 'quantity' | 'id'> & { id?: string; quantity?: number }) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -42,36 +54,58 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
       isOpen: false,
+      toast: null,
 
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
       toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
 
+      showToast: (toastData) =>
+        set({
+          toast: {
+            ...toastData,
+            visible: true,
+          },
+        }),
+
+      hideToast: () =>
+        set((state) => ({
+          toast: state.toast ? { ...state.toast, visible: false } : null,
+        })),
+
       addItem: (newItem) =>
         set((state) => {
           const frameId = newItem.frameOption?.id || 'unframed';
           const compositeId = newItem.id || `${newItem.productId}-${frameId}`;
+          const maxStock = newItem.stock ?? 99;
 
           const existingItem = state.items.find((i) => i.id === compositeId);
 
+          let updatedItems: CartItem[];
           if (existingItem) {
-            return {
-              items: state.items.map((i) =>
-                i.id === compositeId ? { ...i, quantity: i.quantity + 1 } : i
-              ),
-              isOpen: true,
+            const newQuantity = Math.min(maxStock, existingItem.quantity + (newItem.quantity || 1));
+            updatedItems = state.items.map((i) =>
+              i.id === compositeId ? { ...i, quantity: newQuantity } : i
+            );
+          } else {
+            const cartItem: CartItem = {
+              ...newItem,
+              id: compositeId,
+              quantity: Math.min(maxStock, Math.max(1, newItem.quantity || 1)),
             };
+            updatedItems = [...state.items, cartItem];
           }
 
-          const cartItem: CartItem = {
-            ...newItem,
-            id: compositeId,
-            quantity: 1,
-          };
-
           return {
-            items: [...state.items, cartItem],
-            isOpen: true,
+            items: updatedItems,
+            isOpen: false, // Add to cart NEVER opens cart drawer
+            toast: {
+              visible: true,
+              message: 'Added to cart',
+              productName: newItem.name,
+              productImage: newItem.image,
+              price: newItem.price + (newItem.frameOption?.price || 0),
+            },
           };
         }),
 
@@ -83,7 +117,12 @@ export const useCartStore = create<CartState>()(
       updateQuantity: (id, quantity) =>
         set((state) => ({
           items: state.items
-            .map((i) => (i.id === id ? { ...i, quantity: Math.max(0, quantity) } : i))
+            .map((i) => {
+              if (i.id !== id) return i;
+              const maxStock = i.stock ?? 99;
+              const safeQty = Math.min(maxStock, Math.max(0, quantity));
+              return { ...i, quantity: safeQty };
+            })
             .filter((i) => i.quantity > 0),
         })),
 
@@ -102,8 +141,7 @@ export const useCartStore = create<CartState>()(
 
       getShipping: () => {
         const subtotal = get().getSubtotal() + get().getFramingTotal();
-        if (subtotal === 0) return 0;
-        return subtotal >= SITE_CONFIG.freeShippingThreshold ? 0 : 499;
+        return calculateShipping(subtotal);
       },
 
       getTotal: () => {
@@ -116,6 +154,8 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'atelier-art-cart-storage',
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );
+

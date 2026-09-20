@@ -2,33 +2,35 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ProductsClient from './ProductsClient';
 import { SITE_CONFIG } from '@/config/site';
+import { getAllProducts } from '@/lib/products';
 
 export const metadata: Metadata = {
-  title: 'Art Catalog & Acquisitions',
+  title: 'All Art & Home Décor Products',
   description:
-    'Browse original paintings, lost-wax bronze sculptures, collectible designer figures, and fine art prints. Curated Indian contemporary masterworks.',
+    'Browse original paintings, sculptures, and decorative pieces curated for modern spaces. Nationwide delivery with authenticity guarantee.',
   keywords: [
     'buy art online India',
     'paintings catalog',
     'sculptures catalog',
-    'collectible figures',
-    'one of one art',
-    'fine art prints India',
+    'decorative pieces',
+    'modern wall art',
   ],
   alternates: {
     canonical: `${SITE_CONFIG.url}/products`,
   },
   openGraph: {
-    title: 'Art Catalog & Acquisitions | Atelier & Art House',
+    title: 'All Art & Home Décor Products | Zorodoor Art',
     description:
-      'Curated catalog of original paintings, bronze sculptures, designer figures, and limited editions.',
+      'Curated catalog of wall art, sculptures, and decorative pieces for modern interiors.',
     url: `${SITE_CONFIG.url}/products`,
   },
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getAllProducts();
+
   return (
-    <div className="bg-[#F4EFE7] min-h-screen">
+    <div className="bg-[#FAFAF9] min-h-screen">
       <Suspense
         fallback={
           <div className="min-h-[60vh] flex items-center justify-center">
@@ -36,7 +38,7 @@ export default function ProductsPage() {
           </div>
         }
       >
-        <ProductsClient />
+        <ProductsClient initialProducts={products} />
       </Suspense>
     </div>
   );

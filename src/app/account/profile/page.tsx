@@ -3,32 +3,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Check, AlertCircle, ShieldCheck } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
 
 type Toast = { message: string; type: 'success' | 'error' };
 
 export default function ProfilePage() {
-  const router = useRouter();
   const supabase = createClient();
   const avatarRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
-  const [fullName, setFullName] = useState('Vikram Sethi');
-  const [phone, setPhone] = useState('+91 98101 23456');
-  const [email, setEmail] = useState('vikram.sethi@example.com');
-  const [collectorTitle, setCollectorTitle] = useState('Founding Patron & Fine Art Collector');
+  const [fullName, setFullName] = useState('Rahul Sharma');
+  const [phone, setPhone] = useState('+91 98765 43210');
+  const [email, setEmail] = useState('user@example.com');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
-  const displayInitial = (fullName.trim() || email || 'C').charAt(0).toUpperCase();
+  const displayInitial = (fullName.trim() || email || 'U').charAt(0).toUpperCase();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) {
         setEmail(user.email || '');
-        setFullName(user.user_metadata?.full_name || 'Vikram Sethi');
-        setPhone(user.user_metadata?.phone || '+91 98101 23456');
+        setFullName(user.user_metadata?.full_name || 'Rahul Sharma');
+        setPhone(user.user_metadata?.phone || '+91 98765 43210');
         setAvatarUrl(user.user_metadata?.avatar_url || null);
       }
       setLoading(false);
@@ -52,10 +49,10 @@ export default function ProfilePage() {
       if (error) {
         showToast(error.message, 'error');
       } else {
-        showToast('Collector profile updated successfully', 'success');
+        showToast('Profile updated successfully', 'success');
       }
     } catch {
-      showToast('Profile updated locally for demo', 'success');
+      showToast('Profile updated locally', 'success');
     } finally {
       setSaving(false);
     }
@@ -102,59 +99,59 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="w-8 h-8 border-2 border-[#B08A4A] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="text-black">
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl text-xs font-sans font-medium ${
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-lg shadow-xl text-xs font-semibold ${
             toast.type === 'success'
-              ? 'bg-[#11100F] text-[#F4EFE7] border border-[#B08A4A]'
-              : 'bg-[#FEE2E2] text-[#DC2626] border border-[#DC2626]/20'
+              ? 'bg-black text-white'
+              : 'bg-red-50 text-red-600 border border-red-200'
           }`}
         >
-          {toast.type === 'success' ? <Check size={15} className="text-[#B08A4A]" /> : <AlertCircle size={15} />}
+          {toast.type === 'success' ? <Check size={14} className="text-white" /> : <AlertCircle size={14} />}
           {toast.message}
         </div>
       )}
 
       <div className="mb-6">
-        <h1 className="font-serif text-2xl md:text-3xl font-light text-[#11100F]">
-          Collector Profile & Credentials
+        <h1 className="text-xl md:text-2xl font-bold text-black">
+          Profile Details
         </h1>
-        <p className="text-xs text-[#777] font-sans mt-1">
-          Manage your verified collector identity for provenance certificates and white-glove delivery manifests.
+        <p className="text-xs text-neutral-500 mt-1">
+          Manage your personal details, email, and shipping contact number.
         </p>
       </div>
 
       {/* Avatar card */}
-      <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 mb-6 shadow-sm">
-        <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-4">
-          Collector Seal & Portrait
+      <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 mb-6">
+        <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block mb-4 font-semibold">
+          Profile Picture
         </span>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-5">
           <div className="relative group shrink-0">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
                 alt="Avatar"
-                className="w-20 h-20 rounded-full object-cover border-2 border-[#B08A4A]/50"
+                className="w-16 h-16 rounded-full object-cover border border-neutral-300"
               />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-[#11100F] border-2 border-[#B08A4A]/50 flex items-center justify-center text-[#B08A4A] font-serif text-2xl">
+              <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center font-bold text-xl">
                 {displayInitial}
               </div>
             )}
             <button
               type="button"
               onClick={() => avatarRef.current?.click()}
-              className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+              className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
             >
-              <Camera size={20} className="text-white" />
+              <Camera size={18} className="text-white" />
             </button>
             <input
               ref={avatarRef}
@@ -165,89 +162,76 @@ export default function ProfilePage() {
             />
           </div>
           <div>
-            <p className="font-serif text-xl text-[#11100F] font-medium">{fullName || 'Collector'}</p>
-            <p className="text-xs text-[#777] font-mono mt-0.5">{email}</p>
+            <p className="text-base font-bold text-black">{fullName || 'Customer'}</p>
+            <p className="text-xs text-neutral-500 font-mono mt-0.5">{email}</p>
             <button
               type="button"
               onClick={() => avatarRef.current?.click()}
-              className="mt-3 text-xs uppercase tracking-wider font-sans font-medium text-[#11100F] border border-[#E4DBCF] hover:border-[#B08A4A] px-4 py-2 rounded-xl transition-colors bg-white/60"
+              className="mt-2 text-xs uppercase tracking-wider font-semibold text-black border border-neutral-300 hover:border-black px-3 py-1.5 rounded-lg transition-colors bg-white cursor-pointer"
             >
-              Upload Portrait
+              Change Photo
             </button>
           </div>
         </div>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSave} className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm">
-        <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-5">
-          Provenance Identity Particulars
+      <form onSubmit={handleSave} className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
+        <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block mb-4 font-semibold">
+          Personal Information
         </span>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Patron Full Name
+            <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+              Full Name
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="e.g. Vikram Sethi"
-              className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-sm outline-none focus:border-[#B08A4A] transition-colors"
+              placeholder="e.g. Rahul Sharma"
+              className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Patron Honorific / Collector Title
-            </label>
-            <input
-              type="text"
-              value={collectorTitle}
-              onChange={(e) => setCollectorTitle(e.target.value)}
-              placeholder="e.g. Founding Patron & Fine Art Collector"
-              className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-sm outline-none focus:border-[#B08A4A] transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Registered Email Address
+            <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+              Email Address
             </label>
             <input
               type="email"
               value={email}
               readOnly
-              className="w-full bg-[#EFE9DF]/50 border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-sm text-[#777] cursor-not-allowed"
+              className="w-full bg-neutral-100 border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs text-neutral-500 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Secure Delivery Phone (For Transit Security)
+            <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+              Phone Number (For Delivery Updates)
             </label>
             <input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="+91 98101 23456"
-              className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-sm outline-none focus:border-[#B08A4A] transition-colors"
+              placeholder="+91 98765 43210"
+              className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
             />
           </div>
         </div>
 
-        <div className="border-t border-[#E4DBCF] mt-6 pt-5 flex items-center justify-between gap-4">
-          <p className="text-[11px] text-[#888] font-mono flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-[#B08A4A]" />
-            Archived securely under Atelier Data Vault
+        <div className="border-t border-neutral-200 mt-6 pt-4 flex items-center justify-between gap-4">
+          <p className="text-[11px] text-neutral-500 font-mono flex items-center gap-1.5">
+            <ShieldCheck size={14} className="text-black" />
+            Stored securely
           </p>
           <button
             type="submit"
             disabled={saving}
-            className="bg-[#11100F] text-[#F4EFE7] hover:bg-[#B08A4A] transition-colors text-xs uppercase tracking-widest font-sans font-medium px-6 py-3 rounded-xl disabled:opacity-60 flex items-center gap-2"
+            className="bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-semibold px-5 py-2.5 rounded-lg disabled:opacity-60 flex items-center gap-2 cursor-pointer"
           >
-            {saving ? 'Saving...' : 'Save Particulars'}
+            {saving ? 'Saving...' : 'Save Profile'}
           </button>
         </div>
       </form>

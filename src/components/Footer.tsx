@@ -26,9 +26,9 @@ export default function Footer() {
               Curated original wall art, sculptures, and decorative pieces designed for modern living spaces. Delivered pan-India with white-glove assurance.
             </p>
             <div className="space-y-1 text-xs text-neutral-400 font-sans">
-              <p>{SITE_CONFIG.contact.address}</p>
-              <p>{SITE_CONFIG.contact.phone}</p>
-              <p className="text-[#B08A4A]">{SITE_CONFIG.contact.email}</p>
+              <p>{SITE_CONFIG.contact.coverage}</p>
+              <p>{SITE_CONFIG.contact.supportHours}</p>
+              <p className="text-neutral-300 hover:text-white transition-colors">{SITE_CONFIG.contact.email}</p>
             </div>
           </div>
 

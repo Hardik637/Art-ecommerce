@@ -5,15 +5,83 @@ import { ARTWORKS, formatPrice } from '@/lib/artCatalog';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Trash2, ArrowRight, ShieldCheck, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, getSubtotal, getFramingTotal, getShipping, getTotal, getItemCount } = useCartStore();
+  const {
+    items,
+    isOpen,
+    closeCart,
+    removeItem,
+    updateQuantity,
+    getSubtotal,
+    getFramingTotal,
+    getShipping,
+    getTotal,
+    getItemCount,
+  } = useCartStore();
+
   const [mounted, setMounted] = useState(false);
+  const isPushedRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleDismiss = useCallback(() => {
+    if (isPushedRef.current) {
+      isPushedRef.current = false;
+      // Pops the history state and triggers popstate listener to close drawer
+      window.history.back();
+    } else {
+      closeCart();
+    }
+  }, [closeCart]);
+
+  const handleNavigate = useCallback(() => {
+    if (isPushedRef.current) {
+      isPushedRef.current = false;
+      window.history.replaceState({ ...window.history.state, cartDrawerOpen: false }, '');
+    }
+    closeCart();
+  }, [closeCart]);
+
+  // Controlled Browser History Handling for Back Button
+  useEffect(() => {
+    if (isOpen) {
+      if (!isPushedRef.current) {
+        window.history.pushState({ ...window.history.state, cartDrawerOpen: true }, '');
+        isPushedRef.current = true;
+      }
+
+      const handlePopState = () => {
+        // Browser Back or Android back gesture was triggered
+        // Browser already popped the state; close the drawer without calling history.back()
+        isPushedRef.current = false;
+        closeCart();
+      };
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          handleDismiss();
+        }
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      window.addEventListener('keydown', handleKeyDown);
+
+      // Prevent background scroll
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+        window.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = '';
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isOpen, closeCart, handleDismiss]);
 
   if (!mounted) return null;
   if (!isOpen) return null;
@@ -24,7 +92,7 @@ export default function CartDrawer() {
   const total = getTotal();
   const count = getItemCount();
 
-  // Recommendations: 2 products not in cart
+  // Recommendations: 2 products not currently in cart
   const recommendations = ARTWORKS.filter(
     (art) => !items.some((i) => i.productId === art.id)
   ).slice(0, 2);
@@ -33,8 +101,8 @@ export default function CartDrawer() {
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div
-        onClick={closeCart}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+        onClick={handleDismiss}
+        className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
@@ -42,12 +110,12 @@ export default function CartDrawer() {
           {/* Drawer Header */}
           <div className="p-5 border-b border-neutral-200 bg-white flex items-center justify-between">
             <div>
-              <h2 className="font-sans font-bold text-lg text-[#0F0F0F] tracking-tight uppercase">
-                Shopping Bag <span className="text-sm font-normal text-neutral-500">({count})</span>
+              <h2 className="font-sans font-bold text-base sm:text-lg text-black tracking-tight uppercase">
+                Shopping Bag <span className="text-xs sm:text-sm font-normal text-neutral-500">({count})</span>
               </h2>
             </div>
             <button
-              onClick={closeCart}
+              onClick={handleDismiss}
               className="p-1.5 text-neutral-500 hover:text-black hover:bg-neutral-100 rounded-full transition-colors"
               aria-label="Close cart"
             >
@@ -58,13 +126,13 @@ export default function CartDrawer() {
           {/* Free Shipping Progress bar */}
           <div className="bg-neutral-50 px-5 py-2.5 border-b border-neutral-200">
             {subtotal >= 999 ? (
-              <p className="text-xs font-sans text-neutral-900 flex items-center gap-1.5 font-medium">
-                <ShieldCheck size={15} className="text-[#B08A4A]" />
+              <p className="text-xs font-sans text-black flex items-center gap-1.5 font-medium">
+                <ShieldCheck size={15} className="text-black" />
                 <span>Complimentary white-glove shipping applied</span>
               </p>
             ) : (
               <p className="text-xs font-sans text-neutral-600">
-                Add <span className="font-bold text-neutral-900">{formatPrice(999 - subtotal)}</span> more for free delivery
+                Add <span className="font-bold text-black">{formatPrice(999 - subtotal)}</span> more for free delivery
               </p>
             )}
           </div>
@@ -76,7 +144,7 @@ export default function CartDrawer() {
                 <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400">
                   <ShoppingBag size={24} />
                 </div>
-                <h3 className="font-sans font-bold text-base text-neutral-900 mb-1 uppercase">
+                <h3 className="font-sans font-bold text-base text-black mb-1 uppercase">
                   Your bag is empty
                 </h3>
                 <p className="text-xs text-neutral-500 max-w-xs mx-auto mb-6">
@@ -84,8 +152,8 @@ export default function CartDrawer() {
                 </p>
                 <Link
                   href="/products"
-                  onClick={closeCart}
-                  className="inline-block bg-[#0F0F0F] text-white text-xs font-sans font-bold uppercase tracking-widest px-6 py-3 hover:bg-neutral-800 transition-colors"
+                  onClick={handleNavigate}
+                  className="inline-block bg-black text-white text-xs font-sans font-bold uppercase tracking-widest px-6 py-3 hover:bg-neutral-800 transition-colors"
                 >
                   Shop Products
                 </Link>
@@ -110,16 +178,16 @@ export default function CartDrawer() {
                   <div className="flex-1 min-w-0 flex flex-col">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-sans font-semibold text-xs sm:text-sm text-neutral-900 leading-snug truncate">
+                        <h4 className="font-sans font-semibold text-xs sm:text-sm text-black leading-snug truncate">
                           {item.name}
                         </h4>
-                        <p className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider mt-0.5">
+                        <p className="text-[10px] font-sans text-neutral-500 uppercase tracking-wider mt-0.5">
                           {item.artistName}
                         </p>
                       </div>
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="text-neutral-400 hover:text-red-600 transition-colors ml-2"
+                        className="text-neutral-400 hover:text-black transition-colors ml-2"
                         title="Remove item"
                       >
                         <Trash2 size={15} />
@@ -132,7 +200,7 @@ export default function CartDrawer() {
 
                     <div className="mt-auto pt-2 flex items-center justify-between">
                       {/* Quantity stepper */}
-                      <div className="flex items-center border border-neutral-200 bg-neutral-50">
+                      <div className="flex items-center border border-neutral-300 bg-neutral-50">
                         <button
                           onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                           className="p-1 hover:bg-neutral-200 transition-colors text-neutral-700"
@@ -140,7 +208,7 @@ export default function CartDrawer() {
                         >
                           <Minus size={12} />
                         </button>
-                        <span className="text-xs font-sans px-2.5 font-bold text-neutral-900">
+                        <span className="text-xs font-sans px-2.5 font-bold text-black">
                           {item.quantity}
                         </span>
                         <button
@@ -152,7 +220,7 @@ export default function CartDrawer() {
                       </div>
 
                       <div className="text-right">
-                        <span className="font-sans font-bold text-sm text-[#0F0F0F]">
+                        <span className="font-sans font-bold text-sm text-black">
                           {formatPrice((item.price + (item.frameOption?.price || 0)) * item.quantity)}
                         </span>
                       </div>
@@ -173,7 +241,7 @@ export default function CartDrawer() {
                     <Link
                       key={rec.id}
                       href={`/products/${rec.slug || rec.id}`}
-                      onClick={closeCart}
+                      onClick={handleNavigate}
                       className="group bg-neutral-50 p-2 border border-neutral-200 hover:border-black transition-colors flex flex-col"
                     >
                       <div className="aspect-[4/5] relative bg-neutral-100 mb-1.5 overflow-hidden">
@@ -184,10 +252,10 @@ export default function CartDrawer() {
                           className="object-contain p-1 group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <p className="font-sans text-xs text-neutral-900 font-medium truncate">
+                      <p className="font-sans text-xs text-black font-medium truncate">
                         {rec.name}
                       </p>
-                      <p className="text-[11px] font-bold text-neutral-900 mt-0.5">
+                      <p className="text-[11px] font-bold text-black mt-0.5">
                         {formatPrice(rec.price)}
                       </p>
                     </Link>
@@ -203,21 +271,21 @@ export default function CartDrawer() {
               <div className="space-y-1 text-xs text-neutral-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-neutral-900 font-semibold">{formatPrice(subtotal)}</span>
+                  <span className="text-black font-semibold">{formatPrice(subtotal)}</span>
                 </div>
                 {framingTotal > 0 && (
                   <div className="flex justify-between">
                     <span>Framing</span>
-                    <span className="text-neutral-900 font-semibold">{formatPrice(framingTotal)}</span>
+                    <span className="text-black font-semibold">{formatPrice(framingTotal)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span className="text-neutral-900 font-semibold">
+                  <span className="text-black font-semibold">
                     {shipping === 0 ? 'Free' : formatPrice(shipping)}
                   </span>
                 </div>
-                <div className="flex justify-between pt-2 border-t border-neutral-200 text-sm font-sans text-neutral-900">
+                <div className="flex justify-between pt-2 border-t border-neutral-200 text-sm font-sans text-black">
                   <span className="font-bold">Total (Taxes Included)</span>
                   <span className="font-extrabold text-base">{formatPrice(total)}</span>
                 </div>
@@ -225,8 +293,8 @@ export default function CartDrawer() {
 
               <Link
                 href="/checkout"
-                onClick={closeCart}
-                className="w-full bg-[#0F0F0F] hover:bg-neutral-800 text-white py-3.5 px-6 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors shadow-xs"
+                onClick={handleNavigate}
+                className="w-full bg-black hover:bg-neutral-800 text-white py-3.5 px-6 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors shadow-xs"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight size={14} />

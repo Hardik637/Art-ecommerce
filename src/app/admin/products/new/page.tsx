@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Save, Check, Award, Sparkles, Upload, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, Award } from 'lucide-react';
 import { ARTISTS } from '@/lib/artCatalog';
 
 export default function NewArtworkPage() {
@@ -15,7 +15,7 @@ export default function NewArtworkPage() {
   const [artistId, setArtistId] = useState(ARTISTS[0].id);
   const [category, setCategory] = useState<'paintings' | 'sculptures' | 'figures' | 'prints' | 'objects'>('paintings');
   const [price, setPrice] = useState('32000');
-  const [medium, setMedium] = useState('Oil and 24K Gold Leaf on Belgian Linen');
+  const [medium, setMedium] = useState('Oil and Acrylic on Canvas');
   const [width, setWidth] = useState('120');
   const [height, setHeight] = useState('90');
   const [depth, setDepth] = useState('4');
@@ -39,281 +39,273 @@ export default function NewArtworkPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-20 space-y-8">
+    <div className="max-w-4xl mx-auto pb-20 space-y-6 text-black">
       <div>
         <Link
           href="/admin/products"
-          className="inline-flex items-center gap-1.5 text-xs uppercase font-mono tracking-widest text-[#777] hover:text-[#11100F] mb-4 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs uppercase font-mono tracking-wider text-neutral-400 hover:text-black mb-3 transition-colors"
         >
-          <ArrowLeft size={13} /> Back to Catalog
+          <ArrowLeft size={13} /> Back to Products
         </Link>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-          <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-            Catalog Ingestion & Provenance Registration
-          </span>
-        </div>
-        <h1 className="font-serif text-3xl md:text-4xl text-[#11100F] font-light">
-          Register New Masterwork
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black">
+          Add New Product
         </h1>
-        <p className="text-xs text-[#777] font-sans mt-1">
-          Index an original painting, lost-wax bronze casting, or collectible figure into the Atelier permanent registry.
+        <p className="text-xs text-neutral-500 mt-1">
+          Add a new wall art piece, sculpture, or decorative item to the store catalog.
         </p>
       </div>
 
       {success && (
-        <div className="p-4 rounded-2xl bg-[#EBF7EE] border border-[#1E7E34]/30 text-[#1E7E34] text-xs font-sans font-medium flex items-center gap-3">
+        <div className="p-4 rounded-xl bg-neutral-100 border border-neutral-300 text-black text-xs font-semibold flex items-center gap-3">
           <Check size={16} />
-          Masterwork registered successfully with provenance hash ATH-REG-2026! Redirecting to catalog...
+          Product created successfully! Redirecting to catalog...
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Section 1: Identification & Artist */}
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Primary Identification & Provenance
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Product Identification
           </span>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Artwork Title *
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Product Title *
               </label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Whispers of the Narmada Gorge"
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-serif text-lg outline-none focus:border-[#B08A4A] transition-colors"
+                placeholder="e.g. Whispers of the Gorge"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-sm font-semibold outline-none focus:border-black transition-colors"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                  Master Artist *
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                  Artist / Creator *
                 </label>
                 <select
                   value={artistId}
                   onChange={(e) => setArtistId(e.target.value)}
-                  className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-xs outline-none focus:border-[#B08A4A]"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
                 >
                   {ARTISTS.map((artist) => (
                     <option key={artist.id} value={artist.id}>
-                      {artist.name} ({artist.signatureStyle})
+                      {artist.name} ({artist.location})
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                  Discipline / Category *
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                  Category *
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as typeof category)}
-                  className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-xs outline-none focus:border-[#B08A4A]"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
                 >
-                  <option value="paintings">Fine Art Painting</option>
-                  <option value="sculptures">Sculpture & Cast Metal</option>
-                  <option value="figures">Collectible Art Figure</option>
-                  <option value="prints">Museum Fine Art Print</option>
-                  <option value="objects">Decorative Luxury Object</option>
+                  <option value="paintings">Wall Art</option>
+                  <option value="sculptures">Sculptures</option>
+                  <option value="figures">Collectible Figures</option>
+                  <option value="prints">Art Prints</option>
+                  <option value="objects">Decorative Pieces</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Section 2: Physical Specifications */}
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Substrate, Medium & Dimensions
+        {/* Section 2: Medium & Dimensions */}
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Medium & Dimensions
           </span>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Medium & Materials *
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Medium / Materials *
               </label>
               <input
                 type="text"
                 required
                 value={medium}
                 onChange={(e) => setMedium(e.target.value)}
-                placeholder="e.g. Lost-Wax Bronze with Malachite Patina"
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-sm outline-none focus:border-[#B08A4A] transition-colors"
+                placeholder="e.g. Oil on Belgian Linen"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
               />
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
                   Width (cm)
                 </label>
                 <input
                   type="number"
                   value={width}
                   onChange={(e) => setWidth(e.target.value)}
-                  className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-sm outline-none focus:border-[#B08A4A]"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-xs font-mono outline-none focus:border-black"
                 />
               </div>
-
               <div>
-                <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
                   Height (cm)
                 </label>
                 <input
                   type="number"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
-                  className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-sm outline-none focus:border-[#B08A4A]"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-xs font-mono outline-none focus:border-black"
                 />
               </div>
-
               <div>
-                <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
                   Depth (cm)
                 </label>
                 <input
                   type="number"
                   value={depth}
                   onChange={(e) => setDepth(e.target.value)}
-                  className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-sm outline-none focus:border-[#B08A4A]"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-xs font-mono outline-none focus:border-black"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Section 3: Commercial Valuation & Edition */}
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Commercial Valuation & Editioning
+        {/* Section 3: Pricing & Edition */}
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Pricing & Edition Type
           </span>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Acquisition Price (INR ₹) *
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Price (INR ₹) *
               </label>
               <input
                 type="number"
                 required
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-base font-semibold outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 font-mono text-base font-bold outline-none focus:border-black"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
                 Edition Structure
               </label>
               <select
                 value={editionType}
                 onChange={(e) => setEditionType(e.target.value as typeof editionType)}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-xs outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black"
               >
-                <option value="oneOfOne">One-of-One Hand-Painted (1/1 Original)</option>
-                <option value="limited">Limited Edition Cast / Bronze (50 Casts)</option>
-                <option value="open">Fine Art Open Edition Print</option>
+                <option value="oneOfOne">Original Hand-Crafted (Original Work)</option>
+                <option value="limited">Limited Edition Run (50 Units)</option>
+                <option value="open">Standard Open Edition</option>
               </select>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E4DBCF] bg-white/60 cursor-pointer">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <label className="flex items-center gap-3 p-3 rounded-lg border border-neutral-300 bg-white cursor-pointer">
               <input
                 type="checkbox"
                 checked={frameAvailable}
                 onChange={(e) => setFrameAvailable(e.target.checked)}
-                className="accent-[#B08A4A] h-4 w-4 rounded"
+                className="accent-black h-4 w-4 rounded cursor-pointer"
               />
               <div>
-                <span className="text-xs font-semibold text-[#11100F] block">
-                  Enable Archival Museum Framing
+                <span className="text-xs font-bold text-black block">
+                  Enable Framing Options
                 </span>
-                <span className="text-[10px] text-[#777]">
-                  Float frames in Black Ash, Natural Oak, Antique Gold
+                <span className="text-[10px] text-neutral-500">
+                  Solid Black Ash, Natural Oak, Matte Black
                 </span>
               </div>
             </label>
 
-            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E4DBCF] bg-white/60 cursor-pointer">
+            <label className="flex items-center gap-3 p-3 rounded-lg border border-neutral-300 bg-white cursor-pointer">
               <input
                 type="checkbox"
                 checked={coa}
                 onChange={(e) => setCoa(e.target.checked)}
-                className="accent-[#B08A4A] h-4 w-4 rounded"
+                className="accent-black h-4 w-4 rounded cursor-pointer"
               />
               <div>
-                <span className="text-xs font-semibold text-[#11100F] block">
-                  Generate Certificate of Authenticity
+                <span className="text-xs font-bold text-black block">
+                  Certificate of Authenticity
                 </span>
-                <span className="text-[10px] text-[#777]">
-                  Signed provenance dossier and digital seal
+                <span className="text-[10px] text-neutral-500">
+                  Generate verified authenticity certificate
                 </span>
               </div>
             </label>
           </div>
         </div>
 
-        {/* Section 4: Curatorial Description & Notes */}
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Curatorial Essay & Provenance Notes
+        {/* Section 4: Description */}
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Product Description
           </span>
 
           <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Curator Statement / Description
+            <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+              Product Description
             </label>
             <textarea
-              rows={4}
+              rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the conceptual origin, brush technique, emotional resonance, and provenance history..."
-              className="w-full bg-white border border-[#E4DBCF] rounded-xl p-4 font-sans text-xs outline-none focus:border-[#B08A4A] transition-colors"
+              placeholder="Describe the artwork, style, technique, and recommended spaces..."
+              className="w-full bg-white border border-neutral-300 rounded-lg p-3 text-xs outline-none focus:border-black transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-              Artist Studio Notes
+            <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+              Artist Notes
             </label>
             <textarea
               rows={2}
               value={artistNotes}
               onChange={(e) => setArtistNotes(e.target.value)}
-              placeholder="First-person observation from the master artist..."
-              className="w-full bg-white border border-[#E4DBCF] rounded-xl p-4 font-sans text-xs outline-none focus:border-[#B08A4A] transition-colors"
+              placeholder="Creator's note on the piece..."
+              className="w-full bg-white border border-neutral-300 rounded-lg p-3 text-xs outline-none focus:border-black transition-colors"
             />
           </div>
         </div>
 
         {/* Submission Bar */}
-        <div className="flex items-center justify-between pt-4 border-t border-[#E4DBCF]">
+        <div className="flex items-center justify-between pt-2">
           <Link
             href="/admin/products"
-            className="text-xs uppercase font-mono text-[#777] hover:text-[#11100F]"
+            className="text-xs uppercase font-mono text-neutral-500 hover:text-black"
           >
-            Cancel & Return
+            Cancel
           </Link>
 
           <button
             type="submit"
             disabled={saving}
-            className="px-8 py-3.5 bg-[#11100F] text-[#F4EFE7] hover:bg-[#B08A4A] transition-colors rounded-xl text-xs uppercase tracking-widest font-sans font-medium flex items-center gap-2 shadow-lg disabled:opacity-60"
+            className="px-6 py-3 bg-black text-white hover:bg-neutral-800 transition-colors rounded-lg text-xs uppercase tracking-wider font-semibold flex items-center gap-2 cursor-pointer disabled:opacity-60"
           >
             {saving ? (
-              'Ingesting Masterwork...'
+              'Saving...'
             ) : (
               <>
-                <Award size={15} /> Publish to Atelier Catalog
+                <Award size={15} /> Publish Product
               </>
             )}
           </button>

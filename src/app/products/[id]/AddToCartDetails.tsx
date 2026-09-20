@@ -17,7 +17,7 @@ export default function AddToCartDetails({ product }: { product: ArtworkProduct 
       productId: product.id,
       slug: product.slug,
       name: product.name,
-      artistName: product.artistName,
+      artistName: product.artistName || '',
       price: product.price,
       image: product.images[0] || product.thumbnail,
       medium: product.medium,

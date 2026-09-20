@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import CategoryPageClient from '@/components/CategoryPageClient';
 import { SITE_CONFIG } from '@/config/site';
+import { getProductsByCategory } from '@/lib/products';
 
 export const metadata: Metadata = {
   title: 'Sculptures | Bronze, Carved Stone & Designer Figures',
@@ -12,13 +13,12 @@ export const metadata: Metadata = {
     'collectible art toys India',
     'marble sculptures',
     'lost-wax bronze art',
-    'Atelier Art House',
   ],
   alternates: {
     canonical: `${SITE_CONFIG.url}/sculptures`,
   },
   openGraph: {
-    title: 'Sculptures Collection | Atelier & Art House',
+    title: 'Sculptures Collection | Zorodoor Art',
     description:
       'Distinctive sculptural pieces that bring form and character into your space.',
     url: `${SITE_CONFIG.url}/sculptures`,
@@ -26,13 +26,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SculpturesPage() {
+export default async function SculpturesPage() {
+  const products = await getProductsByCategory('sculptures');
+
   return (
     <CategoryPageClient
       category="sculptures"
       title="Sculptures"
       subtitle="Hand-cast lost-wax bronzes, crystalline marble forms, and limited cybernetic mythological figures."
       description="Distinctive sculptural pieces that bring form and character into your space."
+      initialProducts={products}
     />
   );
 }

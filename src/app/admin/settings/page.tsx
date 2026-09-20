@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ShieldCheck, Check, Save } from 'lucide-react';
+import { Check, Save } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 
 export default function AdminSettingsPage() {
@@ -14,128 +14,103 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto pb-20 space-y-8">
+    <div className="max-w-3xl mx-auto pb-20 space-y-6 text-black">
       <div>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-          <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-            Curatorial Configuration
-          </span>
-        </div>
-        <h1 className="font-serif text-3xl md:text-4xl text-[#11100F] font-light">
-          Gallery & Logistics Configuration
+        <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-1 font-semibold">
+          Configuration
+        </span>
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black">
+          Store & Delivery Settings
         </h1>
-        <p className="text-xs text-[#777] font-sans mt-1">
-          Manage brand identity, art concierge contacts, framing specifications, and insured transit thresholds.
+        <p className="text-xs text-neutral-500 mt-0.5">
+          Manage store information, customer service contacts, and free shipping delivery thresholds.
         </p>
       </div>
 
       {saved && (
-        <div className="p-4 rounded-2xl bg-[#EBF7EE] border border-[#1E7E34]/30 text-[#1E7E34] text-xs font-sans font-medium flex items-center gap-3">
+        <div className="p-4 rounded-xl bg-neutral-100 border border-neutral-300 text-black text-xs font-semibold flex items-center gap-3">
           <Check size={16} />
-          Curatorial settings saved successfully across gallery services.
+          Settings saved successfully!
         </div>
       )}
 
-      <form onSubmit={handleSave} className="space-y-8">
+      <form onSubmit={handleSave} className="space-y-6">
         {/* Brand Particulars */}
-        <div className="bg-[#FAF8F5] rounded-2xl border border-[#E4DBCF] shadow-sm p-6 sm:p-8 space-y-5">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Gallery Brand Identity
+        <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Store Identity
           </span>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Art House Name
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Store Name
               </label>
               <input
                 type="text"
                 defaultValue={siteConfig.name}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-serif text-lg outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-base font-bold outline-none focus:border-black"
               />
             </div>
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Curatorial Tagline
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Store Tagline
               </label>
               <input
                 type="text"
-                defaultValue="Curated Masterworks, Fine Art Sculptures & Provenance Editions"
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-xs outline-none focus:border-[#B08A4A]"
+                defaultValue="Curated Wall Art, Sculptures & Modern Home Décor"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black"
               />
             </div>
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Senior Art Concierge Email
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Support Email
               </label>
               <input
                 type="email"
                 defaultValue={siteConfig.contact.email}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-xs outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 font-mono text-xs outline-none focus:border-black"
               />
             </div>
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                VIP Private Client Concierge Phone
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Support Hours
               </label>
               <input
                 type="text"
-                defaultValue={siteConfig.contact.phone}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-xs outline-none focus:border-[#B08A4A]"
+                defaultValue={siteConfig.contact.supportHours}
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 font-mono text-xs outline-none focus:border-black"
               />
             </div>
           </div>
         </div>
 
-        {/* Framing & Logistics */}
-        <div className="bg-[#FAF8F5] rounded-2xl border border-[#E4DBCF] shadow-sm p-6 sm:p-8 space-y-5">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block">
-            Archival Framing & Transit Insurance
+        {/* Shipping & Thresholds */}
+        <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-6 space-y-4">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block font-semibold">
+            Shipping & Thresholds
           </span>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Complimentary White-Glove Threshold (₹)
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Free Shipping Threshold (₹)
               </label>
               <input
                 type="number"
                 defaultValue={siteConfig.shipping.freeThreshold}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-sm outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 font-mono text-sm outline-none focus:border-black"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Standard Crate Transit Fee (₹)
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                Standard Shipping Fee (₹)
               </label>
               <input
                 type="number"
                 defaultValue={siteConfig.shipping.standardFee}
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-sm outline-none focus:border-[#B08A4A]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Wood Float Reveal Gap
-              </label>
-              <input
-                type="text"
-                defaultValue="8mm Museum Shadow Reveal"
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-sans text-xs outline-none focus:border-[#B08A4A]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] uppercase tracking-widest text-[#777] mb-1.5 font-mono">
-                Provenance Certificate Prefix
-              </label>
-              <input
-                type="text"
-                defaultValue="ATH-COA-2026-"
-                className="w-full bg-white border border-[#E4DBCF] rounded-xl px-4 py-3 font-mono text-xs outline-none focus:border-[#B08A4A]"
+                className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 font-mono text-sm outline-none focus:border-black"
               />
             </div>
           </div>
@@ -143,9 +118,9 @@ export default function AdminSettingsPage() {
 
         <button
           type="submit"
-          className="w-full py-4 rounded-xl bg-[#11100F] text-[#F4EFE7] hover:bg-[#B08A4A] transition-colors text-xs uppercase tracking-widest font-sans font-medium flex items-center justify-center gap-2 shadow-md"
+          className="w-full py-3.5 rounded-lg bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-xs"
         >
-          <Save size={15} /> Save Curatorial Configuration
+          <Save size={15} /> Save Settings
         </button>
       </form>
     </div>

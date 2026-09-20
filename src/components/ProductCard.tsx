@@ -1,8 +1,7 @@
 'use client';
 
 import ArtworkCard from './ArtworkCard';
-import { ArtworkProduct } from '@/types/art';
-import { Product } from '@/lib/products';
+import { ArtworkProduct, Product } from '@/types/art';
 
 export default function ProductCard({
   product,

@@ -2749,14 +2749,14 @@ export function searchArtworks(query: string): ArtworkProduct[] {
   return ARTWORKS.filter((a) => {
     return (
       a.name.toLowerCase().includes(q) ||
-      a.artistName.toLowerCase().includes(q) ||
+      (a.artistName && a.artistName.toLowerCase().includes(q)) ||
       a.medium.toLowerCase().includes(q) ||
       a.category.toLowerCase().includes(q) ||
-      a.subcategory.toLowerCase().includes(q) ||
+      (a.subcategory && a.subcategory.toLowerCase().includes(q)) ||
       a.description.toLowerCase().includes(q) ||
-      a.styleTags.some((t) => t.toLowerCase().includes(q)) ||
-      a.moodTags.some((t) => t.toLowerCase().includes(q)) ||
-      a.roomTags.some((t) => t.toLowerCase().includes(q))
+      ((a.styleTags || []).some((t: string) => t.toLowerCase().includes(q))) ||
+      ((a.moodTags || []).some((t: string) => t.toLowerCase().includes(q))) ||
+      ((a.roomTags || []).some((t: string) => t.toLowerCase().includes(q)))
     );
   });
 }

@@ -353,9 +353,9 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
           <Link
             href="/shipping"
             onClick={onClose}
-            className="text-[11px] text-[#B08A4A] hover:underline"
+            className="text-[11px] text-neutral-600 hover:text-black hover:underline"
           >
-            Complimentary White-Glove Shipping On Orders Above ₹999
+            Free Standard Shipping On Orders Above ₹999
           </Link>
         </div>
       </div>

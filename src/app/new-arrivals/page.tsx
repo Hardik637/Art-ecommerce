@@ -1,37 +1,35 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { ARTWORKS } from '@/lib/artCatalog';
 import ArtworkCard from '@/components/ArtworkCard';
-import { Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Recent Studio Releases & New Masterworks | ATELIER & ART HOUSE',
+  title: 'New Arrivals | ATELIER Home & Living',
   description:
-    'Fresh original paintings, bronze sculptures, and limited collectible figures just completed by our six resident master artists.',
+    'Fresh original paintings, bronze sculptures, and limited collectible figures just released for modern interiors.',
 };
 
 export default function NewArrivalsPage() {
   const newArrivals = ARTWORKS.filter((a) => a.isNew);
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen py-16 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="max-w-3xl">
+    <div className="bg-white min-h-screen py-10 md:py-16 text-black">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 space-y-8 md:space-y-10">
+        <div className="max-w-2xl">
           <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Resident Master Studios
+            <span className="w-2 h-2 rounded-full bg-black" />
+            <span className="text-[10px] uppercase font-sans font-semibold tracking-widest text-neutral-500">
+              Fresh Releases
             </span>
           </div>
-          <h1 className="font-serif text-4xl md:text-6xl text-[#11100F] font-light tracking-tight leading-tight">
-            Recent Studio Releases
+          <h1 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl text-black tracking-tight uppercase leading-tight">
+            New Arrivals
           </h1>
-          <p className="text-xs md:text-sm text-[#555] font-sans mt-3 leading-relaxed">
-            Newly completed one-of-one hand-painted canvases, freshly patinated lost-wax bronzes, and limited collectible editions directly from our resident ateliers.
+          <p className="text-xs md:text-sm text-neutral-600 font-sans mt-2 leading-relaxed">
+            Newly released original wall art, sculptures, and limited decorative objects curated for modern spaces.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {newArrivals.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}

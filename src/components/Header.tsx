@@ -59,11 +59,13 @@ export default function Header() {
   return (
     <>
       {/* ── Top Announcement Promo Bar ─────────────────────────────── */}
-      <div className="bg-[#0F0F0F] text-[#FAFAF9] text-[11px] font-sans tracking-widest uppercase py-2 px-4 text-center border-b border-neutral-800">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-center gap-3">
-          <span>Complimentary Insured White-Glove Delivery</span>
-          <span className="text-[#A1A1AA]">•</span>
-          <span className="hidden sm:inline">7-Day In-Home Trial with Full Refund</span>
+      <div className="bg-black text-white text-[10.5px] sm:text-[11px] font-sans font-medium tracking-widest uppercase py-2 px-4 text-center border-b border-neutral-900">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
+          <span>Free Shipping On Orders Above ₹999</span>
+          <span className="text-neutral-500">•</span>
+          <span>Cash On Delivery Available</span>
+          <span className="text-neutral-500 hidden sm:inline">•</span>
+          <span className="hidden sm:inline">7-Day In-Home Trial</span>
         </div>
       </div>
 
@@ -186,12 +188,12 @@ export default function Header() {
 
             <button
               onClick={openCart}
-              className="relative p-2 text-[#0F0F0F] hover:text-black transition-colors flex items-center gap-1.5"
+              className="relative p-2 text-black hover:text-neutral-700 transition-colors flex items-center gap-1.5"
               aria-label="Shopping Bag"
             >
               <ShoppingBag size={20} strokeWidth={1.8} />
               {mounted && cartItemCount > 0 && (
-                <span className="absolute top-1 right-0.5 w-4 h-4 bg-[#B08A4A] text-black rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
+                <span className="absolute top-1 right-0.5 w-4 h-4 bg-black text-white rounded-full text-[9px] font-sans font-bold flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}
@@ -216,7 +218,7 @@ export default function Header() {
                   <div className="w-6 h-6 relative">
                     <Image src="/brand-seal.svg" alt="Atelier" fill className="object-contain" />
                   </div>
-                  <span className="font-sans font-bold text-base tracking-wider text-[#0F0F0F]">
+                  <span className="font-sans font-bold text-base tracking-wider text-black">
                     ATELIER
                   </span>
                 </div>
@@ -230,12 +232,12 @@ export default function Header() {
               </div>
 
               {/* Mobile Navigation List */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-1 text-sm font-sans font-medium text-[#0F0F0F]">
+              <div className="flex-1 overflow-y-auto p-5 space-y-1 text-sm font-sans font-medium text-black">
                 <div>
                   <Link
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Home</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -246,7 +248,7 @@ export default function Header() {
                   <Link
                     href="/wall-art"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Wall Art</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -257,7 +259,7 @@ export default function Header() {
                   <Link
                     href="/sculptures"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Sculptures</span>
                     <ChevronRight size={14} className="text-neutral-400" />
@@ -268,7 +270,7 @@ export default function Header() {
                   <Link
                     href="/decorative-pieces"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-[#B08A4A] transition-colors"
+                    className="flex items-center justify-between py-3.5 uppercase tracking-wider text-xs font-semibold border-b border-neutral-100 hover:text-black transition-colors"
                   >
                     <span>Decorative Pieces</span>
                     <ChevronRight size={14} className="text-neutral-400" />

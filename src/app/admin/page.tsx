@@ -10,7 +10,6 @@ import {
   Truck,
   PlusCircle,
   Award,
-  ShieldCheck,
 } from 'lucide-react';
 import { ARTWORKS, ARTISTS } from '@/lib/artCatalog';
 import { getAllOrders } from '@/lib/orders';
@@ -21,92 +20,89 @@ export default function AdminDashboard() {
 
   const stats = [
     {
-      title: 'Gross Acquisition Sales',
+      title: 'Total Gross Sales',
       value: `₹${totalRevenue.toLocaleString('en-IN')}`,
       icon: IndianRupee,
       change: '+18.4% this month',
       isPositive: true,
     },
     {
-      title: 'Total Acquisitions',
+      title: 'Total Orders',
       value: orders.length.toString(),
       icon: ShoppingBag,
-      change: '2 pending framing',
+      change: 'Active orders',
       isPositive: true,
     },
     {
-      title: 'Live Catalog Artworks',
+      title: 'Active Products',
       value: ARTWORKS.length.toString(),
       icon: Palette,
-      change: '36 Masterworks Live',
+      change: 'Catalog items',
       isPositive: true,
     },
     {
-      title: 'Resident Master Artists',
+      title: 'Active Artists',
       value: ARTISTS.length.toString(),
       icon: Users,
-      change: '6 Studios Active',
+      change: '6 Resident Creators',
       isPositive: true,
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto pb-20 space-y-10">
+    <div className="max-w-7xl mx-auto pb-20 space-y-8 text-black">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Curatorial Command & Provenance
-            </span>
-          </div>
-          <h1 className="font-serif text-3xl md:text-4xl text-[#11100F] font-light">
-            Atelier Curatorial Console
+          <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-1 font-semibold">
+            Store Management
+          </span>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black">
+            Admin Dashboard
           </h1>
-          <p className="text-xs text-[#777] font-sans mt-1">
-            Real-time telemetry on art acquisitions, certified framing workflows, and master studio production.
+          <p className="text-xs text-neutral-500 mt-0.5">
+            Store revenue, product inventory status, and recent order fulfillments.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <Link
             href="/admin/products/new"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#11100F] text-[#F4EFE7] hover:bg-[#B08A4A] transition-colors text-xs uppercase tracking-wider font-sans font-medium shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-semibold shadow-xs"
           >
-            <PlusCircle size={14} /> Catalog Masterwork
+            <PlusCircle size={14} /> Add Product
           </Link>
           <Link
             href="/admin/orders"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-[#E4DBCF] bg-[#FAF8F5] text-[#11100F] hover:border-[#11100F] transition-colors text-xs uppercase tracking-wider font-sans font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-neutral-300 bg-white text-black hover:border-black transition-colors text-xs uppercase tracking-wider font-semibold"
           >
-            <Truck size={14} /> Manage Freight
+            <Truck size={14} /> Orders
           </Link>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
             <div
               key={i}
-              className="bg-[#FAF8F5] p-6 rounded-2xl border border-[#E4DBCF] shadow-sm flex flex-col justify-between hover:border-[#B08A4A]/50 transition-colors"
+              className="bg-neutral-50 p-5 rounded-xl border border-neutral-200 flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 bg-[#EFE9DF] rounded-xl flex items-center justify-center text-[#B08A4A]">
-                  <Icon size={18} />
+              <div className="flex items-center justify-between mb-3">
+                <span className="w-9 h-9 bg-white border border-neutral-200 rounded-lg flex items-center justify-center text-black">
+                  <Icon size={16} />
                 </span>
-                <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#B08A4A]/10 text-[#8A6A32]">
+                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-800">
                   {stat.change}
                 </span>
               </div>
               <div>
-                <h3 className="text-[#777] font-mono text-[10px] tracking-wider uppercase mb-1">
+                <h3 className="text-neutral-500 font-mono text-[10px] tracking-wider uppercase mb-0.5">
                   {stat.title}
                 </h3>
-                <p className="font-serif text-3xl text-[#11100F]">
+                <p className="text-2xl font-extrabold text-black tracking-tight">
                   {stat.value}
                 </p>
               </div>
@@ -115,66 +111,66 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* Recent Acquisitions Table + Top Works */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Acquisitions */}
-        <div className="lg:col-span-2 bg-[#FAF8F5] rounded-2xl border border-[#E4DBCF] shadow-sm p-6 flex flex-col justify-between">
+      {/* Recent Orders Table + Top Products */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Orders */}
+        <div className="lg:col-span-2 bg-neutral-50 rounded-xl border border-neutral-200 p-6 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#E4DBCF]">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-200">
               <div>
-                <h2 className="font-serif text-xl text-[#11100F] font-light">
-                  Recent Acquisitions & Invoices
+                <h2 className="text-base font-bold text-black">
+                  Recent Orders
                 </h2>
-                <p className="text-xs text-[#777] font-sans">
-                  Orders requiring archival framing preparation or courier dispatch.
+                <p className="text-xs text-neutral-500">
+                  Latest customer orders and dispatch status.
                 </p>
               </div>
               <Link
                 href="/admin/orders"
-                className="text-xs font-sans font-medium text-[#B08A4A] hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-black hover:underline flex items-center gap-1"
               >
                 All Orders <ArrowUpRight size={13} />
               </Link>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-sans">
+              <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#E4DBCF] text-[#888] font-mono text-[10px] uppercase tracking-wider">
-                    <th className="pb-3">Order Number</th>
-                    <th className="pb-3">Collector</th>
-                    <th className="pb-3">Artwork Item</th>
-                    <th className="pb-3">Valuation</th>
-                    <th className="pb-3 text-right">Fulfillment</th>
+                  <tr className="border-b border-neutral-200 text-neutral-400 font-mono text-[10px] uppercase tracking-wider">
+                    <th className="pb-2.5">Order ID</th>
+                    <th className="pb-2.5">Customer</th>
+                    <th className="pb-2.5">Product</th>
+                    <th className="pb-2.5">Total</th>
+                    <th className="pb-2.5 text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E4DBCF]/60">
+                <tbody className="divide-y divide-neutral-200">
                   {orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-white/60 transition-colors">
-                      <td className="py-3.5 font-mono font-medium text-[#11100F]">
+                    <tr key={order.id} className="hover:bg-white/70 transition-colors">
+                      <td className="py-3 font-mono font-semibold text-black">
                         {order.orderNumber}
                       </td>
-                      <td className="py-3.5">
-                        <span className="font-medium text-[#11100F] block">
+                      <td className="py-3">
+                        <span className="font-semibold text-black block">
                           {order.customer.fullName}
                         </span>
-                        <span className="text-[10px] text-[#777] font-mono block">
+                        <span className="text-[10px] text-neutral-500 font-mono block">
                           {order.shippingAddress.city}, {order.shippingAddress.state}
                         </span>
                       </td>
-                      <td className="py-3.5">
-                        <span className="text-[#11100F] block max-w-[180px] truncate">
+                      <td className="py-3">
+                        <span className="text-black font-medium block max-w-[180px] truncate">
                           {order.items[0]?.name}
                         </span>
-                        <span className="text-[10px] text-[#B08A4A] font-mono block">
+                        <span className="text-[10px] text-neutral-500 font-mono block">
                           {order.items[0]?.artistName}
                         </span>
                       </td>
-                      <td className="py-3.5 font-mono font-semibold text-[#11100F]">
+                      <td className="py-3 font-mono font-bold text-black">
                         ₹{order.total.toLocaleString('en-IN')}
                       </td>
-                      <td className="py-3.5 text-right">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#B08A4A]/15 text-[#8A6A32]">
+                      <td className="py-3 text-right">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-black text-white">
                           {order.fulfillmentStatus}
                         </span>
                       </td>
@@ -185,61 +181,61 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="pt-4 mt-4 border-t border-[#E4DBCF] flex items-center justify-between text-xs text-[#777]">
-            <span>Blue Dart & Sequel Art Logistics connected</span>
+          <div className="pt-4 mt-4 border-t border-neutral-200 flex items-center justify-between text-xs text-neutral-500">
+            <span>Integrated with Blue Dart Express</span>
             <Link
               href="/admin/orders"
-              className="text-[#11100F] font-medium hover:underline"
+              className="text-black font-semibold hover:underline"
             >
-              Update Waybills →
+              Manage Shipments →
             </Link>
           </div>
         </div>
 
-        {/* Top Performing Masterworks */}
-        <div className="bg-[#11100F] text-[#F4EFE7] rounded-2xl p-6 border border-[#292622] shadow-xl flex flex-col justify-between">
+        {/* Top Performing Products */}
+        <div className="bg-black text-white rounded-xl p-6 border border-neutral-800 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A]">
-                  Curator Highlights
+                <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400">
+                  Inventory Highlights
                 </span>
-                <h3 className="font-serif text-xl text-[#FAF8F5] font-light">
-                  Top Gallery Pieces
+                <h3 className="text-base font-bold text-white">
+                  Featured Products
                 </h3>
               </div>
-              <Award size={18} className="text-[#B08A4A]" />
+              <Award size={16} className="text-neutral-400" />
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {ARTWORKS.slice(0, 5).map((artwork) => (
                 <div
                   key={artwork.id}
-                  className="flex items-center gap-3 pb-3 border-b border-white/5 last:border-0 last:pb-0"
+                  className="flex items-center gap-3 pb-3 border-b border-neutral-800 last:border-0 last:pb-0"
                 >
-                  <div className="w-12 h-12 relative rounded-lg overflow-hidden border border-white/10 shrink-0 bg-[#292622]">
+                  <div className="w-11 h-11 relative rounded-md overflow-hidden border border-neutral-700 shrink-0 bg-neutral-900">
                     <Image
                       src={artwork.thumbnail || artwork.images[0]}
                       alt={artwork.name}
                       fill
-                      sizes="48px"
+                      sizes="44px"
                       className="object-cover"
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="font-serif text-sm text-[#FAF8F5] truncate">
+                    <h4 className="text-xs font-semibold text-white truncate">
                       {artwork.name}
                     </h4>
-                    <p className="text-[10px] text-[#A8A096] truncate">
+                    <p className="text-[10px] text-neutral-400 truncate">
                       {artwork.artistName} • {artwork.medium}
                     </p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className="font-mono text-xs text-[#B08A4A] font-semibold block">
+                    <span className="font-mono text-xs text-white font-bold block">
                       ₹{artwork.price.toLocaleString('en-IN')}
                     </span>
-                    <span className="text-[9px] font-mono text-[#888] uppercase">
-                      {artwork.isOneOfOne ? '1/1 Original' : 'Limited'}
+                    <span className="text-[9px] font-mono text-neutral-400 uppercase">
+                      {artwork.isOneOfOne ? 'Original' : 'Limited'}
                     </span>
                   </div>
                 </div>
@@ -247,12 +243,12 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="pt-4 mt-6 border-t border-white/10">
+          <div className="pt-4 mt-4 border-t border-neutral-800">
             <Link
               href="/admin/products"
-              className="w-full block text-center py-2.5 rounded-xl bg-white/5 hover:bg-[#B08A4A] hover:text-white transition-colors text-xs uppercase tracking-wider font-sans font-medium text-[#FAF8F5]"
+              className="w-full block text-center py-2 rounded-lg bg-neutral-800 hover:bg-white hover:text-black transition-colors text-xs uppercase tracking-wider font-semibold text-white"
             >
-              View Full 36 Masterwork Catalog
+              View Full Catalog ({ARTWORKS.length} Items)
             </Link>
           </div>
         </div>

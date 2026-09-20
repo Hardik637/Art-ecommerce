@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-obsidian: #11100F;
-  --color-ivory: #F4EFE7;
-  --color-bone: #E4DBCF;
-  --color-gold: #B08A4A;
-  --color-gold-light: #D4AF37;
-  --color-burgundy: #481E25;
-  --color-burgundy-light: #6E2833;
-  --color-charcoal: #292622;
+  --color-obsidian: #000000;
+  --color-ivory: #F5F5F5;
+  --color-bone: #EAEAEA;
+  --color-gold: #000000;
+  --color-gold-light: #404040;
+  --color-burgundy: #000000;
+  --color-burgundy-light: #262626;
+  --color-charcoal: #171717;
 
-  --color-zoro-black: #11100F;
+  --color-zoro-black: #000000;
   --color-zoro-white: #FFFFFF;
-  --color-zoro-off-white: #F4EFE7;
-  --color-zoro-gray: #E4DBCF;
-  --color-zoro-accent: #B08A4A;
+  --color-zoro-off-white: #F5F5F5;
+  --color-zoro-gray: #EAEAEA;
+  --color-zoro-accent: #000000;
 
-  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-serif: var(--font-manrope), 'Manrope', -apple-system, sans-serif;
   --font-sans: var(--font-manrope), 'Manrope', -apple-system, sans-serif;
-  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-display: var(--font-manrope), 'Manrope', -apple-system, sans-serif;
 }
 
 :root {
-  --bg-primary: #FAFAF9;
-  --text-primary: #0F0F0F;
+  --bg-primary: #FFFFFF;
+  --text-primary: #000000;
 }
 
 body {
@@ -37,29 +37,29 @@ body {
 
 /* Modern luxury selection color */
 ::selection {
-  background-color: #0F0F0F;
-  color: #FAFAF9;
+  background-color: #000000;
+  color: #FFFFFF;
 }
 
 /* Hairline rules */
 .hairline-b {
-  border-bottom: 1px solid #E4E4E7;
+  border-bottom: 1px solid #E5E5E5;
 }
 .hairline-t {
-  border-top: 1px solid #E4E4E7;
+  border-top: 1px solid #E5E5E5;
 }
 .hairline-l {
-  border-left: 1px solid #E4E4E7;
+  border-left: 1px solid #E5E5E5;
 }
 .hairline-r {
-  border-right: 1px solid #E4E4E7;
+  border-right: 1px solid #E5E5E5;
 }
 
 /* Image reveal transitions */
 .artwork-container {
   overflow: hidden;
   position: relative;
-  background-color: #E4DBCF;
+  background-color: #F5F5F5;
 }
 
 .artwork-container img {

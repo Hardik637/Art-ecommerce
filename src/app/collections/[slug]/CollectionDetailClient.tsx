@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CuratedCollection, ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
 import { useUserStore } from '@/store/userStore';
-import { Bookmark, Sparkles, Check, ArrowLeft, Eye, MessageSquare } from 'lucide-react';
+import { Bookmark, Check, ArrowLeft } from 'lucide-react';
 
 interface CollectionDetailClientProps {
   collection: CuratedCollection;
@@ -35,46 +35,45 @@ export default function CollectionDetailClient({
   const categories = Array.from(new Set(artworks.map((a) => a.category)));
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen pb-20">
-      {/* Exhibition Hero Banner */}
-      <div className="relative h-96 md:h-[450px] bg-[#11100F] overflow-hidden border-b border-[#E4DBCF]">
+    <div className="bg-white min-h-screen pb-20 text-black">
+      {/* Banner */}
+      <div className="relative h-80 md:h-[400px] bg-black overflow-hidden border-b border-neutral-200">
         <Image
           src={collection.coverImage}
           alt={collection.name}
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-35 scale-105"
+          className="object-cover opacity-40 scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#11100F] via-[#11100F]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
-        <div className="absolute bottom-10 left-0 right-0 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="absolute bottom-8 left-0 right-0 max-w-7xl mx-auto px-6 md:px-12">
           <Link
             href="/collections"
-            className="inline-flex items-center gap-1.5 text-xs text-[#B08A4A] hover:text-white uppercase font-mono tracking-widest mb-4 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white uppercase font-mono tracking-wider mb-3 transition-colors"
           >
-            <ArrowLeft size={13} /> All Exhibitions
+            <ArrowLeft size={13} /> Back to Collections
           </Link>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="max-w-2xl text-[#FAF8F5]">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="max-w-2xl text-white">
               {collection.badge && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#B08A4A]/20 text-[#B08A4A] text-[10px] font-mono uppercase tracking-wider mb-2 border border-[#B08A4A]/40">
-                  <Sparkles size={10} />
+                <span className="inline-block px-2.5 py-0.5 rounded-sm bg-white text-black text-[10px] font-mono font-bold uppercase tracking-wider mb-2">
                   {collection.badge}
                 </span>
               )}
-              <h1 className="font-serif text-3xl md:text-5xl font-light text-[#FAF8F5] leading-tight">
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
                 {collection.name}
               </h1>
-              <p className="text-xs md:text-sm font-mono text-[#D4C4B0] mt-2">
+              <p className="text-xs md:text-sm font-medium text-neutral-300 mt-1">
                 {collection.subtitle}
               </p>
-              <p className="text-xs text-[#A8A096] font-sans mt-3 max-w-xl leading-relaxed">
+              <p className="text-xs text-neutral-400 mt-2 max-w-xl leading-relaxed">
                 {collection.description}
               </p>
-              <div className="text-[11px] font-mono text-[#777] mt-3">
-                Curated by <strong>{collection.curator}</strong> • {artworks.length} Masterworks
+              <div className="text-[11px] font-mono text-neutral-400 mt-2">
+                {artworks.length} Products Available
               </div>
             </div>
 
@@ -83,60 +82,52 @@ export default function CollectionDetailClient({
               <button
                 type="button"
                 onClick={() => toggleSaveCollection(collection.id)}
-                className={`px-5 py-3 rounded-xl text-xs uppercase tracking-wider font-sans font-medium flex items-center gap-2 transition-all shadow-md ${
+                className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-semibold flex items-center gap-2 transition-all cursor-pointer ${
                   isSaved
-                    ? 'bg-[#B08A4A] text-white border border-[#B08A4A]'
-                    : 'bg-[#FAF8F5] text-[#11100F] hover:bg-white'
+                    ? 'bg-white text-black'
+                    : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                 }`}
               >
                 {isSaved ? (
                   <>
-                    <Check size={14} /> Saved in Cabinet
+                    <Check size={14} /> Saved
                   </>
                 ) : (
                   <>
-                    <Bookmark size={14} className="text-[#B08A4A]" /> Save Exhibition
+                    <Bookmark size={14} /> Save Collection
                   </>
                 )}
               </button>
-
-              <a
-                href={`mailto:concierge@atelierarthouse.com?subject=Private%20Viewing%20Request%20-%20${encodeURIComponent(collection.name)}`}
-                className="px-5 py-3 rounded-xl bg-[#292622] text-[#F4EFE7] hover:bg-[#11100F] text-xs uppercase tracking-wider font-sans font-medium flex items-center gap-2 transition-colors border border-white/10"
-              >
-                <MessageSquare size={14} className="text-[#B08A4A]" />
-                Inquire Private Viewing
-              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Exhibition Works Section */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-10">
+      {/* Main Works Section */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-8">
         {/* Category Filters */}
         {categories.length > 1 && (
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 border-b border-[#E4DBCF]">
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 border-b border-neutral-200">
             <button
               type="button"
               onClick={() => setActiveCategory('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-sans whitespace-nowrap transition-colors ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                 activeCategory === 'all'
-                  ? 'bg-[#11100F] text-[#F4EFE7] font-medium'
-                  : 'bg-[#FAF8F5] text-[#666] border border-[#E4DBCF] hover:text-[#11100F]'
+                  ? 'bg-black text-white'
+                  : 'bg-neutral-100 text-neutral-600 hover:text-black'
               }`}
             >
-              All Exhibition Pieces ({artworks.length})
+              All Products ({artworks.length})
             </button>
             {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-sans capitalize whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-colors cursor-pointer ${
                   activeCategory === cat
-                    ? 'bg-[#11100F] text-[#F4EFE7] font-medium'
-                    : 'bg-[#FAF8F5] text-[#666] border border-[#E4DBCF] hover:text-[#11100F]'
+                    ? 'bg-black text-white'
+                    : 'bg-neutral-100 text-neutral-600 hover:text-black'
                 }`}
               >
                 {cat} ({artworks.filter((a) => a.category === cat).length})
@@ -145,8 +136,8 @@ export default function CollectionDetailClient({
           </div>
         )}
 
-        {/* Artwork Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Product Cards Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {filteredArtworks.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}

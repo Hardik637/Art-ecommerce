@@ -7,12 +7,11 @@ import {
   getArtworkCategory,
   MajorCategory,
 } from '@/lib/artCatalog';
-import { ArtworkProduct } from '@/types/art';
+import { Product } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
 import {
   SlidersHorizontal,
   X,
-  RotateCcw,
   Search,
   ChevronRight,
 } from 'lucide-react';
@@ -22,6 +21,7 @@ interface CategoryPageClientProps {
   title: string;
   subtitle: string;
   description: string;
+  initialProducts?: Product[];
 }
 
 export default function CategoryPageClient({
@@ -29,11 +29,15 @@ export default function CategoryPageClient({
   title,
   subtitle,
   description,
+  initialProducts,
 }: CategoryPageClientProps) {
-  // Base artworks belonging to this category
+  // Base artworks belonging strictly to this category
   const baseCategoryArtworks = useMemo(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      return initialProducts.filter((a) => (a.category as any) === category);
+    }
     return ARTWORKS.filter((a) => getArtworkCategory(a) === category);
-  }, [category]);
+  }, [category, initialProducts]);
 
   // Filter states
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
@@ -84,10 +88,10 @@ export default function CategoryPageClient({
       list = list.filter(
         (a) =>
           a.name.toLowerCase().includes(q) ||
-          a.artistName.toLowerCase().includes(q) ||
+          (a.artistName && a.artistName.toLowerCase().includes(q)) ||
           a.medium.toLowerCase().includes(q) ||
           a.description.toLowerCase().includes(q) ||
-          a.styleTags.some((t) => t.toLowerCase().includes(q))
+          ((a.styleTags || []).some((t: string) => t.toLowerCase().includes(q)))
       );
     }
 
@@ -102,8 +106,8 @@ export default function CategoryPageClient({
     }
 
     // Special filter
-    if (specialFilter === 'one-of-one') {
-      list = list.filter((a) => a.isOneOfOne);
+    if (specialFilter === 'featured') {
+      list = list.filter((a) => a.isFeatured);
     } else if (specialFilter === 'limited-editions') {
       list = list.filter((a) => a.isLimitedEdition);
     } else if (specialFilter === 'bestsellers') {
@@ -130,10 +134,10 @@ export default function CategoryPageClient({
       list.sort((a, b) => b.price - a.price);
     } else if (sortOrder === 'newest') {
       list.sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
       );
     } else if (sortOrder === 'rating') {
-      list.sort((a, b) => b.rating - a.rating);
+      list.sort((a, b) => (b.rating ?? 5) - (a.rating ?? 5));
     }
 
     return list;
@@ -491,9 +495,9 @@ export default function CategoryPageClient({
                   <div className="space-y-2 text-xs font-sans text-neutral-600">
                     {[
                       { id: 'all', label: 'All Products' },
-                      { id: 'one-of-one', label: '1/1 Original Pieces' },
+                      { id: 'featured', label: 'Featured Products' },
                       { id: 'limited-editions', label: 'Numbered Editions' },
-                      { id: 'bestsellers', label: 'Bestselling Curations' },
+                      { id: 'bestsellers', label: 'Bestselling Products' },
                       { id: 'new', label: 'New Arrivals' },
                     ].map((s) => (
                       <label key={s.id} className="flex items-center gap-2.5 cursor-pointer">

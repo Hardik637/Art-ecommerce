@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
+import CartToast from '@/components/CartToast';
 import { SITE_CONFIG } from '@/config/site';
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -77,27 +78,16 @@ export const metadata: Metadata = {
   },
 };
 
-const artGallerySchema = {
+const storeSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ArtGallery',
+  '@type': 'OnlineStore',
   name: SITE_CONFIG.name,
-  alternateName: 'Atelier Art House',
   url: SITE_CONFIG.url,
   logo: `${SITE_CONFIG.url}/brand-seal.svg`,
-  description:
-    'Contemporary art house and luxury collector boutique celebrating master Indian painters, sculptors, and limited-edition figure designers.',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '14 Civil Lines',
-    addressLocality: 'New Delhi',
-    addressRegion: 'Delhi',
-    postalCode: '110054',
-    addressCountry: 'IN',
-  },
-  telephone: SITE_CONFIG.contact.phone,
+  description: SITE_CONFIG.subTagline,
   currenciesAccepted: 'INR',
   paymentAccepted: ['Credit Card', 'UPI', 'Net Banking', 'Cash on Delivery'],
-  priceRange: '₹₹₹',
+  priceRange: '₹₹',
 };
 
 export default function RootLayout({
@@ -108,15 +98,16 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(artGallerySchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(storeSchema) }}
         />
       </head>
       <body
-        className={`${cormorantGaramond.variable} ${manrope.variable} bg-[#FAFAF9] text-[#0F0F0F] font-sans antialiased selection:bg-[#0F0F0F] selection:text-[#FAFAF9]`}
+        className={`${cormorantGaramond.variable} ${manrope.variable} bg-white text-black font-sans antialiased selection:bg-black selection:text-white`}
         suppressHydrationWarning
       >
         <Header />
         <CartDrawer />
+        <CartToast />
         <main>{children}</main>
         <Footer />
       </body>

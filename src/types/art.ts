@@ -1,17 +1,8 @@
 export type MajorCategory = 'wall-art' | 'sculptures' | 'decorative-pieces';
 
-export type ArtworkCategory =
-  | 'wall-art'
-  | 'sculptures'
-  | 'decorative-pieces'
-  | 'paintings'
-  | 'figures'
-  | 'prints'
-  | 'objects';
-
+export type ArtworkCategory = MajorCategory;
 
 export type ArtworkSubcategory =
-  | 'hand-painted'
   | 'abstract'
   | 'contemporary'
   | 'portraits'
@@ -30,12 +21,14 @@ export type ArtworkSubcategory =
 
 export type ArtworkOrientation = 'vertical' | 'horizontal' | 'square';
 
-export interface ArtworkDimensions {
+export interface ProductDimensions {
   width: number;
   height: number;
   depth?: number;
   unit: 'cm' | 'in';
 }
+
+export type ArtworkDimensions = ProductDimensions;
 
 export interface FrameOption {
   id: string;
@@ -63,73 +56,79 @@ export interface SculptureSpecs {
   };
 }
 
-export interface ArtworkProduct {
+/**
+ * Authoritative Unified Product Model
+ * Valid Category must ONLY accept: 'wall-art' | 'sculptures' | 'decorative-pieces'
+ */
+export interface Product {
   id: string;
   slug: string;
-  catalogNumber: string; // e.g., "CAT. #A04-12"
   name: string;
-  artistId: string;
-  artistName: string;
-  category: ArtworkCategory;
-  subcategory: ArtworkSubcategory;
-  type: 'painting' | 'sculpture' | 'figure' | 'print' | 'object';
-
+  category: MajorCategory;
+  subcategory: string;
   price: number;
   originalPrice?: number;
-  currency: string;
-
+  original_price?: number;
   description: string;
-  shortDescription: string;
-  story: string;
-
+  shortDescription?: string;
+  short_description?: string;
   images: string[];
   thumbnail: string;
-  videoUrl?: string;
-
-  medium: string;
   material: string;
-  dimensions: ArtworkDimensions;
-  orientation: ArtworkOrientation;
+  medium: string;
+  dimensions: ProductDimensions;
+  stock: number;
+  isActive?: boolean;
+  is_active?: boolean;
+  isFeatured?: boolean;
+  is_featured?: boolean;
+  isNew?: boolean;
+  is_new?: boolean;
+  isBestseller?: boolean;
+  is_bestseller?: boolean;
+  isArtistFavorite?: boolean;
+  is_artist_favorite?: boolean;
+  rating?: number;
+  reviewCount?: number;
+  review_count?: number;
+  createdAt?: string;
+  created_at?: string;
+  updatedAt?: string;
+  updated_at?: string;
+
+  // Catalog compatibility properties
+  catalogNumber?: string;
+  artistId?: string;
+  artistName?: string;
+  type?: string;
+  currency?: string;
+  videoUrl?: string;
+  orientation?: ArtworkOrientation;
   weight?: string;
-
-  colorPalette: string[];
-  styleTags: string[];
-  roomTags: string[]; // e.g., 'living-room', 'bedroom', 'study', 'entryway', 'office'
-  moodTags: string[]; // e.g., 'calm', 'bold', 'dark', 'romantic', 'surreal', 'minimal', 'playful', 'royal'
-  occasionTags?: string[]; // e.g., 'for-her', 'for-him', 'new-home', 'anniversary'
-
-  isHandPainted: boolean;
-  isOriginal: boolean;
-  isLimitedEdition: boolean;
-  isOneOfOne: boolean;
+  colorPalette?: string[];
+  styleTags?: string[];
+  roomTags?: string[];
+  moodTags?: string[];
+  occasionTags?: string[];
+  isHandPainted?: boolean;
+  isOriginal?: boolean;
+  isLimitedEdition?: boolean;
+  isOneOfOne?: boolean;
   editionSize?: number;
   editionNumber?: number;
-
-  frameAvailable: boolean;
+  frameAvailable?: boolean;
   frameOptions?: FrameOption[];
   defaultFramePrice?: number;
-
-  certificateOfAuthenticity: boolean;
+  certificateOfAuthenticity?: boolean;
   artistNotes?: string;
-  careInstructions: string[];
-  shippingInfo: string;
-  leadTime: string;
-
-  stock: number;
-  isActive: boolean;
-  isFeatured: boolean;
-  isNew: boolean;
-  isBestseller: boolean;
-  isArtistFavorite: boolean;
-
-  rating: number;
-  reviewCount: number;
-
+  careInstructions?: string[];
+  shippingInfo?: string;
+  leadTime?: string;
   sculptureSpecs?: SculptureSpecs;
-
-  createdAt: string;
-  updatedAt: string;
+  story?: string;
 }
+
+export type ArtworkProduct = Product;
 
 export interface Artist {
   id: string;
@@ -224,6 +223,7 @@ export interface Order {
   fulfillmentStatus:
     | 'pending'
     | 'payment_confirmed'
+    | 'confirmed'
     | 'processing'
     | 'in_framing'
     | 'packed'

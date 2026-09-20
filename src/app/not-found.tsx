@@ -1,39 +1,35 @@
 import Link from 'next/link';
-import { Compass, ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="bg-[#F4EFE7] min-h-[80vh] flex flex-col items-center justify-center px-6 py-24 text-center">
-      <div className="max-w-xl space-y-6">
-        <div className="w-16 h-16 rounded-full bg-[#11100F] text-[#B08A4A] flex items-center justify-center mx-auto shadow-md">
-          <Compass size={28} />
-        </div>
-
+    <div className="bg-white min-h-[75vh] flex flex-col items-center justify-center px-6 py-24 text-center text-black">
+      <div className="max-w-md space-y-6">
         <div className="space-y-2">
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#B08A4A]">
-            Catalog Index Error 404
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400">
+            404 Error
           </span>
-          <h1 className="font-serif text-4xl md:text-5xl font-light text-[#11100F]">
-            This Gallery Wing is Uncataloged
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
+            Page Not Found
           </h1>
         </div>
 
-        <p className="text-xs md:text-sm text-[#666] font-sans max-w-md mx-auto leading-relaxed">
-          The artwork, exhibition, or archive record you are searching for does not reside in the current Atelier registry — or it has been retired into a private collection.
+        <p className="text-xs md:text-sm text-neutral-500 leading-relaxed">
+          The product or page you are looking for does not exist, has been removed, or is temporarily unavailable.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
             href="/"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#11100F] text-[#F4EFE7] hover:bg-[#B08A4A] transition-colors text-xs uppercase tracking-widest font-sans font-medium"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-semibold"
           >
-            Return to Grand Salon
+            Back to Home
           </Link>
           <Link
             href="/products"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-[#E4DBCF] bg-[#FAF8F5] text-[#11100F] hover:border-[#11100F] transition-colors text-xs uppercase tracking-widest font-sans font-medium flex items-center justify-center gap-1.5"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-lg border border-neutral-300 bg-white text-black hover:border-black transition-colors text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5"
           >
-            Explore Catalog <ArrowRight size={13} />
+            Browse Catalog <ArrowRight size={14} />
           </Link>
         </div>
       </div>

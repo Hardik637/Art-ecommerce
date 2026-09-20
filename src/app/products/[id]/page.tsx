@@ -1,15 +1,16 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { ARTWORKS, getArtworkById, getArtworkBySlug } from '@/lib/artCatalog';
+import { getProductById, getProductBySlug, getAllProducts } from '@/lib/products';
 import ArtworkDetailClient from './ArtworkDetailClient';
 import { SITE_CONFIG } from '@/config/site';
 
 export async function generateStaticParams() {
+  const products = await getAllProducts();
   const params: Array<{ id: string }> = [];
-  for (const art of ARTWORKS) {
-    params.push({ id: art.id });
-    if (art.slug && art.slug !== art.id) {
-      params.push({ id: art.slug });
+  for (const prod of products) {
+    params.push({ id: prod.id });
+    if (prod.slug && prod.slug !== prod.id) {
+      params.push({ id: prod.slug });
     }
   }
   return params;
@@ -21,40 +22,40 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const artwork = getArtworkBySlug(id) || getArtworkById(id);
+  const product = (await getProductBySlug(id)) || (await getProductById(id));
 
-  if (!artwork) {
-    return { title: 'Masterwork Not Found | Atelier' };
+  if (!product) {
+    return { title: 'Product Not Found | Zorodoor Art' };
   }
 
-  const title = `${artwork.name} by ${artwork.artistName}`;
-  const description = `${artwork.shortDescription} Explore ${artwork.name} at Atelier & Art House. ${artwork.medium}. Dimensions: ${artwork.dimensions.width}×${artwork.dimensions.height} cm.`;
+  const title = `${product.name} | ${SITE_CONFIG.name}`;
+  const description = `${product.shortDescription || product.description}. ${product.material || product.medium}. Dimensions: ${product.dimensions.width}×${product.dimensions.height} ${product.dimensions.unit}.`;
 
   return {
     title,
     description,
     keywords: [
-      artwork.name,
-      artwork.artistName,
-      artwork.medium,
-      artwork.category,
-      'buy artwork online India',
-      'Atelier Art House',
+      product.name,
+      product.artistName || '',
+      product.category,
+      product.subcategory || '',
+      'buy art online',
+      'home decor art India',
     ],
     alternates: {
-      canonical: `${SITE_CONFIG.url}/products/${artwork.slug || artwork.id}`,
+      canonical: `${SITE_CONFIG.url}/products/${product.slug || product.id}`,
     },
     openGraph: {
       title,
       description,
-      url: `${SITE_CONFIG.url}/products/${artwork.slug || artwork.id}`,
+      url: `${SITE_CONFIG.url}/products/${product.slug || product.id}`,
       type: 'website',
       images: [
         {
-          url: artwork.images[0] || artwork.thumbnail,
+          url: product.images[0] || product.thumbnail,
           width: 800,
           height: 1000,
-          alt: artwork.name,
+          alt: product.name,
         },
       ],
     },
@@ -67,38 +68,37 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const artwork = getArtworkBySlug(id) || getArtworkById(id);
+  const product = (await getProductBySlug(id)) || (await getProductById(id));
 
-  if (!artwork) {
+  if (!product) {
     notFound();
   }
 
-  const artworkSchema = {
+  const productSchema = {
     '@context': 'https://schema.org',
-    '@type': 'VisualArtwork',
-    name: artwork.name,
-    image: `${SITE_CONFIG.url}${artwork.images[0] || artwork.thumbnail}`,
-    description: artwork.description,
-    artMedium: artwork.medium,
-    artform: artwork.type,
-    width: {
-      '@type': 'Distance',
-      name: `${artwork.dimensions.width} ${artwork.dimensions.unit}`,
-    },
-    height: {
-      '@type': 'Distance',
-      name: `${artwork.dimensions.height} ${artwork.dimensions.unit}`,
-    },
-    creator: {
-      '@type': 'Person',
-      name: artwork.artistName,
+    '@type': 'Product',
+    name: product.name,
+    image: (product.images || [product.thumbnail]).map((img) =>
+      img.startsWith('http') ? img : `${SITE_CONFIG.url}${img}`
+    ),
+    description: product.description,
+    sku: product.id,
+    category: product.category,
+    material: product.material || product.medium,
+    brand: {
+      '@type': 'Brand',
+      name: SITE_CONFIG.name,
     },
     offers: {
       '@type': 'Offer',
-      url: `${SITE_CONFIG.url}/products/${artwork.slug || artwork.id}`,
+      url: `${SITE_CONFIG.url}/products/${product.slug || product.id}`,
       priceCurrency: 'INR',
-      price: artwork.price,
-      availability: artwork.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      price: product.price,
+      availability:
+        product.stock > 0
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
       seller: {
         '@type': 'Organization',
         name: SITE_CONFIG.name,
@@ -107,12 +107,13 @@ export default async function ProductPage({
   };
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen">
+    <div className="bg-[#FAFAF9] min-h-screen">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(artworkSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
-      <ArtworkDetailClient artwork={artwork} />
+      <ArtworkDetailClient artwork={product} />
     </div>
   );
 }
+

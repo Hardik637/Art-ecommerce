@@ -1,105 +1,101 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Maximize2, Compass, Eye, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Art Dimensions & Wall Space Guide | ATELIER & ART HOUSE',
+  title: 'Size & Placement Guide | Modern Art & Home Décor',
   description:
-    'Curatorial guidelines for artwork sizing, eye-level hanging standards, furniture proportion ratios, and sculpture pedestal placements.',
+    'Dimensions, hanging heights, furniture scale ratios, and placement standards for wall art and sculptures.',
 };
 
 export default function SizeGuidePage() {
   return (
-    <div className="bg-[#F4EFE7] min-h-screen py-16 px-6 md:px-12">
+    <div className="bg-white min-h-screen py-16 px-6 md:px-12 text-black">
       <div className="max-w-4xl mx-auto space-y-16">
         {/* Header */}
-        <div className="border-b border-[#E4DBCF] pb-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Curatorial Space Planning
-            </span>
-          </div>
-          <h1 className="font-serif text-3xl md:text-5xl text-[#11100F] font-light leading-tight">
-            Art Dimensions & Wall Space Guide
+        <div className="border-b border-neutral-200 pb-8">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+            Placement & Scale
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
+            Size & Placement Guide
           </h1>
-          <p className="text-xs md:text-sm text-[#666] font-sans mt-3 max-w-2xl leading-relaxed">
-            Selecting the ideal canvas scale or sculpture plinth transforms an interior from furnished to architecturally curated. Use our museum standards to harmonize artwork scale with your room dimensions.
+          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+            Selecting the right proportions ensures your wall art and home décor pieces balance naturally with your room dimensions.
           </p>
         </div>
 
         {/* Artwork Scale Matrix */}
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl overflow-hidden shadow-sm">
-          <div className="p-6 bg-[#EFE9DF]/50 border-b border-[#E4DBCF]">
-            <h2 className="font-serif text-xl text-[#11100F] font-light">
-              Standard Artwork Scale Matrix
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden">
+          <div className="p-6 border-b border-neutral-200 bg-white">
+            <h2 className="text-base font-bold text-black">
+              Standard Dimensions Guide
             </h2>
-            <p className="text-xs text-[#777] font-sans mt-0.5">
-              Dimensions, recommended room settings, and viewing distance.
+            <p className="text-xs text-neutral-500 mt-0.5">
+              Dimensions, suggested spaces, and ideal viewing distances.
             </p>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs font-sans">
+            <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-[#E4DBCF] bg-[#FAF8F5] text-[#777] font-mono text-[10px] uppercase tracking-wider">
-                  <th className="py-4 px-5">Scale Classification</th>
-                  <th className="py-4 px-4">Dimensions (cm)</th>
-                  <th className="py-4 px-4">Ideal Setting & Placement</th>
-                  <th className="py-4 px-4">Viewing Distance</th>
+                <tr className="border-b border-neutral-200 bg-neutral-100 text-neutral-500 font-mono text-[10px] uppercase tracking-wider">
+                  <th className="py-3.5 px-5">Size Classification</th>
+                  <th className="py-3.5 px-4">Dimensions</th>
+                  <th className="py-3.5 px-4">Ideal Setting</th>
+                  <th className="py-3.5 px-4">Viewing Distance</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E4DBCF]/60">
-                <tr className="hover:bg-white/60 transition-colors">
-                  <td className="py-4 px-5 font-serif text-sm font-medium text-[#11100F]">
-                    Intimate / Vignette
+              <tbody className="divide-y divide-neutral-200">
+                <tr className="hover:bg-neutral-100/50 transition-colors">
+                  <td className="py-3.5 px-5 font-semibold text-black">
+                    Small
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#8A6A32]">
+                  <td className="py-3.5 px-4 font-mono text-neutral-700">
                     30 × 40 to 45 × 60 cm
                   </td>
-                  <td className="py-4 px-4 text-[#555]">
-                    Study desk, powder room, reading alcove, or multi-piece gallery wall grid.
+                  <td className="py-3.5 px-4 text-neutral-600">
+                    Desk, entryway nook, powder room, or gallery wall grid.
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#777]">1.0 – 1.5 meters</td>
+                  <td className="py-3.5 px-4 font-mono text-neutral-500">1.0 – 1.5 m</td>
                 </tr>
 
-                <tr className="hover:bg-white/60 transition-colors">
-                  <td className="py-4 px-5 font-serif text-sm font-medium text-[#11100F]">
-                    Editorial / Medium
+                <tr className="hover:bg-neutral-100/50 transition-colors">
+                  <td className="py-3.5 px-5 font-semibold text-black">
+                    Medium
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#8A6A32]">
+                  <td className="py-3.5 px-4 font-mono text-neutral-700">
                     60 × 90 to 75 × 100 cm
                   </td>
-                  <td className="py-4 px-4 text-[#555]">
-                    Entryway console table, dining room niche, executive office wall.
+                  <td className="py-3.5 px-4 text-neutral-600">
+                    Above console table, dining room wall, study office.
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#777]">1.5 – 2.5 meters</td>
+                  <td className="py-3.5 px-4 font-mono text-neutral-500">1.5 – 2.5 m</td>
                 </tr>
 
-                <tr className="hover:bg-white/60 transition-colors">
-                  <td className="py-4 px-5 font-serif text-sm font-medium text-[#11100F]">
-                    Statement / Large
+                <tr className="hover:bg-neutral-100/50 transition-colors">
+                  <td className="py-3.5 px-5 font-semibold text-black">
+                    Large / Statement
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#8A6A32]">
+                  <td className="py-3.5 px-4 font-mono text-neutral-700">
                     90 × 120 to 100 × 150 cm
                   </td>
-                  <td className="py-4 px-4 text-[#555]">
-                    Living room sofa anchor, king bed headboard, double-height stairwell.
+                  <td className="py-3.5 px-4 text-neutral-600">
+                    Above living room sofa, king bed headboard, stairwell.
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#777]">2.5 – 4.0 meters</td>
+                  <td className="py-3.5 px-4 font-mono text-neutral-500">2.5 – 4.0 m</td>
                 </tr>
 
-                <tr className="hover:bg-white/60 transition-colors">
-                  <td className="py-4 px-5 font-serif text-sm font-medium text-[#11100F]">
-                    Monumental Salon
+                <tr className="hover:bg-neutral-100/50 transition-colors">
+                  <td className="py-3.5 px-5 font-semibold text-black">
+                    Extra Large
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#8A6A32]">
+                  <td className="py-3.5 px-4 font-mono text-neutral-700">
                     120 × 180 to 150 × 200 cm+
                   </td>
-                  <td className="py-4 px-4 text-[#555]">
-                    Grand salon wall, penthouse foyer, architectural reception lobby.
+                  <td className="py-3.5 px-4 text-neutral-600">
+                    Double-height living spaces, foyer, commercial reception.
                   </td>
-                  <td className="py-4 px-4 font-mono text-[#777]">3.5+ meters</td>
+                  <td className="py-3.5 px-4 font-mono text-neutral-500">3.5+ m</td>
                 </tr>
               </tbody>
             </table>
@@ -108,94 +104,64 @@ export default function SizeGuidePage() {
 
         {/* 3 Golden Hanging Rules */}
         <div className="space-y-6">
-          <h2 className="font-serif text-2xl md:text-3xl text-[#11100F] font-light">
-            The Three Golden Rules of Art Placement
+          <h2 className="text-xl md:text-2xl font-bold text-black">
+            Three Core Hanging Rules
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-[#11100F] text-[#B08A4A] flex items-center justify-center font-mono text-xs font-bold">
+            <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-3">
+              <div className="w-9 h-9 rounded-lg bg-black text-white flex items-center justify-center font-mono text-xs font-bold">
                 57&quot;
               </div>
-              <h3 className="font-serif text-lg text-[#11100F] font-medium">
-                The 57-Inch Eye-Level Standard
+              <h3 className="text-sm font-bold text-black">
+                Eye-Level Standard
               </h3>
-              <p className="text-xs text-[#555] font-sans leading-relaxed">
-                Galleries worldwide align the vertical center of an artwork precisely <strong>57 inches (145 cm)</strong> from the floor. This represents the human average visual horizon.
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Standard interior practice positions the vertical center of an artwork <strong>57 inches (145 cm)</strong> above the floor for natural sightlines.
               </p>
             </div>
 
-            <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-[#11100F] text-[#B08A4A] flex items-center justify-center font-mono text-xs font-bold">
+            <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-3">
+              <div className="w-9 h-9 rounded-lg bg-black text-white flex items-center justify-center font-mono text-xs font-bold">
                 2/3
               </div>
-              <h3 className="font-serif text-lg text-[#11100F] font-medium">
-                The Two-Thirds Furniture Ratio
+              <h3 className="text-sm font-bold text-black">
+                Two-Thirds Proportion
               </h3>
-              <p className="text-xs text-[#555] font-sans leading-relaxed">
-                When hanging art above a sofa, console, or bed, the artwork or diptych width should span approximately <strong>60% to 75%</strong> of the furniture piece width.
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                When hanging art above a sofa or console, the artwork or pair should measure approximately <strong>60% to 75%</strong> of the furniture piece width.
               </p>
             </div>
 
-            <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-[#11100F] text-[#B08A4A] flex items-center justify-center font-mono text-xs font-bold">
+            <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-3">
+              <div className="w-9 h-9 rounded-lg bg-black text-white flex items-center justify-center font-mono text-xs font-bold">
                 8&quot;
               </div>
-              <h3 className="font-serif text-lg text-[#11100F] font-medium">
-                The Anchor Clearance
+              <h3 className="text-sm font-bold text-black">
+                Furniture Clearance
               </h3>
-              <p className="text-xs text-[#555] font-sans leading-relaxed">
-                Leave between <strong>6 to 8 inches (15–20 cm)</strong> between the top of the sofa backrest or console surface and the bottom edge of the frame.
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Leave between <strong>6 to 8 inches (15–20 cm)</strong> between the top of the sofa backrest or console table and the bottom of the frame.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Sculpture Placement Guidelines */}
-        <section className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-8 shadow-sm space-y-6">
-          <h2 className="font-serif text-2xl text-[#11100F] font-light">
-            Sculpture, Bronzes & Figure Display Guidelines
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-[#555] font-sans leading-relaxed">
-            <div className="space-y-2">
-              <strong className="text-sm text-[#11100F] block">
-                Plinth & Pedestal Elevations
-              </strong>
-              <p>
-                Lost-wax cast bronzes and three-dimensional works achieve maximum emotional presence when displayed on a basalt, wood, or matte steel pedestal measuring 90 to 110 cm tall, ensuring 360-degree illumination and walk-around sightlines.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <strong className="text-sm text-[#11100F] block">
-                Art Figures & Collectibles
-              </strong>
-              <p>
-                Collectible figures (24cm–35cm) perform exceptionally within open vitrines, floating architectural shelving, or minimalist console vignettes paired with an asymmetric table lamp to produce dramatic drop shadows.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Interactive Room Visualizer CTA */}
-        <div className="bg-gradient-to-br from-[#11100F] to-[#292622] text-[#F4EFE7] rounded-2xl p-8 border border-[#B08A4A]/30 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="max-w-xl space-y-2">
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Interactive Spatial Visualizer
-            </span>
-            <h3 className="font-serif text-2xl text-[#FAF8F5] font-light">
-              Experience Any Artwork on Real Walls
+        {/* CTA */}
+        <div className="bg-black text-white rounded-xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="max-w-xl space-y-1">
+            <h3 className="text-lg font-bold text-white">
+              Test Any Artwork in Your Room
             </h3>
-            <p className="text-xs text-[#A8A096] font-sans leading-relaxed">
-              Every masterwork in our catalog features a <strong>&quot;View in Room&quot;</strong> visualizer that simulates real scale across Living Rooms, Dining Rooms, Executive Offices, and Minimalist Bedrooms.
+            <p className="text-xs text-neutral-400 leading-relaxed">
+              Every product features an interactive <strong>View in Room</strong> visualizer to verify scale against sofas and credenzas before ordering.
             </p>
           </div>
           <Link
             href="/products"
-            className="shrink-0 px-6 py-3.5 bg-[#B08A4A] text-white hover:bg-white hover:text-[#11100F] transition-colors rounded-xl text-xs uppercase tracking-widest font-sans font-medium"
+            className="shrink-0 px-6 py-3 bg-white text-black hover:bg-neutral-200 transition-colors rounded-lg text-xs uppercase tracking-wider font-semibold"
           >
-            Explore Catalog & Rooms
+            Explore Catalog
           </Link>
         </div>
       </div>

@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Artist, ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
 import { useUserStore } from '@/store/userStore';
-import { MapPin, Globe, Instagram, Heart, Sparkles, Mail, Award, Check } from 'lucide-react';
+import { MapPin, Heart, Check } from 'lucide-react';
 
 interface ArtistDetailClientProps {
   artist: Artist;
@@ -24,113 +23,105 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
   const isFollowing = mounted ? isFollowingArtist(artist.id) : false;
 
   return (
-    <div className="bg-[#F4EFE7] min-h-screen">
+    <div className="bg-white min-h-screen text-black">
       {/* Artist Hero Banner */}
-      <div className="relative h-80 md:h-96 bg-[#11100F] overflow-hidden border-b border-[#E4DBCF]">
+      <div className="relative h-72 md:h-80 bg-black overflow-hidden border-b border-neutral-200">
         <Image
           src={artist.coverImage}
           alt={artist.name}
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-40 blur-sm scale-105"
+          className="object-cover opacity-40 blur-xs scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#11100F] via-[#11100F]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
-        <div className="absolute bottom-8 left-0 right-0 max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="flex items-center gap-6">
-            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#B08A4A] relative shrink-0 shadow-2xl bg-[#11100F]">
+        <div className="absolute bottom-8 left-0 right-0 max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="flex items-center gap-5">
+            <div className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-white relative shrink-0 shadow-lg bg-neutral-900">
               <Image
                 src={artist.portrait}
                 alt={artist.name}
                 fill
-                sizes="128px"
+                sizes="112px"
                 className="object-cover"
               />
             </div>
-            <div className="text-[#FAF8F5]">
-              <div className="flex items-center gap-2 mb-1">
-                <MapPin size={13} className="text-[#B08A4A]" />
-                <span className="text-xs font-mono uppercase tracking-widest text-[#B08A4A]">
+            <div className="text-white">
+              <div className="flex items-center gap-1.5 mb-1">
+                <MapPin size={12} className="text-white" />
+                <span className="text-xs font-mono uppercase tracking-wider text-neutral-300">
                   {artist.location}
                 </span>
               </div>
-              <h1 className="font-serif text-3xl md:text-5xl font-light text-[#FAF8F5]">
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-white">
                 {artist.name}
               </h1>
-              <p className="text-xs md:text-sm font-mono text-[#D4C4B0] mt-1">
+              <p className="text-xs font-mono text-neutral-400 mt-0.5">
                 {artist.signatureStyle}
               </p>
             </div>
           </div>
 
-          {/* Follow / Inquire Actions */}
+          {/* Follow Action */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => toggleFollowArtist(artist.id)}
-              className={`px-5 py-3 rounded-xl text-xs uppercase tracking-wider font-sans font-medium flex items-center gap-2 transition-all shadow-md ${
+              className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-semibold flex items-center gap-2 transition-all cursor-pointer ${
                 isFollowing
-                  ? 'bg-[#B08A4A] text-white border border-[#B08A4A]'
-                  : 'bg-[#FAF8F5] text-[#11100F] hover:bg-white'
+                  ? 'bg-white text-black'
+                  : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
               }`}
             >
               {isFollowing ? (
                 <>
-                  <Check size={14} /> Following Studio
+                  <Check size={14} /> Following
                 </>
               ) : (
                 <>
-                  <Heart size={14} className="text-[#B08A4A]" /> Follow Studio ({artist.followerCount})
+                  <Heart size={14} /> Follow ({artist.followerCount})
                 </>
               )}
             </button>
-
-            <a
-              href={`mailto:concierge@atelierarthouse.com?subject=Commission%20Inquiry%20for%20${encodeURIComponent(artist.name)}`}
-              className="px-5 py-3 rounded-xl bg-[#292622] hover:bg-[#11100F] text-[#F4EFE7] text-xs uppercase tracking-wider font-sans font-medium flex items-center gap-2 transition-colors border border-white/10"
-            >
-              <Mail size={14} className="text-[#B08A4A]" />
-              Inquire Bespoke Work
-            </a>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Artist Bio Column */}
-          <div className="space-y-8">
-            <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-3">
-                Curatorial Bio & Practice
+          <div className="space-y-6">
+            <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-2 font-semibold">
+                Creator Bio
               </span>
-              <p className="text-xs md:text-sm text-[#444] font-sans leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 {artist.bio}
               </p>
 
-              {/* Artist Statement */}
-              <div className="mt-6 pt-6 border-t border-[#E4DBCF]">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-2">
-                  Artist&apos;s Philosophy
+              {/* Statement */}
+              <div className="mt-4 pt-4 border-t border-neutral-200">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-1 font-semibold">
+                  Statement
                 </span>
-                <blockquote className="font-serif italic text-sm text-[#11100F] leading-relaxed">
+                <blockquote className="italic text-xs text-black leading-relaxed">
                   &ldquo;{artist.statement}&rdquo;
                 </blockquote>
               </div>
             </div>
 
-            {/* Mediums & Exhibitions */}
-            <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 shadow-sm space-y-6">
+            {/* Mediums */}
+            <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-3">
-                  Mediums & Techniques
+                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-2 font-semibold">
+                  Mediums & Materials
                 </span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {artist.mediums.map((m) => (
                     <span
                       key={m}
-                      className="px-3 py-1 rounded-lg bg-[#EFE9DF] text-[11px] font-mono text-[#11100F] border border-[#E4DBCF]"
+                      className="px-2.5 py-1 rounded-sm bg-white text-[10px] font-mono text-black border border-neutral-200"
                     >
                       {m}
                     </span>
@@ -139,14 +130,14 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
               </div>
 
               {artist.exhibitions && artist.exhibitions.length > 0 && (
-                <div className="pt-4 border-t border-[#E4DBCF]">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#B08A4A] block mb-3">
-                    Selected Exhibitions
+                <div className="pt-3 border-t border-neutral-200">
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-2 font-semibold">
+                    Highlights
                   </span>
-                  <ul className="space-y-2 text-xs font-sans text-[#555]">
+                  <ul className="space-y-1.5 text-xs text-neutral-600">
                     {artist.exhibitions.map((ex, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <Award size={13} className="text-[#B08A4A] shrink-0 mt-0.5" />
+                        <span className="text-black font-bold">•</span>
                         <span>{ex}</span>
                       </li>
                     ))}
@@ -158,26 +149,26 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
 
           {/* Catalog Artworks by Artist */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E4DBCF]">
+            <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
               <div>
-                <h2 className="font-serif text-2xl md:text-3xl text-[#11100F] font-light">
-                  Works from the Studio
+                <h2 className="text-xl font-bold text-black">
+                  Products by {artist.name}
                 </h2>
-                <p className="text-xs text-[#777] font-sans mt-0.5">
-                  Available original canvases, sculptures, and limited editions.
+                <p className="text-xs text-neutral-500 mt-0.5">
+                  Available original works and limited editions.
                 </p>
               </div>
-              <span className="font-mono text-xs text-[#B08A4A]">
-                {artworks.length} Works
+              <span className="font-mono text-xs text-neutral-500 font-semibold">
+                {artworks.length} Items
               </span>
             </div>
 
             {artworks.length === 0 ? (
-              <div className="p-12 text-center bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl text-xs text-[#777]">
-                Currently all pieces from this studio are acquired. Contact the art concierge for upcoming releases.
+              <div className="p-12 text-center bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-500">
+                Currently all pieces from this creator are sold out. Check back for upcoming releases.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {artworks.map((artwork) => (
                   <ArtworkCard key={artwork.id} artwork={artwork} />
                 ))}

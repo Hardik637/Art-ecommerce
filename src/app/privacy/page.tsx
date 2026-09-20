@@ -1,61 +1,52 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Patron Privacy & Discretion Policy | ATELIER & ART HOUSE',
+  title: 'Privacy Policy | Modern Art & Home Décor',
   description:
-    'Our commitment to collector discretion, acquisition confidentiality, and secure personal data protection.',
+    'Information regarding customer data privacy, checkout encryption, and order processing security.',
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="bg-[#F4EFE7] min-h-screen py-16 px-6 md:px-12">
+    <div className="bg-white min-h-screen py-16 px-6 md:px-12 text-black">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="border-b border-[#E4DBCF] pb-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Patron Discretion
-            </span>
-          </div>
-          <h1 className="font-serif text-3xl md:text-5xl text-[#11100F] font-light leading-tight">
-            Patron Privacy & Confidentiality
+        <div className="border-b border-neutral-200 pb-8">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+            Customer Privacy
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
+            Privacy Policy
           </h1>
-          <p className="text-xs md:text-sm text-[#666] font-sans mt-3 max-w-2xl leading-relaxed">
-            Collecting fine art is a private endeavor. We uphold the strictest standards of discretion regarding patron identity, provenance records, and delivery locations.
+          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+            We value your privacy and are committed to protecting your personal information throughout your shopping experience.
           </p>
         </div>
 
-        <div className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-8 shadow-sm space-y-8 text-xs md:text-sm text-[#555] font-sans leading-relaxed">
-          <section className="space-y-3">
-            <h2 className="font-serif text-2xl text-[#11100F] font-medium">
-              1. Collector Anonymity & Public Discretion
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-8 space-y-8 text-xs md:text-sm text-neutral-600 leading-relaxed">
+          <section className="space-y-2">
+            <h2 className="text-base md:text-lg font-bold text-black">
+              1. Information We Collect
             </h2>
             <p>
-              Atelier & Art House will never publish, share, or sell the names, collection details, or purchase valuations of private patrons. When artworks are referenced in retrospective literature or exhibition catalogues, collector attributions are recorded as <em>&quot;Private Collection, India&quot;</em> unless explicit written authorization is granted by the collector.
+              We collect information necessary to process your transactions and deliver your orders, including your name, email address, phone number, shipping address, and order history.
             </p>
           </section>
 
-          <section className="space-y-3 border-t border-[#E4DBCF] pt-6">
-            <h2 className="font-serif text-2xl text-[#11100F] font-medium">
-              2. Data Collected for Logistics & Provenance
+          <section className="space-y-2 border-t border-neutral-200 pt-6">
+            <h2 className="text-base md:text-lg font-bold text-black">
+              2. Secure Payment Processing
             </h2>
             <p>
-              We collect only the essential personal details required to verify provenance and ensure safe transit:
+              All online payments are securely processed through encrypted PCI-DSS compliant payment gateways (Razorpay). We do not store full credit/debit card numbers or CVVs on our servers.
             </p>
-            <ul className="list-disc pl-5 space-y-1.5">
-              <li>Full Patron Name & registered email for Certificates of Authenticity</li>
-              <li>Encrypted delivery addresses and telephone numbers shared solely with certified fine art freight handlers</li>
-              <li>Encrypted payment tokens processed through PCI-DSS Level 1 compliant gateway gateways (Razorpay)</li>
-            </ul>
           </section>
 
-          <section className="space-y-3 border-t border-[#E4DBCF] pt-6">
-            <h2 className="font-serif text-2xl text-[#11100F] font-medium">
-              3. Curatorial Communications
+          <section className="space-y-2 border-t border-neutral-200 pt-6">
+            <h2 className="text-base md:text-lg font-bold text-black">
+              3. Data Usage & Sharing
             </h2>
             <p>
-              Subscribers to <em>The Sunday Salon Dispatch</em> receive curatorial essays and private preview invitations. Patrons can modify their dispatch preferences or unsubscribe at any time within their Collector Cabinet settings.
+              Your contact details are shared exclusively with trusted delivery and courier services solely for fulfilling order shipments. We never sell or rent your personal information to third parties.
             </p>
           </section>
         </div>

@@ -1,62 +1,58 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { HelpCircle, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Curatorial Questions | ATELIER & ART HOUSE',
+  title: 'Frequently Asked Questions | Modern Art & Home Décor',
   description:
-    'Answers regarding artwork authenticity, provenance certificates, museum float framing, white-glove transit insurance, and bespoke commissions.',
+    'Answers regarding artwork authenticity, framing options, shipping transit insurance, and order returns.',
 };
 
 const FAQS = [
   {
     question: 'How is authenticity verified for every artwork?',
     answer:
-      'Every original painting, bronze sculpture, and collectible figure is cataloged in the permanent Atelier Registry with a unique provenance hash (e.g. ATH-COA-2026-8941). Your acquisition includes a hot-wax sealed, hand-numbered Certificate of Authenticity signed jointly by the master artist and our chief curator.',
+      'Every original painting, sculpture, and decorative piece comes with a verified Certificate of Authenticity specifying title, medium, dimensions, and production year.',
   },
   {
-    question: 'What is the difference between a 1/1 Original, Limited Edition, and Fine Art Print?',
+    question: 'What is the difference between an Original Artwork, Limited Edition, and Art Print?',
     answer:
-      'A "One-of-One" (1/1) is an original singular piece conceived and executed entirely by hand with no other copies in existence. A "Limited Edition" is a strictly capped casting run (e.g., 50 bronze casts or 50 collectible figures), each numbered on the base. A "Fine Art Print" is an archival museum reproduction on 310gsm German etching paper using 12-color pigment inks with a 100+ year fade-resistance rating.',
+      'An Original Artwork is a singular piece created entirely by hand. A Limited Edition is a numbered run capped at a strictly limited quantity. An Art Print is an archival reproduction printed on heavyweight museum-grade paper using archival pigment inks.',
   },
   {
-    question: 'What materials are used in the Atelier custom framing studio?',
+    question: 'What materials are used in your framing?',
     answer:
-      'Our framing atelier uses sustainably harvested solid American White Oak, kiln-dried Black Ash wood, and hand-applied 22K antique gold leafing. We construct true float frames featuring an 8mm shadow reveal gap, acid-free backing, and optional UltraVue 99% UV-protective museum anti-reflective glass.',
+      'Our framing studio uses solid natural woods (Black Ash, White Oak, Matte Black) with acid-free mats and premium protective glass engineered to preserve artwork longevity.',
   },
   {
-    question: 'How are fragile sculptures and large canvases packaged for transit?',
+    question: 'How are fragile sculptures and large canvases packaged?',
     answer:
-      'All framed artworks and heavy cast sculptures travel inside reinforced plywood crates with custom die-cut polyethylene shock-absorption foam and breathable acid-free glassine paper. Every shipment is handled by certified fine art couriers with 100% declared transit insurance.',
+      'All items are packed using multi-layer protective materials, reinforced custom corner guards, shock-absorbing padding, and durable wooden crates for heavy sculptures to ensure damage-free transit.',
   },
   {
-    question: 'Can I visualize an artwork on my own walls before purchasing?',
+    question: 'Can I visualize an artwork on my wall before purchasing?',
     answer:
-      'Yes! Every artwork page features an interactive "View in Room" visualizer allowing you to test scaling against living room sofas, dining credenzas, and bedrooms with framing toggles. You may also email photographs of your space to concierge@atelierarthouse.com for complimentary 3D architectural wall simulation.',
+      'Yes! Use our interactive "View in Room" feature on any product page to preview the piece with realistic scale against living room sofas, dining areas, and office walls.',
   },
   {
-    question: 'Can I commission a custom-sized painting or bespoke bronze sculpture?',
+    question: 'What is your shipping and return policy?',
     answer:
-      'Yes. Through our Private Curatorial Advisory, patrons can commission custom site-specific canvases and bespoke patina variations directly from our six resident master artists. Typical commission lead times range from 4 to 8 weeks.',
+      'We offer free insured delivery on orders meeting the qualifying threshold. In the rare event an item arrives damaged or does not fit your space, our customer support will process a replacement or return within our inspection policy window.',
   },
 ];
 
 export default function FAQPage() {
   return (
-    <div className="bg-[#F4EFE7] min-h-screen py-16 px-6 md:px-12">
+    <div className="bg-white min-h-screen py-16 px-6 md:px-12 text-black">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="border-b border-[#E4DBCF] pb-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#B08A4A]">
-              Curatorial Inquiries
-            </span>
-          </div>
-          <h1 className="font-serif text-3xl md:text-5xl text-[#11100F] font-light leading-tight">
+        <div className="border-b border-neutral-200 pb-8">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+            Help Center
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
             Frequently Asked Questions
           </h1>
-          <p className="text-xs md:text-sm text-[#666] font-sans mt-3 max-w-2xl leading-relaxed">
-            Essential information regarding provenance certificates, archival museum float framing, white-glove art transit, and collector acquisitions.
+          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+            Everything you need to know about our products, framing options, secure shipping, and order management.
           </p>
         </div>
 
@@ -64,32 +60,32 @@ export default function FAQPage() {
           {FAQS.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#FAF8F5] border border-[#E4DBCF] rounded-2xl p-6 sm:p-8 shadow-sm hover:border-[#B08A4A]/50 transition-colors"
+              className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 sm:p-8 hover:border-black transition-colors"
             >
-              <h2 className="font-serif text-xl text-[#11100F] font-medium mb-3">
+              <h2 className="text-base sm:text-lg font-bold text-black mb-2">
                 {faq.question}
               </h2>
-              <p className="text-xs sm:text-sm text-[#555] font-sans leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
                 {faq.answer}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="bg-[#11100F] text-[#F4EFE7] rounded-2xl p-8 border border-[#B08A4A]/30 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="bg-black text-white rounded-xl p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <h3 className="font-serif text-xl text-[#FAF8F5]">
-              Have a Specific Curatorial Question?
+            <h3 className="text-lg font-bold text-white">
+              Have More Questions?
             </h3>
-            <p className="text-xs text-[#A8A096] font-sans mt-1">
-              Our art advisory team provides personalized assistance for private collectors.
+            <p className="text-xs text-neutral-400 mt-1">
+              Our support team is available to assist with sizing, framing advice, or order inquiries.
             </p>
           </div>
           <Link
             href="/contact"
-            className="shrink-0 px-6 py-3 bg-[#B08A4A] text-white hover:bg-white hover:text-[#11100F] transition-colors rounded-xl text-xs uppercase tracking-widest font-sans font-medium"
+            className="shrink-0 px-6 py-3 bg-white text-black hover:bg-neutral-200 transition-colors rounded-lg text-xs uppercase tracking-wider font-semibold"
           >
-            Consult Concierge
+            Contact Support
           </Link>
         </div>
       </div>

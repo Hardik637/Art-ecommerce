@@ -16,7 +16,6 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
-  Sparkles,
 } from 'lucide-react';
 
 export default function HomeClient() {
@@ -31,60 +30,60 @@ export default function HomeClient() {
   }, [activeTab]);
 
   return (
-    <div className="bg-[#FAFAF9] min-h-screen text-[#0F0F0F]">
-      {/* ── 1. RETAIL HERO BANNER ─────────────────────────────────────── */}
-      <section className="relative w-full border-b border-neutral-200 bg-neutral-100 overflow-hidden">
+    <div className="bg-white min-h-screen text-black">
+      {/* ── 1. RETAIL HERO CAMPAIGN BANNER ────────────────────────────── */}
+      <section className="relative w-full border-b border-neutral-200 bg-neutral-50 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-12 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
-          {/* Left: Commercial Headlines & CTAs */}
+          {/* Left: Bold Commercial Headlines & High-Contrast CTAs */}
           <div className="lg:col-span-6 space-y-5 md:space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-neutral-200 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-[#B08A4A]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-neutral-300 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-black" />
               <span className="text-[10px] font-sans font-semibold tracking-widest uppercase text-neutral-800">
                 New Season Collection • Home Décor
               </span>
             </div>
 
-            <h1 className="font-sans font-extrabold text-4xl sm:text-5xl md:text-6xl text-[#0F0F0F] tracking-tight leading-[1.08] uppercase">
+            <h1 className="font-sans font-extrabold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.06] uppercase">
               Art For Your Space
             </h1>
 
             <p className="text-sm md:text-base font-sans text-neutral-600 leading-relaxed max-w-lg">
-              Curated original wall art, sculptures and decorative pieces designed to elevate modern interiors. Delivered pan-India with white-glove assurance.
+              Curated wall art, sculptures and decorative pieces designed for modern interiors. Pan-India insured delivery with 7-day in-home trial.
             </p>
 
             {/* Direct Commercial E-Commerce CTAs */}
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
               <Link
                 href="/products"
-                className="bg-[#0F0F0F] hover:bg-neutral-800 text-white text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors shadow-sm flex items-center gap-2.5"
+                className="bg-black hover:bg-neutral-800 text-white text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors shadow-sm flex items-center gap-2.5"
               >
-                <span>Shop Now</span>
+                <span>Shop Collection</span>
                 <ArrowRight size={14} />
               </Link>
 
               <Link
                 href="/wall-art"
-                className="bg-white hover:bg-neutral-100 border border-neutral-300 text-[#0F0F0F] text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors"
+                className="bg-white hover:bg-neutral-100 border border-black text-black text-xs font-sans font-bold uppercase tracking-widest px-8 py-4 transition-colors"
               >
-                Shop Wall Art
+                Explore Wall Art
               </Link>
             </div>
 
             {/* Commercial Trust Metrics */}
             <div className="flex items-center gap-6 pt-4 border-t border-neutral-200 text-xs font-sans text-neutral-600">
               <div>
-                <span className="font-bold text-neutral-900 block text-base">40+</span>
-                <span>Original Works</span>
+                <span className="font-extrabold text-black block text-base">40+</span>
+                <span>Curated Products</span>
               </div>
               <div className="w-px h-6 bg-neutral-300" />
               <div>
-                <span className="font-bold text-neutral-900 block text-base">100%</span>
-                <span>Signed &amp; Certified</span>
+                <span className="font-extrabold text-black block text-base">100%</span>
+                <span>Authentic Works</span>
               </div>
               <div className="w-px h-6 bg-neutral-300" />
               <div>
-                <span className="font-bold text-neutral-900 block text-base">Free</span>
-                <span>Insured Transit</span>
+                <span className="font-extrabold text-black block text-base">Free</span>
+                <span>Transit Above ₹999</span>
               </div>
             </div>
           </div>
@@ -92,7 +91,7 @@ export default function HomeClient() {
           {/* Right: Featured Lifestyle Hero Product */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-md lg:max-w-lg aspect-[4/5] bg-white border border-neutral-200 shadow-lg p-3 group overflow-hidden">
-              <div className="relative w-full h-full bg-neutral-50 overflow-hidden">
+              <div className="relative w-full h-full bg-neutral-100 overflow-hidden">
                 <Image
                   src="/artworks/painting-monsoon-abstract.svg"
                   alt="Curated Artwork in Interior"
@@ -104,16 +103,16 @@ export default function HomeClient() {
                 {/* Clean Product Label Tag */}
                 <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3 border border-neutral-200 flex items-center justify-between shadow-xs">
                   <div>
-                    <span className="text-[9.5px] font-sans font-bold tracking-wider text-[#B08A4A] uppercase block">
+                    <span className="text-[9.5px] font-sans font-bold tracking-wider text-neutral-500 uppercase block">
                       Featured Work
                     </span>
-                    <span className="text-xs font-sans font-semibold text-neutral-900 truncate block">
+                    <span className="text-xs font-sans font-semibold text-black truncate block">
                       Monsoon Over the Ghats
                     </span>
                   </div>
                   <Link
                     href="/products/monsoon-over-the-ghats"
-                    className="bg-[#0F0F0F] text-white hover:bg-neutral-800 px-3 py-1.5 text-[10px] font-sans font-semibold uppercase tracking-wider transition-colors"
+                    className="bg-black text-white hover:bg-neutral-800 px-3 py-1.5 text-[10px] font-sans font-semibold uppercase tracking-wider transition-colors"
                   >
                     View
                   </Link>
@@ -128,10 +127,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 gap-2">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
-              Curated Disciplines
+            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+              Curated Collections
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#0F0F0F] tracking-tight uppercase">
+            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
               Shop by Category
             </h2>
           </div>
@@ -161,7 +160,7 @@ export default function HomeClient() {
               <div className="p-5 flex flex-col justify-between flex-1 bg-white">
                 <div>
                   <div className="flex items-baseline justify-between mb-1">
-                    <h3 className="font-sans font-bold text-lg text-neutral-900 group-hover:text-black transition-colors uppercase">
+                    <h3 className="font-sans font-bold text-lg text-black group-hover:text-black transition-colors uppercase">
                       {cat.name}
                     </h3>
                     <span className="text-[11px] font-sans text-neutral-500">
@@ -173,7 +172,7 @@ export default function HomeClient() {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-[#0F0F0F] group-hover:text-[#B08A4A] transition-colors">
+                <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-black group-hover:text-black transition-colors">
                   <span>Shop {cat.name}</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -187,10 +186,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-8 md:mb-10">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
+            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
               Fresh From The Studio
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#0F0F0F] tracking-tight uppercase">
+            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
               New Arrivals
             </h2>
           </div>
@@ -215,10 +214,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex items-end justify-between mb-8 md:mb-10">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
+            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
               Popular Choices
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#0F0F0F] tracking-tight uppercase">
+            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
               Bestsellers
             </h2>
           </div>
@@ -240,28 +239,28 @@ export default function HomeClient() {
       </section>
 
       {/* ── 5. FEATURED COLLECTION: CURATED FOR YOUR HOME ─────────────── */}
-      <section className="py-14 md:py-20 bg-neutral-900 text-white">
+      <section className="py-14 md:py-20 bg-neutral-950 text-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Visual banner */}
-            <div className="lg:col-span-6 relative aspect-[16/10] bg-neutral-800 overflow-hidden border border-neutral-700">
+            <div className="lg:col-span-6 relative aspect-[16/10] bg-neutral-900 overflow-hidden border border-neutral-800">
               <Image
                 src="/artworks/sculpture-dynamic-dancer.svg"
                 alt="Curated for Modern Interiors"
                 fill
                 className="object-contain p-6"
               />
-              <div className="absolute top-4 left-4 bg-black/80 px-2.5 py-1 text-[10px] font-sans font-bold uppercase tracking-wider text-[#B08A4A]">
+              <div className="absolute top-4 left-4 bg-black/90 px-2.5 py-1 text-[10px] font-sans font-bold uppercase tracking-wider text-white border border-neutral-800">
                 Living Room &amp; Foyer Placement
               </div>
             </div>
 
             {/* Collection Pitch */}
             <div className="lg:col-span-6 space-y-4 md:space-y-5">
-              <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block">
+              <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-400 uppercase block">
                 Home Décor Curation
               </span>
-              <h2 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight uppercase leading-tight">
+              <h2 className="font-sans font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight uppercase leading-tight text-white">
                 Curated For Your Home
               </h2>
               <p className="text-sm md:text-base font-sans text-neutral-300 leading-relaxed">
@@ -285,10 +284,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 border-b border-neutral-200">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
+            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
               Explore The Catalog
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#0F0F0F] tracking-tight uppercase">
+            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl text-black tracking-tight uppercase">
               Explore Collection
             </h2>
           </div>
@@ -306,7 +305,7 @@ export default function HomeClient() {
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`px-3 sm:px-4 py-2 text-xs font-sans font-semibold uppercase tracking-wider border transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-[#0F0F0F] text-white border-[#0F0F0F]'
+                    ? 'bg-black text-white border-black'
                     : 'bg-white text-neutral-600 border-neutral-200 hover:text-black hover:border-neutral-400'
                 }`}
               >
@@ -326,7 +325,7 @@ export default function HomeClient() {
         <div className="text-center mt-10">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 border border-neutral-900 bg-white hover:bg-neutral-900 hover:text-white text-neutral-900 text-xs font-sans font-bold uppercase tracking-widest px-8 py-3.5 transition-colors"
+            className="inline-flex items-center gap-2 border border-black bg-white hover:bg-black hover:text-white text-black text-xs font-sans font-bold uppercase tracking-widest px-8 py-3.5 transition-colors"
           >
             <span>View All Products In Catalog</span>
             <ArrowRight size={13} />
@@ -338,10 +337,10 @@ export default function HomeClient() {
       <section className="py-14 md:py-16 bg-white border-b border-neutral-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="max-w-2xl mx-auto text-center mb-10">
-            <span className="text-[10px] font-sans font-bold tracking-widest text-[#B08A4A] uppercase block mb-1">
+            <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
               The Atelier Standard
             </span>
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#0F0F0F] tracking-tight uppercase mb-3">
+            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl text-black tracking-tight uppercase mb-3">
               Art That Belongs In Your Space
             </h2>
             <p className="text-xs sm:text-sm font-sans text-neutral-600 leading-relaxed">
@@ -350,7 +349,7 @@ export default function HomeClient() {
             <div className="mt-4">
               <Link
                 href="/about"
-                className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 hover:text-[#B08A4A] underline underline-offset-4"
+                className="text-xs font-sans font-bold uppercase tracking-wider text-black hover:text-neutral-700 underline underline-offset-4"
               >
                 About Atelier →
               </Link>
@@ -360,9 +359,9 @@ export default function HomeClient() {
           {/* 3 Concise Trust Pillars */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-neutral-100">
             <div className="flex items-start gap-3.5 p-4 bg-neutral-50 border border-neutral-200">
-              <ShieldCheck className="text-[#B08A4A] flex-shrink-0 mt-0.5" size={22} />
+              <ShieldCheck className="text-black flex-shrink-0 mt-0.5" size={22} />
               <div>
-                <h3 className="font-sans font-bold text-xs sm:text-sm text-neutral-900 uppercase mb-1">
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-black uppercase mb-1">
                   Signed Authenticity
                 </h3>
                 <p className="text-xs font-sans text-neutral-500 leading-relaxed">
@@ -372,9 +371,9 @@ export default function HomeClient() {
             </div>
 
             <div className="flex items-start gap-3.5 p-4 bg-neutral-50 border border-neutral-200">
-              <Truck className="text-[#B08A4A] flex-shrink-0 mt-0.5" size={22} />
+              <Truck className="text-black flex-shrink-0 mt-0.5" size={22} />
               <div>
-                <h3 className="font-sans font-bold text-xs sm:text-sm text-neutral-900 uppercase mb-1">
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-black uppercase mb-1">
                   White-Glove Insured Transit
                 </h3>
                 <p className="text-xs font-sans text-neutral-500 leading-relaxed">
@@ -384,9 +383,9 @@ export default function HomeClient() {
             </div>
 
             <div className="flex items-start gap-3.5 p-4 bg-neutral-50 border border-neutral-200">
-              <RotateCcw className="text-[#B08A4A] flex-shrink-0 mt-0.5" size={22} />
+              <RotateCcw className="text-black flex-shrink-0 mt-0.5" size={22} />
               <div>
-                <h3 className="font-sans font-bold text-xs sm:text-sm text-neutral-900 uppercase mb-1">
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-black uppercase mb-1">
                   7-Day In-Home Trial
                 </h3>
                 <p className="text-xs font-sans text-neutral-500 leading-relaxed">
