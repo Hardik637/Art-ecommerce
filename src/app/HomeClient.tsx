@@ -56,8 +56,8 @@ export default function HomeClient() {
               </span>
             </div>
 
-            {/* Main Campaign Title — Bebas Neue tightly locked at 0.88 line-height with clamp scaling */}
-            <h1 className="font-display text-[clamp(2.85rem,14vw,4.75rem)] sm:text-[clamp(4.25rem,8.5vw,8.5rem)] text-white text-center leading-[0.88] tracking-[0] uppercase mb-4 sm:mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)]">
+            {/* Main Campaign Title — Heavy Bold & Thicker Display Typography */}
+            <h1 className="font-display font-black text-[clamp(2.85rem,14vw,4.75rem)] sm:text-[clamp(4.25rem,8.5vw,8.5rem)] text-white text-center leading-[0.88] tracking-tight uppercase mb-4 sm:mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)] [-webkit-text-stroke:1.5px_currentColor]">
               Art That Defines <br className="hidden sm:block" />
               The Room
             </h1>

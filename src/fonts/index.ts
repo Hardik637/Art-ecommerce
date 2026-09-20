@@ -24,6 +24,11 @@ export const bebasNeue = localFont({
       weight: '400',
       style: 'normal',
     },
+    {
+      path: './zorodoor-bebas-neue-latin.woff2',
+      weight: '900',
+      style: 'normal',
+    },
   ],
   variable: '--font-bebas-neue',
   display: 'swap',
