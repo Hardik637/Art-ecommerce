@@ -91,6 +91,35 @@ body {
   will-change: transform;
 }
 
+/* Top Announcement Bar Infinite Marquee */
+.announcement-marquee-wrapper {
+  contain: layout paint;
+  will-change: transform;
+}
+
+.announcement-marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: announcement-marquee 32s linear infinite;
+  will-change: transform;
+}
+
+@keyframes announcement-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Pause marquee on desktop hover */
+.announcement-marquee-wrapper:hover .announcement-marquee-track {
+  animation-play-state: paused;
+}
+
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 5px;

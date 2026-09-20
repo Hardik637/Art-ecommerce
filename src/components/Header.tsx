@@ -15,6 +15,7 @@ import {
   X,
   ChevronRight,
 } from 'lucide-react';
+import AnnouncementBar from './AnnouncementBar';
 
 export default function Header() {
   const openCart = useCartStore((state) => state.openCart);
@@ -58,16 +59,8 @@ export default function Header() {
 
   return (
     <>
-      {/* ── Top Announcement Promo Bar ─────────────────────────────── */}
-      <div className="bg-black text-white text-[10.5px] sm:text-[11px] font-sans font-medium tracking-widest uppercase py-2 px-4 text-center border-b border-neutral-900">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
-          <span>Free Shipping On Orders Above ₹999</span>
-          <span className="text-neutral-500">•</span>
-          <span>Cash On Delivery Available</span>
-          <span className="text-neutral-500 hidden sm:inline">•</span>
-          <span className="hidden sm:inline">7-Day In-Home Trial</span>
-        </div>
-      </div>
+      {/* ── Top Moving Announcement Marquee Bar ───────────────────── */}
+      <AnnouncementBar />
 
       {/* ── Main Modern E-Commerce Header ──────────────────────────── */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
