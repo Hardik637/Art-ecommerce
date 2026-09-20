@@ -24,13 +24,13 @@ export default function ContactClient() {
       <div className="max-w-5xl mx-auto space-y-16">
         {/* Header */}
         <div className="border-b border-neutral-200 pb-8">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
             Get in Touch
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
-            Customer Support & Inquiries
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
+            Customer Support &amp; Inquiries
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 max-w-2xl leading-relaxed font-sans">
             Have questions about dimensions, framing options, custom orders, or shipping? Our support team is here to assist you.
           </p>
         </div>
@@ -44,16 +44,16 @@ export default function ContactClient() {
                   <Mail size={16} />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block">
                     Email Inquiries
                   </span>
                   <a
                     href={`mailto:${siteConfig.contact.email}`}
-                    className="text-base font-bold text-black hover:underline transition-colors"
+                    className="text-base font-sans font-bold text-black hover:underline transition-colors"
                   >
                     {siteConfig.contact.email}
                   </a>
-                  <p className="text-[11px] text-neutral-500 mt-0.5">
+                  <p className="text-[11px] text-neutral-500 mt-0.5 font-sans">
                     Responses within 4–6 business hours
                   </p>
                 </div>
@@ -64,13 +64,13 @@ export default function ContactClient() {
                   <Clock size={16} />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block">
                     Support Hours
                   </span>
-                  <p className="text-sm font-semibold text-black">
+                  <p className="text-sm font-sans font-bold text-black uppercase tracking-wide">
                     {siteConfig.contact.supportHours}
                   </p>
-                  <p className="text-[11px] text-neutral-500 mt-0.5">
+                  <p className="text-[11px] text-neutral-500 mt-0.5 font-sans">
                     Orders, delivery tracking, and returns assistance
                   </p>
                 </div>
@@ -81,13 +81,13 @@ export default function ContactClient() {
                   <MapPin size={16} />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block">
                     Delivery Coverage
                   </span>
-                  <p className="text-sm font-semibold text-black">
+                  <p className="text-sm font-sans font-bold text-black uppercase tracking-wide">
                     {siteConfig.contact.coverage}
                   </p>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-neutral-500 font-sans">
                     Insured nationwide doorstep transit
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export default function ContactClient() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-500 block mb-2 font-semibold">
+                  <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-500 block mb-2">
                     Topic
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -144,10 +144,10 @@ export default function ContactClient() {
                         key={tab.id}
                         type="button"
                         onClick={() => setInquiryType(tab.id)}
-                        className={`py-2 px-2 text-center rounded-lg text-xs transition-colors cursor-pointer ${
+                        className={`py-2 px-2 text-center rounded-lg text-xs font-sans uppercase tracking-wider transition-colors cursor-pointer ${
                           inquiryType === tab.id
-                            ? 'bg-black text-white font-semibold'
-                            : 'bg-white border border-neutral-200 text-neutral-600 hover:text-black'
+                            ? 'bg-black text-white font-bold'
+                            : 'bg-white border border-neutral-200 text-neutral-600 hover:text-black font-semibold'
                         }`}
                       >
                         {tab.label}
@@ -158,7 +158,7 @@ export default function ContactClient() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-sans font-bold">
                       Your Name *
                     </label>
                     <input
@@ -167,12 +167,12 @@ export default function ContactClient() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Rahul Sharma"
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
+                      className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs font-sans outline-none focus:border-black transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-sans font-bold">
                       Email Address *
                     </label>
                     <input
@@ -181,13 +181,13 @@ export default function ContactClient() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="you@domain.com"
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
+                      className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs font-sans outline-none focus:border-black transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-sans font-bold">
                     Phone (Optional)
                   </label>
                   <input
@@ -195,12 +195,12 @@ export default function ContactClient() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs outline-none focus:border-black transition-colors"
+                    className="w-full bg-white border border-neutral-300 rounded-lg px-3.5 py-2.5 text-xs font-sans outline-none focus:border-black transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-semibold">
+                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 mb-1 font-sans font-bold">
                     Message *
                   </label>
                   <textarea
@@ -209,13 +209,13 @@ export default function ContactClient() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Describe your inquiry, order number, or product question..."
-                    className="w-full bg-white border border-neutral-300 rounded-lg p-3 text-xs outline-none focus:border-black transition-colors"
+                    className="w-full bg-white border border-neutral-300 rounded-lg p-3 text-xs font-sans outline-none focus:border-black transition-colors"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-lg bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 rounded-lg bg-black text-white hover:bg-neutral-800 transition-colors text-xs uppercase tracking-wider font-sans font-bold flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send size={14} /> Send Message
                 </button>

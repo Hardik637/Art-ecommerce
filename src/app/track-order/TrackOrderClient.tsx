@@ -57,14 +57,14 @@ export default function TrackOrderClient() {
     <div className="bg-white min-h-screen py-16 px-6 md:px-12 text-black">
       <div className="max-w-3xl mx-auto space-y-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-black/15 bg-neutral-100 text-black text-[10px] font-mono uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-black/15 bg-neutral-100 text-black text-[10px] font-sans font-bold uppercase tracking-widest">
             <Truck size={12} />
             Live Shipment Tracker
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
             Track Your Order
           </h1>
-          <p className="text-xs text-neutral-500 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 max-w-md mx-auto leading-relaxed font-sans">
             Enter your Order ID (e.g. ATH-2026-8941) or Tracking Number to view current status and estimated delivery.
           </p>
         </div>

@@ -51,7 +51,7 @@ export default function CollectionDetailClient({
         <div className="absolute bottom-8 left-0 right-0 max-w-7xl mx-auto px-6 md:px-12">
           <Link
             href="/collections"
-            className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white uppercase font-mono tracking-wider mb-3 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white uppercase font-sans font-bold tracking-wider mb-3 transition-colors"
           >
             <ArrowLeft size={13} /> Back to Collections
           </Link>
@@ -59,20 +59,20 @@ export default function CollectionDetailClient({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="max-w-2xl text-white">
               {collection.badge && (
-                <span className="inline-block px-2.5 py-0.5 rounded-sm bg-white text-black text-[10px] font-mono font-bold uppercase tracking-wider mb-2">
+                <span className="inline-block px-2.5 py-0.5 rounded-sm bg-white text-black text-[10px] font-sans font-bold uppercase tracking-wider mb-2">
                   {collection.badge}
                 </span>
               )}
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="font-display text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight text-white leading-none">
                 {collection.name}
               </h1>
-              <p className="text-xs md:text-sm font-medium text-neutral-300 mt-1">
+              <p className="text-xs md:text-sm font-sans font-medium text-neutral-300 mt-2">
                 {collection.subtitle}
               </p>
-              <p className="text-xs text-neutral-400 mt-2 max-w-xl leading-relaxed">
+              <p className="text-xs text-neutral-400 mt-2 max-w-xl leading-relaxed font-sans">
                 {collection.description}
               </p>
-              <div className="text-[11px] font-mono text-neutral-400 mt-2">
+              <div className="text-[11px] font-sans font-medium text-neutral-400 mt-2">
                 {artworks.length} Products Available
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function CollectionDetailClient({
               <button
                 type="button"
                 onClick={() => toggleSaveCollection(collection.id)}
-                className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-sans font-bold flex items-center gap-2 transition-all cursor-pointer ${
                   isSaved
                     ? 'bg-white text-black'
                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'

@@ -16,13 +16,13 @@ export default function CollectionsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="max-w-2xl mb-12">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
             Curated Edits
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
             Curated Collections
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 leading-relaxed font-sans">
             Thematic selections of wall art, sculptures, and home décor curated to elevate residential spaces.
           </p>
         </div>
@@ -46,11 +46,11 @@ export default function CollectionsPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 {col.badge && (
-                  <div className="absolute top-3 left-3 bg-black text-white px-2.5 py-1 rounded-sm text-[10px] font-mono font-bold uppercase tracking-wider">
+                  <div className="absolute top-3 left-3 bg-black text-white px-2.5 py-1 rounded-sm text-[10px] font-sans font-bold uppercase tracking-wider">
                     {col.badge}
                   </div>
                 )}
-                <div className="absolute bottom-3 right-3 text-white text-[11px] font-mono font-medium">
+                <div className="absolute bottom-3 right-3 text-white text-[11px] font-sans font-bold uppercase tracking-wider">
                   {col.productIds.length} Products
                 </div>
               </div>
@@ -58,21 +58,21 @@ export default function CollectionsPage() {
               {/* Text Particulars */}
               <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-1">
+                  <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block mb-1">
                     Curated Edit
                   </span>
-                  <h2 className="text-xl font-bold text-black group-hover:underline transition-colors">
+                  <h2 className="text-xl font-sans font-bold text-black uppercase tracking-wide group-hover:underline transition-colors">
                     {col.name}
                   </h2>
-                  <p className="text-xs text-neutral-600 font-medium mt-1">
+                  <p className="text-xs text-neutral-600 font-sans font-medium mt-1">
                     {col.subtitle}
                   </p>
-                  <p className="text-xs text-neutral-500 mt-2 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-neutral-500 mt-2 line-clamp-3 leading-relaxed font-sans">
                     {col.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-neutral-200 flex items-center justify-between text-xs font-semibold text-black">
+                <div className="mt-6 pt-4 border-t border-neutral-200 flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-black">
                   <span>Explore Collection</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>

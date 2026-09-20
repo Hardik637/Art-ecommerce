@@ -13,13 +13,13 @@ export default function SizeGuidePage() {
       <div className="max-w-4xl mx-auto space-y-16">
         {/* Header */}
         <div className="border-b border-neutral-200 pb-8">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
-            Placement & Scale
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
+            Placement &amp; Scale
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
-            Size & Placement Guide
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
+            Size &amp; Placement Guide
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 max-w-2xl leading-relaxed font-sans">
             Selecting the right proportions ensures your wall art and home décor pieces balance naturally with your room dimensions.
           </p>
         </div>

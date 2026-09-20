@@ -14,13 +14,13 @@ export default function ShippingPage() {
       <div className="max-w-4xl mx-auto space-y-16">
         {/* Header */}
         <div className="border-b border-neutral-200 pb-8">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
-            Logistics & Delivery
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
+            Logistics &amp; Delivery
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
-            Shipping & Packaging Standards
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
+            Shipping &amp; Packaging Standards
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 max-w-2xl leading-relaxed font-sans">
             Every artwork, sculpture, and home décor piece is securely packed with protective materials and insured for damage-free transit across India.
           </p>
         </div>

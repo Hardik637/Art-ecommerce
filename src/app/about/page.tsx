@@ -16,15 +16,15 @@ export default function AboutPage() {
       {/* Hero Header */}
       <div className="relative py-20 md:py-28 px-6 text-center border-b border-neutral-200 bg-black text-white">
         <div className="max-w-3xl mx-auto space-y-4">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block">
             Our Brand Story
           </span>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight text-white leading-none">
             Art For Modern Living Spaces
           </h1>
 
-          <p className="text-xs md:text-sm text-neutral-400 max-w-xl mx-auto leading-relaxed pt-1">
+          <p className="text-xs md:text-sm text-neutral-400 max-w-xl mx-auto leading-relaxed pt-1 font-sans">
             Curated wall art, statement sculptures, and decorative objects designed to bring architectural presence and character to contemporary interiors.
           </p>
         </div>
@@ -34,10 +34,10 @@ export default function AboutPage() {
         {/* Curatorial Philosophy */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-5">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 block">
+            <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block">
               Direct From Studios
             </span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-black leading-tight">
+            <h2 className="font-display text-3xl md:text-5xl uppercase tracking-tight text-black leading-none">
               Bridging Independent Artists & Modern Homes
             </h2>
             <div className="space-y-4 text-xs md:text-sm text-neutral-600 leading-relaxed">
@@ -64,10 +64,10 @@ export default function AboutPage() {
         {/* 3 Pillars */}
         <section className="space-y-8">
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 block">
+            <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block">
               Standards & Quality
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black">
+            <h2 className="font-display text-3xl md:text-4xl uppercase tracking-tight text-black leading-none">
               Why Shop With Us
             </h2>
           </div>
@@ -77,10 +77,10 @@ export default function AboutPage() {
               <div className="w-10 h-10 rounded-lg bg-black text-white flex items-center justify-center">
                 <ShieldCheck size={20} />
               </div>
-              <h3 className="text-sm font-bold text-black">
+              <h3 className="text-sm font-sans font-bold text-black uppercase tracking-wider">
                 Verified Authenticity
               </h3>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Every original painting and numbered sculpture edition comes complete with a Certificate of Authenticity specifying medium, dimensions, and origin.
               </p>
             </div>
@@ -89,10 +89,10 @@ export default function AboutPage() {
               <div className="w-10 h-10 rounded-lg bg-black text-white flex items-center justify-center">
                 <Award size={20} />
               </div>
-              <h3 className="text-sm font-bold text-black">
+              <h3 className="text-sm font-sans font-bold text-black uppercase tracking-wider">
                 Handcrafted Framing
               </h3>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Our in-house framing uses solid ash and oak shadow float frames with acid-free backing and protective glass for lasting durability.
               </p>
             </div>
@@ -101,47 +101,48 @@ export default function AboutPage() {
               <div className="w-10 h-10 rounded-lg bg-black text-white flex items-center justify-center">
                 <Compass size={20} />
               </div>
-              <h3 className="text-sm font-bold text-black">
-                Insured Doorstep Delivery
+              <h3 className="text-sm font-sans font-bold text-black uppercase tracking-wider">
+                White-Glove Delivery
               </h3>
-              <p className="text-xs text-neutral-600 leading-relaxed">
-                All artworks and sculptures travel in reinforced packaging with 100% transit insurance directly to your home across India.
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
+                Complimentary insured courier delivery with corner protection, wooden crating for heavy sculptures, and pan-India live tracking.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Featured Artist Section */}
-        <section className="bg-neutral-50 border border-neutral-200 rounded-xl p-8 md:p-10 space-y-6">
+        {/* Lead Artist Highlight */}
+        <section className="bg-neutral-50 border border-neutral-200 rounded-2xl p-8 md:p-12">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-4 flex justify-center">
-              <div className="w-44 h-52 rounded-xl overflow-hidden border border-neutral-300 relative bg-neutral-200">
+            <div className="md:col-span-4">
+              <div className="relative aspect-square rounded-xl overflow-hidden bg-neutral-200">
                 <Image
                   src={PRIMARY_ARTIST.portrait}
                   alt={PRIMARY_ARTIST.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover"
                 />
               </div>
             </div>
 
             <div className="md:col-span-8 space-y-3">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 block">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block">
                 Resident Artist
               </span>
-              <h2 className="text-2xl font-bold text-black">
+              <h2 className="font-display text-3xl md:text-4xl uppercase tracking-tight text-black leading-none">
                 {PRIMARY_ARTIST.name}
               </h2>
-              <p className="text-xs text-neutral-500 font-medium">
+              <p className="text-xs text-neutral-500 font-sans font-bold uppercase tracking-wider">
                 {PRIMARY_ARTIST.location}
               </p>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 {PRIMARY_ARTIST.bio}
               </p>
               <div className="pt-2">
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
+                  className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg text-xs font-sans font-bold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
                 >
                   <span>Explore Catalog</span>
                   <ArrowRight size={14} />
@@ -153,7 +154,7 @@ export default function AboutPage() {
 
         {/* Closing CTA */}
         <section className="text-center space-y-4 pt-4">
-          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black">
+          <h2 className="font-display text-3xl md:text-5xl uppercase tracking-tight text-black leading-none">
             Ready to Upgrade Your Space?
           </h2>
           <p className="text-xs md:text-sm text-neutral-500 max-w-md mx-auto leading-relaxed">

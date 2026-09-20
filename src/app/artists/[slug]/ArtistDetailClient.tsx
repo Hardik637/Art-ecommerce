@@ -50,14 +50,14 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
             <div className="text-white">
               <div className="flex items-center gap-1.5 mb-1">
                 <MapPin size={12} className="text-white" />
-                <span className="text-xs font-mono uppercase tracking-wider text-neutral-300">
+                <span className="text-xs font-sans font-medium uppercase tracking-wider text-neutral-300">
                   {artist.location}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-white">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight text-white leading-none">
                 {artist.name}
               </h1>
-              <p className="text-xs font-mono text-neutral-400 mt-0.5">
+              <p className="text-xs font-sans font-bold text-neutral-400 uppercase tracking-wider mt-1">
                 {artist.signatureStyle}
               </p>
             </div>
@@ -68,7 +68,7 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
             <button
               type="button"
               onClick={() => toggleFollowArtist(artist.id)}
-              className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-sans font-bold flex items-center gap-2 transition-all cursor-pointer ${
                 isFollowing
                   ? 'bg-white text-black'
                   : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
@@ -93,19 +93,19 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
           {/* Artist Bio Column */}
           <div className="space-y-6">
             <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-2 font-semibold">
+              <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block mb-2">
                 Creator Bio
               </span>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 {artist.bio}
               </p>
 
               {/* Statement */}
               <div className="mt-4 pt-4 border-t border-neutral-200">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-1 font-semibold">
+                <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block mb-1">
                   Statement
                 </span>
-                <blockquote className="italic text-xs text-black leading-relaxed">
+                <blockquote className="italic text-xs text-black leading-relaxed font-sans">
                   &ldquo;{artist.statement}&rdquo;
                 </blockquote>
               </div>
@@ -114,14 +114,14 @@ export default function ArtistDetailClient({ artist, artworks }: ArtistDetailCli
             {/* Mediums */}
             <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 space-y-4">
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block mb-2 font-semibold">
-                  Mediums & Materials
+                <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-neutral-400 block mb-2">
+                  Mediums &amp; Materials
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {artist.mediums.map((m) => (
                     <span
                       key={m}
-                      className="px-2.5 py-1 rounded-sm bg-white text-[10px] font-mono text-black border border-neutral-200"
+                      className="px-2.5 py-1 rounded-sm bg-white text-[10px] font-sans font-bold uppercase tracking-wider text-black border border-neutral-200"
                     >
                       {m}
                     </span>

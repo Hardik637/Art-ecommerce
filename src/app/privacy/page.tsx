@@ -11,13 +11,13 @@ export default function PrivacyPage() {
     <div className="bg-white min-h-screen py-16 px-6 md:px-12 text-black">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="border-b border-neutral-200 pb-8">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
             Customer Privacy
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
             Privacy Policy
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 max-w-2xl leading-relaxed font-sans">
             We value your privacy and are committed to protecting your personal information throughout your shopping experience.
           </p>
         </div>

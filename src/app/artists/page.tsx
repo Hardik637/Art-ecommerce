@@ -16,13 +16,13 @@ export default function ArtistsDirectoryPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="max-w-2xl mb-12">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-2">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-400 block mb-2">
             Resident Creators
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-black">
-            Artists & Sculptors
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-black uppercase tracking-tight leading-none">
+            Artists &amp; Sculptors
           </h1>
-          <p className="text-xs md:text-sm text-neutral-500 mt-2 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-500 mt-3 leading-relaxed font-sans">
             The independent creators and craftsman studios behind our original paintings, bronze sculptures, and designer decorative pieces.
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function ArtistsDirectoryPage() {
                   className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute top-3 right-3 bg-black text-white px-2.5 py-1 rounded-sm text-[10px] font-mono font-bold tracking-wider">
+                <div className="absolute top-3 right-3 bg-black text-white px-2.5 py-1 rounded-sm text-[10px] font-sans font-bold uppercase tracking-wider">
                   {artist.artworksCount} Works
                 </div>
 
@@ -64,31 +64,31 @@ export default function ArtistsDirectoryPage() {
               {/* Content Body */}
               <div className="p-6 pt-8 flex-1 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-1.5 text-xs text-neutral-500 font-mono mb-1">
+                  <div className="flex items-center gap-1.5 text-xs text-neutral-500 font-sans font-medium mb-1">
                     <MapPin size={12} className="text-black" />
                     <span>{artist.location}</span>
                   </div>
 
-                  <h2 className="text-xl font-bold text-black group-hover:underline transition-colors">
+                  <h2 className="text-xl font-sans font-bold text-black uppercase tracking-wide group-hover:underline transition-colors">
                     {artist.name}
                   </h2>
 
-                  <p className="text-[11px] font-mono text-neutral-500 uppercase tracking-wider mt-0.5">
+                  <p className="text-[11px] font-sans font-bold text-neutral-500 uppercase tracking-wider mt-0.5">
                     {artist.signatureStyle}
                   </p>
 
-                  <p className="text-xs text-neutral-600 mt-2 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-neutral-600 mt-2 line-clamp-3 leading-relaxed font-sans">
                     {artist.bio}
                   </p>
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-neutral-200 flex items-center justify-between">
-                  <span className="text-[11px] text-neutral-500 font-mono">
+                  <span className="text-[11px] text-neutral-500 font-sans font-medium">
                     {artist.followerCount.toLocaleString()} Followers
                   </span>
                   <Link
                     href={`/artists/${artist.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs uppercase font-semibold tracking-wider text-black group-hover:underline transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs uppercase font-sans font-bold tracking-wider text-black group-hover:underline transition-colors"
                   >
                     View Studio <ArrowUpRight size={14} />
                   </Link>
