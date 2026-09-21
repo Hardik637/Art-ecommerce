@@ -1,4 +1,6 @@
 import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
 import { cookies } from 'next/headers';
 
 /**
@@ -10,6 +12,7 @@ import { cookies } from 'next/headers';
  * - HMAC-SHA256 cryptographically signed session tokens
  * - HttpOnly, Secure, SameSite=Strict session cookie to prevent XSS/CSRF
  * - Server-only execution: no secrets or password hashes are ever leaked to the client
+ * - Persistent admin credentials file with PBKDF2 hashes (.admin_credentials.json)
  */
 
 const ADMIN_COOKIE_NAME = 'admin_session';
@@ -24,6 +27,51 @@ const ADMIN_SECRET =
   process.env.ADMIN_SECRET ||
   process.env.ADMIN_SESSION_SECRET ||
   'zorodoor_master_admin_secret_key_8941729384719283749182374918273';
+
+const CREDENTIALS_FILE = path.join(process.cwd(), '.admin_credentials.json');
+
+interface PersistedAdminCredentials {
+  username: string;
+  passwordHash: string; // salt:derivedKey
+  updatedAt: string;
+}
+
+export function getPersistedCredentials(): PersistedAdminCredentials | null {
+  try {
+    if (fs.existsSync(CREDENTIALS_FILE)) {
+      const content = fs.readFileSync(CREDENTIALS_FILE, 'utf-8');
+      const data = JSON.parse(content);
+      if (data && typeof data.username === 'string' && typeof data.passwordHash === 'string') {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.error('[Admin Auth] Error reading persisted credentials:', err);
+  }
+  return null;
+}
+
+export function saveAdminCredentials(username: string, newPlaintextPassword: string): boolean {
+  try {
+    const passwordHash = hashPassword(newPlaintextPassword);
+    const payload: PersistedAdminCredentials = {
+      username: username.trim(),
+      passwordHash,
+      updatedAt: new Date().toISOString(),
+    };
+    fs.writeFileSync(CREDENTIALS_FILE, JSON.stringify(payload, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('[Admin Auth] Error saving credentials:', err);
+    return false;
+  }
+}
+
+export function getActiveAdminUsername(): string {
+  const persisted = getPersistedCredentials();
+  if (persisted) return persisted.username;
+  return process.env.ADMIN_USERNAME || DEFAULT_ADMIN_USERNAME;
+}
 
 /**
  * Generate a salted PBKDF2 hash of a password.
@@ -59,7 +107,6 @@ export function timingSafeCompare(a: string, b: string): boolean {
     const bufA = Buffer.from(a);
     const bufB = Buffer.from(b);
     if (bufA.length !== bufB.length) {
-      // Hash both to equalize lengths before constant-time compare to avoid length leakage
       const hashA = crypto.createHash('sha256').update(bufA).digest();
       const hashB = crypto.createHash('sha256').update(bufB).digest();
       return crypto.timingSafeEqual(hashA, hashB) && false;
@@ -112,7 +159,6 @@ export function verifySessionToken(token: string): SessionPayload | null {
       .update(payloadEncoded)
       .digest('base64url');
 
-    // Constant-time compare signature
     if (!timingSafeCompare(signature, expectedSignature)) {
       return null;
     }
@@ -123,7 +169,7 @@ export function verifySessionToken(token: string): SessionPayload | null {
 
     const now = Math.floor(Date.now() / 1000);
     if (payload.exp < now) {
-      return null; // Expired
+      return null;
     }
 
     return payload;
@@ -133,25 +179,31 @@ export function verifySessionToken(token: string): SessionPayload | null {
 }
 
 /**
- * Validate incoming login credentials against configured admin environment variables.
+ * Validate incoming login credentials against persisted credentials or environment variables.
  */
 export function validateAdminCredentials(usernameAttempt: string, passwordAttempt: string): boolean {
+  // 1. Check persisted credentials file first
+  const persisted = getPersistedCredentials();
+  if (persisted) {
+    const usernameMatch = timingSafeCompare(usernameAttempt.trim(), persisted.username.trim());
+    if (!usernameMatch) return false;
+    return verifyPassword(passwordAttempt, persisted.passwordHash);
+  }
+
+  // 2. Fallback to configured environment variables
   const configuredUsername = process.env.ADMIN_USERNAME || DEFAULT_ADMIN_USERNAME;
   const configuredHash = process.env.ADMIN_PASSWORD_HASH;
   const configuredPassword = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
-  // 1. Verify username in constant time
   const usernameMatch = timingSafeCompare(usernameAttempt.trim(), configuredUsername.trim());
   if (!usernameMatch) {
     return false;
   }
 
-  // 2. Verify password: If ADMIN_PASSWORD_HASH is set, verify via PBKDF2 hash.
   if (configuredHash && configuredHash.includes(':')) {
     return verifyPassword(passwordAttempt, configuredHash);
   }
 
-  // Otherwise, verify configured plaintext password using constant-time comparison
   return timingSafeCompare(passwordAttempt, configuredPassword);
 }
 

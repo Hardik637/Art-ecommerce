@@ -14,6 +14,9 @@ import {
   ShieldCheck,
   Menu,
   X,
+  Lock,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -30,6 +33,29 @@ export default function AdminLayout({
   const [authChecking, setAuthChecking] = useState(!isLoginPage);
   const [adminUser, setAdminUser] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Initialize theme from localStorage
+  useEffect(() => {
+    try {
+      const savedTheme = localStorage.getItem('admin_theme');
+      if (savedTheme === 'dark') {
+        setDarkMode(true);
+      }
+    } catch {
+      // localStorage not accessible
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    try {
+      localStorage.setItem('admin_theme', next ? 'dark' : 'light');
+    } catch {
+      // ignore
+    }
+  };
 
   useEffect(() => {
     if (isLoginPage) {
@@ -83,9 +109,9 @@ export default function AdminLayout({
   // If verifying authentication, show modern minimal loading screen in clean white
   if (authChecking) {
     return (
-      <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center font-sans">
-        <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin mb-4" />
-        <span className="font-display font-black text-2xl uppercase tracking-wider text-black">
+      <div className={`min-h-screen flex flex-col items-center justify-center font-sans ${darkMode ? 'admin-dark bg-black text-white' : 'bg-white text-black'}`}>
+        <div className={`w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mb-4 ${darkMode ? 'border-white' : 'border-black'}`} />
+        <span className="font-display font-black text-2xl uppercase tracking-wider">
           VERIFYING ADMIN CREDENTIALS...
         </span>
         <span className="text-[10px] font-mono text-neutral-400 mt-2 uppercase tracking-widest">
@@ -95,17 +121,18 @@ export default function AdminLayout({
     );
   }
 
-  // Clean navigation links (Removed Artists & Collections per user request)
+  // Navigation links including dedicated Security & Password tab
   const links = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Order Tracking', href: '/admin/orders', icon: Package },
     { name: 'Add New Item', href: '/admin/products/new', icon: PlusCircle },
     { name: 'Products Catalog', href: '/admin/products', icon: Palette },
+    { name: 'Security & Password', href: '/admin/security', icon: Lock },
     { name: 'Store Settings', href: '/admin/settings', icon: Settings },
   ];
 
   return (
-    <div className="min-h-screen bg-white flex font-sans text-black antialiased selection:bg-black selection:text-white">
+    <div className={`min-h-screen flex font-sans antialiased selection:bg-black selection:text-white transition-colors duration-150 ${darkMode ? 'admin-dark bg-black text-white' : 'bg-white text-black'}`}>
       {/* Desktop Sidebar (Majorly White with crisp black typography & borders) */}
       <aside className="w-64 bg-white text-black border-r border-neutral-200 flex flex-col hidden md:flex h-screen sticky top-0 shrink-0 select-none">
         {/* Brand */}
@@ -142,10 +169,14 @@ export default function AdminLayout({
         <nav className="flex-1 py-4 px-3 flex flex-col gap-1 overflow-y-auto">
           {links.map((link) => {
             const Icon = link.icon;
+            // Precise active match: avoids both "Add new item" and "Products catalog" getting selected together
             const isActive =
               link.href === '/admin'
                 ? pathname === '/admin'
+                : link.href === '/admin/products'
+                ? pathname === '/admin/products'
                 : pathname.startsWith(link.href);
+
             return (
               <Link
                 key={link.name}
@@ -192,17 +223,58 @@ export default function AdminLayout({
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-h-screen overflow-hidden bg-white">
-        {/* Mobile Header (Clean White) */}
+        {/* Top Header Bar with Dark / Light Mode Toggle on Top Right (Desktop) */}
+        <div className="hidden md:flex h-14 border-b border-neutral-200 px-6 sm:px-10 items-center justify-between shrink-0 bg-white">
+          <div className="flex items-center gap-2 text-xs font-mono text-neutral-500">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>Active Admin: <strong className="text-black font-bold">{adminUser || 'admin'}</strong></span>
+          </div>
+
+          {/* Top Right Dark/Light Mode Option */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-neutral-300 hover:border-black text-xs font-semibold cursor-pointer transition-colors"
+              title="Toggle Dark / Light Mode"
+            >
+              {darkMode ? (
+                <>
+                  <Sun size={14} className="text-amber-400" />
+                  <span>Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon size={14} className="text-neutral-700" />
+                  <span>Dark Mode</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Header (Clean White with Dark/Light Toggle) */}
         <header className="md:hidden h-16 bg-white text-black border-b border-neutral-200 flex items-center px-4 justify-between sticky top-0 z-30 shadow-2xs">
           <Link href="/admin" className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-md bg-black text-white flex items-center justify-center">
               <ShieldCheck size={16} />
             </div>
             <span className="font-display font-black text-xl tracking-tight uppercase">
-              ZORODOOR ADMIN
+              ZORODOOR
             </span>
           </Link>
+
           <div className="flex items-center gap-2">
+            {/* Top Right Mobile Dark/Light Mode Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg border border-neutral-300 text-neutral-700"
+              title="Toggle Dark / Light Mode"
+            >
+              {darkMode ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
+            </button>
+
             <Link
               href="/"
               target="_blank"
@@ -223,18 +295,27 @@ export default function AdminLayout({
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white text-black border-b border-neutral-200 px-4 py-3 space-y-1 z-20 shadow-lg">
-            {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2.5 rounded-xl text-xs font-semibold ${
-                  pathname === link.href ? 'bg-black text-white' : 'text-neutral-600 hover:bg-neutral-100'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const isActive =
+                link.href === '/admin'
+                  ? pathname === '/admin'
+                  : link.href === '/admin/products'
+                  ? pathname === '/admin/products'
+                  : pathname.startsWith(link.href);
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3 py-2.5 rounded-xl text-xs font-semibold ${
+                    isActive ? 'bg-black text-white' : 'text-neutral-600 hover:bg-neutral-100'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
             <div className="pt-2 border-t border-neutral-200 flex items-center justify-between">
               <span className="text-xs font-mono text-neutral-500">Admin: {adminUser}</span>
               <button

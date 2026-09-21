@@ -241,3 +241,70 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Admin Dark Mode Inversion ── */
+/* Inverts black to white and white to black with zero layout changes */
+.admin-dark {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  color-scheme: dark;
+}
+.admin-dark .bg-white {
+  background-color: #000000 !important;
+}
+.admin-dark .bg-neutral-50,
+.admin-dark .bg-neutral-100 {
+  background-color: #121212 !important;
+}
+.admin-dark .text-black {
+  color: #FFFFFF !important;
+}
+.admin-dark .text-neutral-800,
+.admin-dark .text-neutral-700 {
+  color: #E5E5E5 !important;
+}
+.admin-dark .text-neutral-600,
+.admin-dark .text-neutral-500 {
+  color: #A3A3A3 !important;
+}
+.admin-dark .border-neutral-200,
+.admin-dark .border-neutral-300 {
+  border-color: #262626 !important;
+}
+.admin-dark input,
+.admin-dark select,
+.admin-dark textarea {
+  background-color: #121212 !important;
+  color: #FFFFFF !important;
+  border-color: #333333 !important;
+}
+.admin-dark input::placeholder,
+.admin-dark textarea::placeholder {
+  color: #737373 !important;
+}
+.admin-dark .bg-black {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+.admin-dark .bg-black:hover {
+  background-color: #E5E5E5 !important;
+}
+.admin-dark button.bg-black,
+.admin-dark a.bg-black {
+  color: #000000 !important;
+}
+.admin-dark button.bg-black *,
+.admin-dark a.bg-black * {
+  color: #000000 !important;
+}
+.admin-dark .hover\:bg-neutral-100:hover {
+  background-color: #1A1A1A !important;
+}
+.admin-dark .hover\:border-black:hover {
+  border-color: #FFFFFF !important;
+}
+.admin-dark .divide-neutral-100 > :not([hidden]) ~ :not([hidden]),
+.admin-dark .divide-neutral-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #262626 !important;
+}
+
