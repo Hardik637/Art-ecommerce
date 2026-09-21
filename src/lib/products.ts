@@ -1,6 +1,7 @@
 import { Product, MajorCategory } from '@/types/art';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
 import { ARTWORKS } from '@/lib/artCatalog';
+import { getCustomProducts } from '@/lib/customProducts';
 
 export type { Product, MajorCategory };
 
@@ -74,6 +75,8 @@ export async function getProducts(options: ProductQueryOptions = {}): Promise<Pr
     throw new Error(`Invalid category "${options.category}". Allowed: ${VALID_CATEGORIES.join(', ')}`);
   }
 
+  const customProducts = getCustomProducts();
+
   // 1. Check Supabase
   if (isSupabaseConfigured()) {
     try {
@@ -124,7 +127,7 @@ export async function getProducts(options: ProductQueryOptions = {}): Promise<Pr
 
       const { data, error } = await query;
       if (!error && data && data.length > 0) {
-        let results = data.map(mapSupabaseRowToProduct);
+        let results = [...customProducts, ...data.map(mapSupabaseRowToProduct)];
 
         // In-memory search filter if needed
         if (options.search?.trim()) {
@@ -146,8 +149,8 @@ export async function getProducts(options: ProductQueryOptions = {}): Promise<Pr
     }
   }
 
-  // 2. Development Fixtures Fallback
-  let list = [...ARTWORKS];
+  // 2. Custom & Development Fixtures Fallback
+  let list = [...customProducts, ...ARTWORKS];
 
   if (options.category) {
     list = list.filter((p) => p.category === options.category);
@@ -203,6 +206,9 @@ export async function getProducts(options: ProductQueryOptions = {}): Promise<Pr
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const custom = getCustomProducts().find((p) => p.slug === slug || p.id === slug);
+  if (custom) return custom;
+
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
@@ -226,6 +232,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 export async function getProductById(id: string): Promise<Product | null> {
+  const custom = getCustomProducts().find((p) => p.id === id || p.slug === id);
+  if (custom) return custom;
+
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
