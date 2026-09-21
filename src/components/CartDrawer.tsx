@@ -4,10 +4,15 @@ import { useCartStore } from '@/store/cartStore';
 import { ARTWORKS, formatPrice } from '@/lib/artCatalog';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { X, Trash2, ArrowRight, ShieldCheck, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function CartDrawer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   const {
     items,
     isOpen,

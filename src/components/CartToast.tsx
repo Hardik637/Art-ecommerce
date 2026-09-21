@@ -2,10 +2,15 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { Check, X, ArrowRight } from 'lucide-react';
 
 export default function CartToast() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   const toast = useCartStore((state) => state.toast);
   const hideToast = useCartStore((state) => state.hideToast);
   const openCart = useCartStore((state) => state.openCart);

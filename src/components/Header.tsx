@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { createClient } from '@/lib/supabase/client';
@@ -18,6 +19,11 @@ import {
 import AnnouncementBar from './AnnouncementBar';
 
 export default function Header() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const openCart = useCartStore((state) => state.openCart);
   const cartItemCount = useCartStore((state) => state.getItemCount());
   const wishlistItems = useWishlistStore((state) => state.items);

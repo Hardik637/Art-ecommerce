@@ -3,10 +3,15 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Instagram, Twitter } from 'lucide-react';
 import { SITE_CONFIG } from '@/config/site';
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   return (
     <footer className="bg-[#0F0F0F] text-[#FAFAF9] border-t border-neutral-800 pt-16 pb-12">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">

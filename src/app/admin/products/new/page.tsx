@@ -209,22 +209,22 @@ export default function AddNewProductPage() {
 
       {/* Success Notification Modal / Banner */}
       {createdProduct && (
-        <div className="bg-black text-white p-6 sm:p-8 rounded-2xl border border-neutral-800 shadow-2xl space-y-5 animate-fadeIn">
+        <div className="bg-white text-black p-6 sm:p-7 rounded-2xl border border-neutral-300 shadow-lg space-y-4 animate-fadeIn">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <CheckCircle2 size={24} />
+            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <CheckCircle2 size={22} />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 block font-semibold">
-                Publication Successful
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-700 block font-bold">
+                Item Published Successfully
               </span>
-              <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-white">
+              <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-black">
                 {createdProduct.name} Is Now Live
               </h3>
             </div>
           </div>
 
-          <p className="text-xs text-neutral-300 font-sans leading-relaxed">
+          <p className="text-xs text-neutral-600 font-sans leading-relaxed">
             This piece has been committed to the Zorodoor catalog. Patrons can now browse, configure museum framing, and purchase it online.
           </p>
 
@@ -232,7 +232,7 @@ export default function AddNewProductPage() {
             <Link
               href={`/products/${createdProduct.slug || createdProduct.id}`}
               target="_blank"
-              className="px-5 py-2.5 rounded-lg bg-white text-black hover:bg-neutral-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-lg bg-black text-white hover:bg-neutral-800 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <span>View On Live Store</span>
               <ExternalLink size={13} />
@@ -246,16 +246,16 @@ export default function AddNewProductPage() {
                 setImages([]);
                 setDescription('');
               }}
-              className="px-5 py-2.5 rounded-lg border border-neutral-700 hover:border-white text-xs font-bold uppercase tracking-wider text-white transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-lg border border-neutral-300 hover:border-black text-xs font-bold uppercase tracking-wider text-black transition-colors cursor-pointer bg-white"
             >
               Add Another Piece
             </button>
 
             <Link
               href="/admin/products"
-              className="px-5 py-2.5 text-xs font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+              className="px-4 py-2.5 text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
             >
-              Back to Catalog Table
+              Back to Products
             </Link>
           </div>
         </div>
