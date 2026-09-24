@@ -1,16 +1,31 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getBestSellers, getNewArrivals } from '@/lib/artCatalog';
+import { ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
+import ProductQuickView from '@/components/ProductQuickView';
+import RecentlyViewed from '@/components/RecentlyViewed';
+import FindYourPieceModal from '@/components/FindYourPieceModal';
 import ScrollReveal from '@/components/ScrollReveal';
-import { ArrowRight, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, RotateCcw, Compass } from 'lucide-react';
+
+const STYLES = [
+  { label: 'Minimal', query: 'minimal' },
+  { label: 'Abstract', query: 'abstract' },
+  { label: 'Organic', query: 'organic' },
+  { label: 'Architectural', query: 'architectural' },
+  { label: 'Sculptural', query: 'sculpture' },
+  { label: 'Statement', query: 'statement' },
+];
 
 export default function HomeClient() {
   const newArrivals = useMemo(() => getNewArrivals().slice(0, 4), []);
   const bestSellers = useMemo(() => getBestSellers().slice(0, 4), []);
+  const [quickViewArtwork, setQuickViewArtwork] = useState<ArtworkProduct | null>(null);
+  const [findPieceOpen, setFindPieceOpen] = useState(false);
 
   return (
     <div className="bg-white min-h-screen text-black">
@@ -103,7 +118,10 @@ export default function HomeClient() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-8">
           {newArrivals.map((art, idx) => (
             <ScrollReveal key={art.id} delay={idx * 60}>
-              <ArtworkCard artwork={art} />
+              <ArtworkCard
+                artwork={art}
+                onQuickView={setQuickViewArtwork}
+              />
             </ScrollReveal>
           ))}
         </div>
@@ -133,14 +151,62 @@ export default function HomeClient() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-8">
           {bestSellers.map((art, idx) => (
             <ScrollReveal key={art.id} delay={idx * 60}>
-              <ArtworkCard artwork={art} />
+              <ArtworkCard
+                artwork={art}
+                onQuickView={setQuickViewArtwork}
+              />
             </ScrollReveal>
           ))}
         </div>
       </section>
 
-      {/* ── 4. SUBTLE TRUST & SERVICE STRIP ────────────────────────────── */}
-      <section className="py-8 sm:py-10 bg-neutral-50 border-b border-neutral-200">
+      {/* ── 4. SHOP BY STYLE (Subtle Curated Discovery) ─────────────────── */}
+      <section className="py-12 sm:py-16 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 border-b border-neutral-200">
+        <div className="text-center max-w-xl mx-auto mb-8">
+          <span className="text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.14em] text-neutral-500 block mb-1">
+            Curated Aesthetics
+          </span>
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-black uppercase tracking-tight leading-none mb-2">
+            Shop By Style
+          </h2>
+          <p className="text-xs text-neutral-600 font-sans">
+            Discover artwork tailored to your interior mood and architecture.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
+          {STYLES.map((style) => (
+            <Link
+              key={style.label}
+              href={`/search?q=${encodeURIComponent(style.query)}`}
+              className="group py-3 px-4 text-center border border-neutral-200 hover:border-black bg-white hover:bg-black transition-colors"
+            >
+              <span className="text-xs font-sans font-bold uppercase tracking-wider text-black group-hover:text-white transition-colors block">
+                {style.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <button
+            type="button"
+            onClick={() => setFindPieceOpen(true)}
+            className="inline-flex items-center gap-2 px-5 py-3 border border-neutral-300 hover:border-black bg-white hover:bg-neutral-50 text-xs font-sans font-bold uppercase tracking-widest text-black transition-colors"
+          >
+            <Compass size={14} />
+            <span>Need Guidance? Take the 30-Second Art Finder</span>
+          </button>
+        </div>
+      </section>
+
+      {/* ── 5. RECENTLY VIEWED (Subtle Browsing History) ───────────────── */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <RecentlyViewed maxItems={4} />
+      </div>
+
+      {/* ── 6. SUBTLE TRUST & SERVICE STRIP ────────────────────────────── */}
+      <section className="py-8 sm:py-10 bg-neutral-50 border-t sm:border-t-0 border-b border-neutral-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-3">
@@ -181,6 +247,20 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
+
+      {/* Quick View Modal */}
+      {quickViewArtwork && (
+        <ProductQuickView
+          artwork={quickViewArtwork}
+          onClose={() => setQuickViewArtwork(null)}
+        />
+      )}
+
+      {/* Guided Art Finder Modal */}
+      <FindYourPieceModal
+        isOpen={findPieceOpen}
+        onClose={() => setFindPieceOpen(false)}
+      />
     </div>
   );
 }

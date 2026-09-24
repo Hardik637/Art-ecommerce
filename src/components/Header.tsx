@@ -15,21 +15,20 @@ import {
   Menu,
   X,
   ChevronRight,
+  Compass,
 } from 'lucide-react';
 import AnnouncementBar from './AnnouncementBar';
+import FindYourPieceModal from './FindYourPieceModal';
 
 export default function Header() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
-
   const openCart = useCartStore((state) => state.openCart);
   const cartItemCount = useCartStore((state) => state.getItemCount());
   const wishlistItems = useWishlistStore((state) => state.items);
 
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [findPieceOpen, setFindPieceOpen] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInitial, setUserInitial] = useState<string | null>(null);
@@ -62,6 +61,10 @@ export default function Header() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <>
@@ -146,6 +149,13 @@ export default function Header() {
             >
               All Products
             </Link>
+            <button
+              onClick={() => setFindPieceOpen(true)}
+              className="py-4 uppercase transition-colors text-black hover:text-neutral-600 flex items-center gap-1.5"
+            >
+              <Compass size={13} />
+              <span>Find Your Piece</span>
+            </button>
           </nav>
 
           {/* Utility Action Icons */}
@@ -277,6 +287,24 @@ export default function Header() {
                 </div>
 
                 <div className="pt-3">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setFindPieceOpen(true);
+                    }}
+                    className="w-full text-left py-2.5 uppercase tracking-wider text-xs font-bold text-black flex items-center justify-between"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Compass size={14} />
+                      <span>Find Your Piece</span>
+                    </span>
+                    <span className="text-[9px] bg-black text-white px-2 py-0.5 uppercase tracking-wider">
+                      Guided
+                    </span>
+                  </button>
+                </div>
+
+                <div>
                   <Link
                     href="/products"
                     onClick={() => setMobileMenuOpen(false)}
@@ -330,6 +358,12 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Guided Art Finder Modal */}
+      <FindYourPieceModal
+        isOpen={findPieceOpen}
+        onClose={() => setFindPieceOpen(false)}
+      />
     </>
   );
 }

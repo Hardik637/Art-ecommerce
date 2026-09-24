@@ -8,9 +8,6 @@ import { Check, X, ArrowRight } from 'lucide-react';
 
 export default function CartToast() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
   const toast = useCartStore((state) => state.toast);
   const hideToast = useCartStore((state) => state.hideToast);
   const openCart = useCartStore((state) => state.openCart);
@@ -24,6 +21,10 @@ export default function CartToast() {
 
     return () => clearTimeout(timer);
   }, [toast, hideToast]);
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   if (!toast?.visible) return null;
 

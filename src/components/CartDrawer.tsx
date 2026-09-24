@@ -10,9 +10,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function CartDrawer() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
   const {
     items,
     isOpen,
@@ -88,6 +85,10 @@ export default function CartDrawer() {
     }
   }, [isOpen, closeCart, handleDismiss]);
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   if (!mounted) return null;
   if (!isOpen) return null;
 
@@ -149,18 +150,18 @@ export default function CartDrawer() {
                 <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400">
                   <ShoppingBag size={24} />
                 </div>
-                <h3 className="font-sans font-bold text-base text-black mb-1 uppercase">
-                  Your bag is empty
+                <h3 className="font-sans font-bold text-base text-black mb-1 uppercase tracking-tight">
+                  Your cart is empty
                 </h3>
-                <p className="text-xs text-neutral-500 max-w-xs mx-auto mb-6">
-                  Explore original wall art, sculptures, and limited edition decorative pieces.
+                <p className="text-xs text-neutral-500 max-w-xs mx-auto mb-6 leading-relaxed">
+                  Your cart is waiting for something special. Save pieces you love or explore our curated catalog.
                 </p>
                 <Link
                   href="/products"
                   onClick={handleNavigate}
                   className="inline-block bg-black text-white text-xs font-sans font-bold uppercase tracking-widest px-6 py-3 hover:bg-neutral-800 transition-colors"
                 >
-                  Shop Products
+                  Explore Collection
                 </Link>
               </div>
             ) : (
@@ -204,21 +205,24 @@ export default function CartDrawer() {
                     </p>
 
                     <div className="mt-auto pt-2 flex items-center justify-between">
-                      {/* Quantity stepper */}
+                      {/* Quantity stepper strictly respecting stock limits */}
                       <div className="flex items-center border border-neutral-300 bg-neutral-50">
                         <button
                           onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                          className="p-1 hover:bg-neutral-200 transition-colors text-neutral-700"
+                          className="p-1 hover:bg-neutral-200 transition-colors text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed"
                           disabled={item.quantity <= 1}
+                          aria-label="Decrease quantity"
                         >
                           <Minus size={12} />
                         </button>
-                        <span className="text-xs font-sans px-2.5 font-bold text-black">
+                        <span className="text-xs font-sans px-2.5 font-bold text-black min-w-[24px] text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-1 hover:bg-neutral-200 transition-colors text-neutral-700"
+                          className="p-1 hover:bg-neutral-200 transition-colors text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed"
+                          disabled={item.stock !== undefined && item.quantity >= item.stock}
+                          aria-label="Increase quantity"
                         >
                           <Plus size={12} />
                         </button>

@@ -6,7 +6,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, X, ArrowUpRight, Palette, Users } from 'lucide-react';
 import { ARTISTS, CURATED_COLLECTIONS, searchArtworks } from '@/lib/artCatalog';
+import { ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
+import ProductQuickView from '@/components/ProductQuickView';
+import RecentlyViewed from '@/components/RecentlyViewed';
 
 const POPULAR_SEARCHES = [
   'Monsoon',
@@ -25,6 +28,7 @@ export default function SearchClient() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
+  const [quickViewArtwork, setQuickViewArtwork] = useState<ArtworkProduct | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -201,29 +205,44 @@ export default function SearchClient() {
               {matchingArtworks.length > 0 ? (
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                   {matchingArtworks.map((artwork) => (
-                    <ArtworkCard key={artwork.id} artwork={artwork} />
+                    <ArtworkCard
+                      key={artwork.id}
+                      artwork={artwork}
+                      onQuickView={setQuickViewArtwork}
+                    />
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-16 bg-neutral-50 border border-neutral-200 p-8">
                   <p className="font-sans text-xl font-bold text-black uppercase mb-2">
-                    No products found matching &ldquo;{query}&rdquo;
+                    NO SEARCH RESULTS
                   </p>
-                  <p className="text-xs font-sans text-neutral-500 max-w-sm mx-auto mb-6">
-                    Try searching for &quot;oil&quot;, &quot;bronze&quot;, &quot;figure&quot;, or &quot;sculpture&quot;.
+                  <p className="text-xs sm:text-sm font-sans text-neutral-500 max-w-sm mx-auto mb-6">
+                    We couldn&apos;t find anything matching your search.
                   </p>
                   <Link
                     href="/products"
                     className="inline-block bg-black text-white px-6 py-3 text-xs font-sans font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors"
                   >
-                    Browse Complete Catalog
+                    VIEW ALL PRODUCTS
                   </Link>
                 </div>
               )}
             </div>
           </div>
         )}
+
+        {/* Recently Viewed */}
+        <div className="mt-16">
+          <RecentlyViewed />
+        </div>
       </div>
+
+      {/* Quick View Modal */}
+      <ProductQuickView
+        artwork={quickViewArtwork}
+        onClose={() => setQuickViewArtwork(null)}
+      />
     </div>
   );
 }

@@ -7,13 +7,19 @@ import {
   getArtworkCategory,
   MajorCategory,
 } from '@/lib/artCatalog';
-import { Product } from '@/types/art';
+import { Product, ArtworkProduct } from '@/types/art';
 import ArtworkCard from '@/components/ArtworkCard';
+import ProductQuickView from '@/components/ProductQuickView';
+import RecentlyViewed from '@/components/RecentlyViewed';
+import FindYourPieceModal from '@/components/FindYourPieceModal';
 import {
   SlidersHorizontal,
   X,
   Search,
   ChevronRight,
+  ArrowUpDown,
+  Check,
+  Compass,
 } from 'lucide-react';
 
 interface CategoryPageClientProps {
@@ -23,6 +29,15 @@ interface CategoryPageClientProps {
   description: string;
   initialProducts?: Product[];
 }
+
+const SORT_OPTIONS = [
+  { id: 'recommended', label: 'Featured' },
+  { id: 'newest', label: 'Newest Releases' },
+  { id: 'bestsellers', label: 'Best Selling' },
+  { id: 'price-asc', label: 'Price: Low to High' },
+  { id: 'price-desc', label: 'Price: High to Low' },
+  { id: 'rating', label: 'Highest Rated' },
+];
 
 export default function CategoryPageClient({
   category,
@@ -44,17 +59,22 @@ export default function CategoryPageClient({
   const [selectedOrientation, setSelectedOrientation] = useState<string>('all');
   const [priceRange, setPriceRange] = useState<string>('all');
   const [specialFilter, setSpecialFilter] = useState<string>('all');
+  const [availabilityFilter, setAvailabilityFilter] = useState<string>('all');
   const [sortOrder, setSortOrder] = useState<string>('recommended');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Filter drawer state
+  // UI States
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [sortModalOpen, setSortModalOpen] = useState(false);
+  const [findPieceOpen, setFindPieceOpen] = useState(false);
+  const [quickViewArtwork, setQuickViewArtwork] = useState<ArtworkProduct | null>(null);
 
   const clearAllFilters = () => {
     setSelectedSubcategory('all');
     setSelectedOrientation('all');
     setPriceRange('all');
     setSpecialFilter('all');
+    setAvailabilityFilter('all');
     setSearchQuery('');
   };
 
@@ -65,9 +85,10 @@ export default function CategoryPageClient({
     if (selectedOrientation !== 'all') count++;
     if (priceRange !== 'all') count++;
     if (specialFilter !== 'all') count++;
+    if (availabilityFilter !== 'all') count++;
     if (searchQuery.trim()) count++;
     return count;
-  }, [selectedSubcategory, selectedOrientation, priceRange, specialFilter, searchQuery]);
+  }, [selectedSubcategory, selectedOrientation, priceRange, specialFilter, availabilityFilter, searchQuery]);
 
   // Extract distinct subcategories present in this category
   const availableSubcategories = useMemo(() => {
@@ -105,6 +126,11 @@ export default function CategoryPageClient({
       list = list.filter((a) => a.orientation === selectedOrientation);
     }
 
+    // Availability
+    if (availabilityFilter === 'in-stock') {
+      list = list.filter((a) => a.stock > 0);
+    }
+
     // Special filter
     if (specialFilter === 'featured') {
       list = list.filter((a) => a.isFeatured);
@@ -136,6 +162,8 @@ export default function CategoryPageClient({
       list.sort(
         (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
       );
+    } else if (sortOrder === 'bestsellers') {
+      list.sort((a, b) => (b.isBestseller ? 1 : 0) - (a.isBestseller ? 1 : 0));
     } else if (sortOrder === 'rating') {
       list.sort((a, b) => (b.rating ?? 5) - (a.rating ?? 5));
     }
@@ -146,6 +174,7 @@ export default function CategoryPageClient({
     searchQuery,
     selectedSubcategory,
     selectedOrientation,
+    availabilityFilter,
     specialFilter,
     priceRange,
     sortOrder,
@@ -157,6 +186,8 @@ export default function CategoryPageClient({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+
+  const currentSortLabel = SORT_OPTIONS.find((s) => s.id === sortOrder)?.label || 'Featured';
 
   return (
     <div className="bg-[#FAFAF9] min-h-screen text-[#0F0F0F]">
@@ -182,9 +213,19 @@ export default function CategoryPageClient({
               </p>
             </div>
 
-            <div className="text-xs font-sans text-neutral-500 flex-shrink-0">
-              <span className="font-bold text-neutral-900 text-sm">{filteredArtworks.length}</span>{' '}
-              {filteredArtworks.length === 1 ? 'Product' : 'Products'} Available
+            <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setFindPieceOpen(true)}
+                className="inline-flex items-center gap-2 px-3.5 py-2 bg-black text-white hover:bg-neutral-800 text-[11px] font-sans font-bold uppercase tracking-wider transition-colors shadow-xs"
+              >
+                <Compass size={14} />
+                <span>Find Your Piece</span>
+              </button>
+              <div className="text-xs font-sans text-neutral-500">
+                <span className="font-bold text-neutral-900 text-sm">{filteredArtworks.length}</span>{' '}
+                {filteredArtworks.length === 1 ? 'Product' : 'Products'} Available
+              </div>
             </div>
           </div>
         </div>
@@ -194,7 +235,7 @@ export default function CategoryPageClient({
       <div className="sticky top-[54px] md:top-[60px] z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 py-2.5 sm:py-3">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           {/* Left: Quick Subcategory Pills & Filter Drawer Button */}
-          <div className="flex items-center gap-2 overflow-x-auto py-1">
+          <div className="flex items-center gap-2 overflow-x-auto py-1 max-w-full">
             <button
               onClick={() => setFilterDrawerOpen(true)}
               className="bg-[#0F0F0F] hover:bg-neutral-800 text-white px-3.5 py-2 text-xs font-sans font-semibold uppercase tracking-wider flex items-center gap-2 flex-shrink-0 transition-colors"
@@ -232,10 +273,10 @@ export default function CategoryPageClient({
             )}
           </div>
 
-          {/* Right: Search & Sort Dropdown */}
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          {/* Right: Search & Sort Dropdown (Desktop) */}
+          <div className="hidden sm:flex items-center gap-3 w-auto justify-end">
             {/* Search Input */}
-            <div className="relative w-full sm:w-56">
+            <div className="relative w-56">
               <Search
                 size={14}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
@@ -257,9 +298,9 @@ export default function CategoryPageClient({
               )}
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Desktop Sort Dropdown */}
             <div className="flex items-center gap-1.5 flex-shrink-0">
-              <span className="text-[11px] font-sans text-neutral-500 uppercase tracking-wider hidden md:inline">
+              <span className="text-[11px] font-sans text-neutral-500 uppercase tracking-wider">
                 Sort:
               </span>
               <select
@@ -267,71 +308,110 @@ export default function CategoryPageClient({
                 onChange={(e) => setSortOrder(e.target.value)}
                 className="bg-white border border-neutral-200 px-2.5 py-1.5 text-xs font-sans text-neutral-900 outline-none focus:border-black cursor-pointer"
               >
-                <option value="recommended">Featured</option>
-                <option value="newest">Newest Releases</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.id} value={opt.id}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
         </div>
 
-        {/* Active Filter Chips */}
+        {/* Mobile Compact Sticky Bar (FILTER | SORT) */}
+        <div className="sm:hidden grid grid-cols-2 border-t border-neutral-200 mt-2 bg-white">
+          <button
+            onClick={() => setFilterDrawerOpen(true)}
+            className="py-2.5 px-4 text-xs font-sans font-bold uppercase tracking-wider text-black flex items-center justify-center gap-2 border-r border-neutral-200 active:bg-neutral-100"
+          >
+            <SlidersHorizontal size={13} />
+            <span>Filter {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}</span>
+          </button>
+          <button
+            onClick={() => setSortModalOpen(true)}
+            className="py-2.5 px-4 text-xs font-sans font-bold uppercase tracking-wider text-black flex items-center justify-center gap-2 active:bg-neutral-100"
+          >
+            <ArrowUpDown size={13} />
+            <span className="truncate">Sort: {currentSortLabel}</span>
+          </button>
+        </div>
+
+        {/* Active Filter Chips Row */}
         {activeFiltersCount > 0 && (
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-wrap items-center gap-2 pt-2.5">
-            <span className="text-xs font-sans text-neutral-500">Active Filters:</span>
+            <span className="text-[11px] font-sans text-neutral-500 uppercase tracking-wider">Filters:</span>
+
             {selectedSubcategory !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans">
                 <span>{formatSubcategoryLabel(selectedSubcategory)}</span>
                 <button
                   onClick={() => setSelectedSubcategory('all')}
-                  className="hover:text-black"
+                  className="text-neutral-500 hover:text-black"
+                  aria-label="Remove filter"
                 >
                   <X size={11} />
                 </button>
               </span>
             )}
+
+            {availabilityFilter !== 'all' && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans">
+                <span>In Stock Only</span>
+                <button
+                  onClick={() => setAvailabilityFilter('all')}
+                  className="text-neutral-500 hover:text-black"
+                  aria-label="Remove filter"
+                >
+                  <X size={11} />
+                </button>
+              </span>
+            )}
+
             {selectedOrientation !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans capitalize">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans capitalize">
                 <span>{selectedOrientation}</span>
                 <button
                   onClick={() => setSelectedOrientation('all')}
-                  className="hover:text-black"
+                  className="text-neutral-500 hover:text-black"
+                  aria-label="Remove filter"
                 >
                   <X size={11} />
                 </button>
               </span>
             )}
+
             {priceRange !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans">
                 <span>Price: {priceRange.replace('-', ' to ')}</span>
-                <button onClick={() => setPriceRange('all')} className="hover:text-black">
+                <button onClick={() => setPriceRange('all')} className="text-neutral-500 hover:text-black" aria-label="Remove filter">
                   <X size={11} />
                 </button>
               </span>
             )}
+
             {specialFilter !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans capitalize">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans capitalize">
                 <span>{specialFilter.replace('-', ' ')}</span>
-                <button onClick={() => setSpecialFilter('all')} className="hover:text-black">
+                <button onClick={() => setSpecialFilter('all')} className="text-neutral-500 hover:text-black" aria-label="Remove filter">
                   <X size={11} />
                 </button>
               </span>
             )}
+
             {searchQuery && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-200 text-neutral-900 text-xs font-sans">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-neutral-100 border border-neutral-300 text-black text-xs font-sans">
                 <span>&ldquo;{searchQuery}&rdquo;</span>
-                <button onClick={() => setSearchQuery('')} className="hover:text-black">
+                <button onClick={() => setSearchQuery('')} className="text-neutral-500 hover:text-black" aria-label="Remove filter">
                   <X size={11} />
                 </button>
               </span>
             )}
+
             <button
               onClick={clearAllFilters}
-              className="text-xs font-sans font-semibold text-neutral-900 hover:underline ml-2"
+              className="text-xs font-sans font-bold uppercase tracking-wider text-black underline underline-offset-4 hover:text-neutral-600 ml-2"
             >
-              Clear All
+              CLEAR ALL
             </button>
           </div>
         )}
@@ -346,55 +426,145 @@ export default function CategoryPageClient({
                 key={art.id}
                 artwork={art}
                 priority={index < 4}
+                onQuickView={setQuickViewArtwork}
               />
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 px-4 bg-white border border-neutral-200">
-            <h3 className="font-sans font-bold text-xl text-neutral-900 uppercase mb-2">
-              No matching products found
+          <div className="py-20 text-center bg-white border border-neutral-200 p-8 max-w-xl mx-auto">
+            <h3 className="font-sans font-bold text-xl uppercase tracking-tight text-black mb-2">
+              No Products Found
             </h3>
-            <p className="text-xs font-sans text-neutral-500 max-w-md mx-auto mb-6">
-              We couldn&apos;t find any items matching your active criteria. Try clearing filters or searching for another term.
+            <p className="text-xs text-neutral-500 font-sans max-w-sm mx-auto mb-6 leading-relaxed">
+              We couldn&apos;t find anything matching your selected filters. Try broadening your criteria.
             </p>
             <button
               onClick={clearAllFilters}
-              className="bg-[#0F0F0F] text-white px-6 py-3 text-xs font-sans font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors"
+              className="inline-block bg-black text-white px-8 py-3 text-xs font-sans font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors"
             >
-              Reset All Filters
+              Clear All Filters
             </button>
           </div>
         )}
+
+        {/* Recently Viewed Section */}
+        <RecentlyViewed maxItems={4} />
       </main>
 
-      {/* ── 4. SLIDE-OUT FILTER DRAWER ─────────────────────────────────── */}
+      {/* ── 4. QUICK VIEW MODAL ────────────────────────────────────────── */}
+      {quickViewArtwork && (
+        <ProductQuickView
+          artwork={quickViewArtwork}
+          onClose={() => setQuickViewArtwork(null)}
+        />
+      )}
+
+      {/* ── 5. MOBILE SORT MENU (COMPACT BOTTOM SHEET) ──────────────────── */}
+      {sortModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end sm:hidden"
+          onClick={() => setSortModalOpen(false)}
+        >
+          <div
+            className="w-full bg-white p-5 border-t border-neutral-200 space-y-1 animate-in slide-in-from-bottom duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 mb-2 border-b border-neutral-200">
+              <h3 className="font-sans font-bold text-xs uppercase tracking-widest text-neutral-500">
+                Sort Products By
+              </h3>
+              <button
+                onClick={() => setSortModalOpen(false)}
+                className="text-neutral-500 hover:text-black p-1"
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => {
+                  setSortOrder(opt.id);
+                  setSortModalOpen(false);
+                }}
+                className={`w-full text-left py-3 px-3 text-xs font-sans flex items-center justify-between transition-colors ${
+                  sortOrder === opt.id
+                    ? 'font-bold text-black bg-neutral-100'
+                    : 'text-neutral-700 hover:bg-neutral-50'
+                }`}
+              >
+                <span>{opt.label}</span>
+                {sortOrder === opt.id && <Check size={14} className="text-black" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── 6. COMPREHENSIVE FILTER DRAWER (DESKTOP & MOBILE) ─────────── */}
       {filterDrawerOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden">
           <div
             onClick={() => setFilterDrawerOpen(false)}
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
           />
 
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-sm bg-white flex flex-col shadow-2xl">
+            <div className="w-screen max-w-md bg-white border-l border-neutral-200 flex flex-col shadow-2xl">
               {/* Drawer Header */}
               <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
-                <span className="font-sans font-bold text-sm uppercase tracking-wider text-[#0F0F0F]">
-                  Filter {title}
-                </span>
+                <div>
+                  <h2 className="font-sans font-bold text-base text-black uppercase tracking-tight">
+                    Filter {title}
+                  </h2>
+                  <p className="text-xs font-sans text-neutral-500 mt-0.5">
+                    {filteredArtworks.length} pieces match
+                  </p>
+                </div>
                 <button
                   onClick={() => setFilterDrawerOpen(false)}
-                  className="p-1.5 text-neutral-500 hover:text-black"
+                  className="p-1 text-neutral-500 hover:text-black rounded-full"
+                  aria-label="Close filters"
                 >
                   <X size={20} />
                 </button>
               </div>
 
-              {/* Drawer Filter Groups */}
+              {/* Drawer Filter Body */}
               <div className="flex-1 overflow-y-auto p-5 space-y-6">
-                {/* Subcategory */}
+                {/* Availability Filter */}
+                <div className="space-y-3">
+                  <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
+                    Availability
+                  </span>
+                  <div className="space-y-2 text-xs font-sans text-neutral-600">
+                    <label className="flex items-center gap-2.5 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="drawer-avail"
+                        checked={availabilityFilter === 'all'}
+                        onChange={() => setAvailabilityFilter('all')}
+                        className="accent-black"
+                      />
+                      <span>All Items</span>
+                    </label>
+                    <label className="flex items-center gap-2.5 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="drawer-avail"
+                        checked={availabilityFilter === 'in-stock'}
+                        onChange={() => setAvailabilityFilter('in-stock')}
+                        className="accent-black"
+                      />
+                      <span>In Stock Only</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Subcategories */}
                 {availableSubcategories.length > 0 && (
-                  <div className="space-y-3">
+                  <div className="space-y-3 pt-3 border-t border-neutral-100">
                     <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
                       Subcategory
                     </span>
@@ -487,17 +657,17 @@ export default function CategoryPageClient({
                   </div>
                 </div>
 
-                {/* Acquisition Type */}
+                {/* Special Collection Filter */}
                 <div className="space-y-3 pt-3 border-t border-neutral-100">
                   <span className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 block">
-                    Product Type
+                    Collection Badges
                   </span>
                   <div className="space-y-2 text-xs font-sans text-neutral-600">
                     {[
-                      { id: 'all', label: 'All Products' },
-                      { id: 'featured', label: 'Featured Products' },
+                      { id: 'all', label: 'All Items' },
+                      { id: 'featured', label: 'Featured Pieces' },
                       { id: 'limited-editions', label: 'Numbered Editions' },
-                      { id: 'bestsellers', label: 'Bestselling Products' },
+                      { id: 'bestsellers', label: 'Best Sellers' },
                       { id: 'new', label: 'New Arrivals' },
                     ].map((s) => (
                       <label key={s.id} className="flex items-center gap-2.5 cursor-pointer">
@@ -519,13 +689,13 @@ export default function CategoryPageClient({
               <div className="p-5 border-t border-neutral-200 bg-neutral-50 flex gap-3">
                 <button
                   onClick={clearAllFilters}
-                  className="w-1/2 border border-neutral-300 py-3 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-neutral-100 transition-colors"
+                  className="w-1/2 border border-neutral-300 py-3 text-xs font-sans font-bold uppercase tracking-wider hover:bg-neutral-100 transition-colors"
                 >
-                  Reset
+                  Clear All
                 </button>
                 <button
                   onClick={() => setFilterDrawerOpen(false)}
-                  className="w-1/2 bg-[#0F0F0F] text-white py-3 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
+                  className="w-1/2 bg-[#0F0F0F] text-white py-3 text-xs font-sans font-bold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
                 >
                   Apply ({filteredArtworks.length})
                 </button>
@@ -534,6 +704,12 @@ export default function CategoryPageClient({
           </div>
         </div>
       )}
+
+      {/* Find Your Piece Guided Discovery Modal */}
+      <FindYourPieceModal
+        isOpen={findPieceOpen}
+        onClose={() => setFindPieceOpen(false)}
+      />
     </div>
   );
 }

@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArtworkProduct, FrameOption } from '@/types/art';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
+import { useRecentlyViewedStore } from '@/store/recentlyViewedStore';
 import {
   formatPrice,
   STANDARD_FRAME_OPTIONS,
@@ -18,6 +19,10 @@ import {
 import RoomPreviewModal from '@/components/RoomPreviewModal';
 import FigureViewer from '@/components/FigureViewer';
 import ArtworkCard from '@/components/ArtworkCard';
+import ProductQuickView from '@/components/ProductQuickView';
+import ArtworkScaleVisualizer from '@/components/ArtworkScaleVisualizer';
+import PincodeChecker from '@/components/PincodeChecker';
+import RecentlyViewed from '@/components/RecentlyViewed';
 import {
   Heart,
   ShoppingBag,
@@ -43,7 +48,7 @@ interface ArtworkDetailClientProps {
  * SALE (discount %) > BESTSELLER > NEW > TRENDING > FEATURED > LIMITED
  */
 function getDetailBadge(artwork: ArtworkProduct): { text: string; style: string } | null {
-  const origPrice = artwork.originalPrice;
+  const origPrice = artwork.originalPrice || artwork.original_price;
   if (origPrice && origPrice > artwork.price) {
     const discountPercent = Math.round(((origPrice - artwork.price) / origPrice) * 100);
     return {
@@ -89,6 +94,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(artwork.id));
+  const recordView = useRecentlyViewedStore((state) => state.recordView);
 
   // Gallery state
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -97,7 +103,9 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
   const [roomModalOpen, setRoomModalOpen] = useState(false);
   const [figureViewerOpen, setFigureViewerOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [quickViewArtwork, setQuickViewArtwork] = useState<ArtworkProduct | null>(null);
   const [added, setAdded] = useState(false);
+  const [heartPulsing, setHeartPulsing] = useState(false);
 
   // Accordion state
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({
@@ -105,6 +113,13 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
     dimensions: false,
     shipping: false,
   });
+
+  // Record product view locally on mount
+  useEffect(() => {
+    if (artwork) {
+      recordView(artwork);
+    }
+  }, [artwork, recordView]);
 
   const toggleAccordion = (key: string) => {
     setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -154,7 +169,54 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
     router.push('/checkout');
   };
 
-  // Related artworks
+  const handleWishlistToggle = () => {
+    toggleWishlist(artwork);
+    setHeartPulsing(true);
+    setTimeout(() => setHeartPulsing(false), 300);
+  };
+
+  // Complete The Look: Curated cross-category complementary pairs from real catalog
+  const completeTheLook = useMemo(() => {
+    const otherCategories = (['wall-art', 'sculptures', 'decorative-pieces'] as const).filter(
+      (cat) => cat !== artwork.category
+    );
+
+    const matches: ArtworkProduct[] = [];
+    const artTags = (artwork.styleTags || []).map((t) => t.toLowerCase());
+
+    // 1. Try to find products from other categories with matching styleTags
+    for (const otherCat of otherCategories) {
+      const candidate = ARTWORKS.find(
+        (a) =>
+          a.id !== artwork.id &&
+          a.category === otherCat &&
+          (a.styleTags || []).some((t) => artTags.includes(t.toLowerCase()))
+      );
+      if (candidate && !matches.some((m) => m.id === candidate.id)) {
+        matches.push(candidate);
+      }
+    }
+
+    // 2. Fallback to featured items from other categories
+    if (matches.length < 3) {
+      for (const otherCat of otherCategories) {
+        const candidate = ARTWORKS.find(
+          (a) =>
+            a.id !== artwork.id &&
+            a.category === otherCat &&
+            (a.isFeatured || a.isBestseller) &&
+            !matches.some((m) => m.id === a.id)
+        );
+        if (candidate && matches.length < 3) {
+          matches.push(candidate);
+        }
+      }
+    }
+
+    return matches.slice(0, 3);
+  }, [artwork]);
+
+  // Related artworks in the same category or artist
   const relatedArtworks = ARTWORKS.filter(
     (a) => a.id !== artwork.id && (a.artistId === artwork.artistId || a.category === artwork.category)
   ).slice(0, 4);
@@ -326,6 +388,12 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
               </div>
             </div>
 
+            {/* Physical Dimensions Scale Visualizer (HOW BIG IS IT?) */}
+            <ArtworkScaleVisualizer
+              dimensions={artwork.dimensions}
+              artworkName={artwork.name}
+            />
+
             {/* Frame Selector */}
             {artwork.frameAvailable && (
               <div className="space-y-2.5">
@@ -368,12 +436,12 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             {/* Quantity Selector + Add To Bag + Buy Now */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-3">
-                {/* Quantity Controls */}
+                {/* Quantity Controls clamped to real stock */}
                 <div className="flex items-center border border-neutral-300 bg-white h-12">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     disabled={quantity <= 1 || artwork.stock <= 0}
-                    className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30"
+                    className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Decrease quantity"
                   >
                     <Minus size={13} />
@@ -384,7 +452,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   <button
                     onClick={() => setQuantity((q) => Math.min(artwork.stock, q + 1))}
                     disabled={quantity >= artwork.stock || artwork.stock <= 0}
-                    className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30"
+                    className="px-3 h-full hover:bg-neutral-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Increase quantity"
                   >
                     <Plus size={13} />
@@ -419,11 +487,13 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   </button>
                 )}
 
-                {/* Wishlist Button */}
+                {/* Wishlist Button with subtle animation */}
                 <button
-                  onClick={() => toggleWishlist(artwork)}
-                  className="w-12 h-12 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-black transition-colors"
-                  aria-label="Wishlist"
+                  onClick={handleWishlistToggle}
+                  className={`w-12 h-12 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-black transition-transform duration-200 ${
+                    heartPulsing ? 'scale-125' : ''
+                  }`}
+                  aria-label={isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                 >
                   <Heart
                     size={20}
@@ -433,7 +503,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                 </button>
               </div>
 
-              {/* Buy Now Direct Button: High-Contrast Secondary Border Treatment */}
+              {/* Buy Now Direct Button */}
               {artwork.stock > 0 && (
                 <button
                   onClick={handleBuyNow}
@@ -445,6 +515,9 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
               )}
             </div>
 
+            {/* Pincode Delivery Availability Checker */}
+            <PincodeChecker />
+
             {/* Authenticity Guarantee Box */}
             <div className="bg-white p-4 border border-neutral-200 flex items-start gap-3">
               <ShieldCheck size={20} className="text-black flex-shrink-0 mt-0.5" />
@@ -453,7 +526,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                   Authenticity Guaranteed
                 </p>
                 <p className="text-[11px] font-sans text-neutral-500 leading-relaxed">
-                  Every product is crafted with premium materials and comes with a certificate of authenticity.
+                  Every product is crafted with archival materials and arrives with a signed Certificate of Authenticity.
                 </p>
               </div>
             </div>
@@ -505,7 +578,7 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                       <strong className="text-black">Base / Substrate:</strong> {artwork.material}
                     </p>
                     <p>
-                      <strong className="text-black">Exact Dimensions:</strong> {artwork.dimensions.width} ×{' '}
+                      <strong className="text-black">Dimensions:</strong> {artwork.dimensions.width} ×{' '}
                       {artwork.dimensions.height} {artwork.dimensions.depth ? `× ${artwork.dimensions.depth}` : ''}{' '}
                       {artwork.dimensions.unit} ({Math.round(artwork.dimensions.width / 2.54)} ×{' '}
                       {Math.round(artwork.dimensions.height / 2.54)} in)
@@ -515,8 +588,18 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
                         <strong className="text-black">Weight:</strong> {artwork.weight}
                       </p>
                     )}
+                    {artwork.careInstructions && artwork.careInstructions.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-neutral-100">
+                        <strong className="text-black block mb-1">Care Instructions:</strong>
+                        <ul className="list-disc list-inside space-y-1 text-[11px] text-neutral-600">
+                          {artwork.careInstructions.map((instruction, idx) => (
+                            <li key={idx}>{instruction}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     <div className="mt-2 p-2.5 bg-neutral-100 text-[11px] text-neutral-700">
-                      <strong>Display Recommendation:</strong> Ready to display with pre-installed mounting brackets. For living room focal walls, hang at eye-level (57–60 inches from floor).
+                      <strong>Display Recommendation:</strong> Ready to display with pre-installed mounting brackets.
                     </div>
                   </div>
                 )}
@@ -551,6 +634,35 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             </div>
           </div>
         </div>
+
+        {/* ── COMPLETE THE LOOK (Curated Cross-Category Pairing) ────────── */}
+        {completeTheLook.length > 0 && (
+          <section className="mt-16 md:mt-24 pt-12 border-t border-neutral-200">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <span className="text-[10px] font-sans font-bold tracking-widest text-neutral-500 uppercase block mb-1">
+                  Curated Ensemble
+                </span>
+                <h3 className="font-sans font-extrabold text-2xl sm:text-3xl text-black tracking-tight uppercase">
+                  Complete The Look
+                </h3>
+                <p className="text-xs text-neutral-500 font-sans mt-1">
+                  Complementary architectural pieces curated to pair with this work.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {completeTheLook.map((item) => (
+                <ArtworkCard
+                  key={item.id}
+                  artwork={item}
+                  onQuickView={setQuickViewArtwork}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ── CUSTOMER REVIEWS SECTION ─────────────────────────────────── */}
         <section className="mt-16 md:mt-24 pt-12 border-t border-neutral-200">
@@ -645,11 +757,18 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {relatedArtworks.map((item) => (
-                <ArtworkCard key={item.id} artwork={item} />
+                <ArtworkCard
+                  key={item.id}
+                  artwork={item}
+                  onQuickView={setQuickViewArtwork}
+                />
               ))}
             </div>
           </section>
         )}
+
+        {/* ── RECENTLY VIEWED (Persistent across sessions) ──────────────── */}
+        <RecentlyViewed currentProductId={artwork.id} maxItems={4} />
       </div>
 
       {/* Interactive Modals */}
@@ -659,6 +778,14 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
 
       {figureViewerOpen && (
         <FigureViewer artwork={artwork} onClose={() => setFigureViewerOpen(false)} />
+      )}
+
+      {/* Quick View Modal */}
+      {quickViewArtwork && (
+        <ProductQuickView
+          artwork={quickViewArtwork}
+          onClose={() => setQuickViewArtwork(null)}
+        />
       )}
 
       {/* Lightbox Modal */}

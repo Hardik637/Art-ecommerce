@@ -7,7 +7,7 @@ import { ArtworkProduct } from '@/types/art';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice, getCategoryLabel } from '@/lib/artCatalog';
-import { Heart, ShoppingBag, Check } from 'lucide-react';
+import { Heart, ShoppingBag, Check, Eye } from 'lucide-react';
 
 interface ArtworkCardProps {
   artwork: ArtworkProduct;
@@ -70,6 +70,7 @@ function getPrimaryBadge(artwork: ArtworkProduct): { text: string; style: string
 export default function ArtworkCard({
   artwork,
   priority = false,
+  onQuickView,
 }: ArtworkCardProps) {
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(artwork.id));
@@ -78,6 +79,7 @@ export default function ArtworkCard({
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [added, setAdded] = useState(false);
+  const [heartPulsing, setHeartPulsing] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -87,9 +89,18 @@ export default function ArtworkCard({
   const secondaryImage = artwork.images[1] || artwork.images[0] || artwork.thumbnail;
   const primaryBadge = getPrimaryBadge(artwork);
 
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(artwork);
+    setHeartPulsing(true);
+    setTimeout(() => setHeartPulsing(false), 300);
+  };
+
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (artwork.stock <= 0) return;
     addItem({
       productId: artwork.id,
       slug: artwork.slug,
@@ -124,15 +135,13 @@ export default function ArtworkCard({
           </div>
         )}
 
-        {/* Wishlist Heart Button */}
+        {/* Wishlist Heart Button with Subtle Micro-Interaction */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleWishlist(artwork);
-          }}
-          className="absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-neutral-800 hover:text-black hover:scale-110 transition-all shadow-sm"
-          aria-label="Wishlist"
+          onClick={handleWishlistClick}
+          className={`absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-neutral-800 hover:text-black transition-transform duration-200 shadow-sm ${
+            heartPulsing ? 'scale-125' : 'hover:scale-110 active:scale-95'
+          }`}
+          aria-label={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
         >
           <Heart
             size={15}
@@ -159,22 +168,40 @@ export default function ArtworkCard({
           </div>
         </Link>
 
-        {/* Slide-Up Quick Add Button (Desktop Hover + Mobile Always Accessible) */}
-        <div className="absolute inset-x-0 bottom-0 p-2 sm:p-2.5 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-200 hidden sm:block">
+        {/* Slide-Up Action Bar (Desktop Hover) */}
+        <div className="absolute inset-x-0 bottom-0 p-2 sm:p-2.5 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-200 hidden sm:flex gap-1.5">
+          {onQuickView && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onQuickView(artwork);
+              }}
+              className="flex-1 py-2 px-2 text-[10px] font-sans font-bold uppercase tracking-[0.06em] bg-white text-black border border-black hover:bg-neutral-100 transition-colors shadow-xs"
+            >
+              Quick View
+            </button>
+          )}
           <button
             onClick={handleQuickAdd}
-            disabled={added}
-            className="w-full py-2.5 px-3 text-[11px] font-sans font-bold uppercase tracking-[0.06em] flex items-center justify-center gap-1.5 transition-colors shadow-md bg-black text-white hover:bg-neutral-800"
+            disabled={added || artwork.stock <= 0}
+            className={`flex-1 py-2 px-2 text-[10px] font-sans font-bold uppercase tracking-[0.06em] flex items-center justify-center gap-1.5 transition-colors shadow-xs ${
+              artwork.stock <= 0
+                ? 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
+                : 'bg-black text-white hover:bg-neutral-800'
+            }`}
           >
             {added ? (
               <>
-                <Check size={13} />
-                <span>Added to Bag</span>
+                <Check size={12} />
+                <span>Added</span>
               </>
+            ) : artwork.stock <= 0 ? (
+              <span>Sold Out</span>
             ) : (
               <>
-                <ShoppingBag size={13} />
-                <span>+ Add to Cart</span>
+                <ShoppingBag size={12} />
+                <span>+ Add</span>
               </>
             )}
           </button>
@@ -219,15 +246,35 @@ export default function ArtworkCard({
             )}
           </div>
 
-          {/* Mobile Tap-To-Add Button (Comfortable touch target) */}
-          <button
-            onClick={handleQuickAdd}
-            disabled={added}
-            className="sm:hidden p-2 text-neutral-800 hover:text-black transition-colors min-w-[32px] min-h-[32px] flex items-center justify-center -mr-1"
-            aria-label="Add to bag"
-          >
-            {added ? <Check size={16} className="text-black" /> : <ShoppingBag size={16} />}
-          </button>
+          {/* Mobile Action Buttons (Comfortable touch targets) */}
+          <div className="flex items-center gap-1 sm:hidden">
+            {onQuickView && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onQuickView(artwork);
+                }}
+                className="p-1.5 text-neutral-600 hover:text-black transition-colors min-w-[32px] min-h-[32px] flex items-center justify-center"
+                aria-label="Quick View"
+                title="Quick View"
+              >
+                <Eye size={15} />
+              </button>
+            )}
+            <button
+              onClick={handleQuickAdd}
+              disabled={added || artwork.stock <= 0}
+              className={`p-1.5 transition-colors min-w-[32px] min-h-[32px] flex items-center justify-center -mr-1 ${
+                artwork.stock <= 0
+                  ? 'text-neutral-300 cursor-not-allowed'
+                  : 'text-neutral-800 hover:text-black'
+              }`}
+              aria-label={artwork.stock <= 0 ? 'Sold out' : 'Add to bag'}
+            >
+              {added ? <Check size={16} className="text-black" /> : <ShoppingBag size={16} />}
+            </button>
+          </div>
         </div>
       </div>
     </div>
