@@ -99,38 +99,39 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
       role="dialog"
       aria-modal="true"
       aria-labelledby="quickview-title"
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/65 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 md:p-6 overscroll-contain"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl bg-white border border-neutral-200 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[92vh]"
+        className="relative w-full max-w-lg md:max-w-4xl bg-white border border-neutral-200 shadow-2xl flex flex-col md:flex-row max-h-[90dvh] md:max-h-[85vh] overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black hover:border-black transition-colors"
+          className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-30 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 backdrop-blur-xs border border-neutral-200 flex items-center justify-center text-neutral-700 hover:text-black hover:border-black transition-colors shadow-xs"
           aria-label="Close Quick View"
         >
           <X size={17} />
         </button>
 
         {/* Left: Gallery preview */}
-        <div className="w-full md:w-1/2 bg-neutral-100 p-4 sm:p-5 flex flex-col items-center justify-center relative">
+        <div className="w-full md:w-1/2 bg-neutral-100 p-3 sm:p-5 flex flex-col items-center justify-center relative flex-shrink-0">
           {badge && (
-            <div className="absolute top-3 left-3 z-20 pointer-events-none">
+            <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-20 pointer-events-none">
               <span className="bg-black text-white text-[8.5px] sm:text-[9px] font-sans font-bold tracking-[0.06em] px-2 py-0.5 uppercase">
                 {badge}
               </span>
             </div>
           )}
 
-          <div className="relative w-full aspect-[4/5] bg-white border border-neutral-200 shadow-xs mb-3">
+          {/* Adaptive Image Height for Mobile vs Aspect Ratio for Desktop */}
+          <div className="relative w-full h-44 xs:h-52 sm:h-64 md:h-auto md:aspect-[4/5] bg-white border border-neutral-200 shadow-xs mb-2 sm:mb-3">
             <Image
               src={currentImage}
               alt={artwork.name}
               fill
-              className="object-contain p-3"
+              className="object-contain p-2 sm:p-3"
               priority
               sizes="(max-width: 768px) 100vw, 400px"
             />
@@ -138,12 +139,12 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
 
           {/* Thumbnails */}
           {artwork.images.length > 1 && (
-            <div className="flex gap-2 justify-center overflow-x-auto max-w-full py-1">
+            <div className="flex gap-1.5 sm:gap-2 justify-center overflow-x-auto max-w-full py-0.5">
               {artwork.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-11 h-13 relative bg-white border flex-shrink-0 transition-all ${
+                  className={`w-9 h-11 sm:w-11 sm:h-13 relative bg-white border flex-shrink-0 transition-all ${
                     currentImage === img ? 'border-black ring-1 ring-black' : 'border-neutral-200 opacity-70 hover:opacity-100'
                   } overflow-hidden`}
                   aria-label={`View image ${i + 1}`}
@@ -156,7 +157,7 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
         </div>
 
         {/* Right: Product Details */}
-        <div className="w-full md:w-1/2 p-5 sm:p-6 flex flex-col overflow-y-auto bg-white">
+        <div className="w-full md:w-1/2 p-3.5 sm:p-6 flex flex-col overflow-y-auto bg-white min-h-0 flex-1 overscroll-contain">
           <div className="flex items-center justify-between mb-1">
             <span className="type-label text-neutral-500">
               {getCategoryLabel(artwork.category)}
@@ -168,16 +169,16 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
 
           <h2
             id="quickview-title"
-            className="font-sans font-bold text-base sm:text-xl text-black uppercase tracking-tight leading-snug mb-1"
+            className="font-sans font-bold text-sm sm:text-base md:text-xl text-black uppercase tracking-tight leading-snug mb-1"
           >
             {artwork.name}
           </h2>
 
-          <p className="text-xs text-neutral-500 font-sans mb-3">
+          <p className="text-[11px] sm:text-xs text-neutral-500 font-sans mb-2 sm:mb-3">
             {artwork.medium} • {artwork.dimensions.width} × {artwork.dimensions.height} {artwork.dimensions.unit}
           </p>
 
-          <div className="flex items-baseline gap-2.5 mb-3.5 pb-3.5 border-b border-neutral-100">
+          <div className="flex items-baseline gap-2 mb-2.5 pb-2.5 sm:mb-3.5 sm:pb-3.5 border-b border-neutral-100">
             <span className="type-price text-xl sm:text-2xl text-black">
               {formatPrice(totalPrice)}
             </span>
@@ -191,32 +192,32 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
             </span>
           </div>
 
-          <p className="text-xs text-neutral-600 font-sans leading-relaxed mb-4 line-clamp-2">
+          <p className="text-xs text-neutral-600 font-sans leading-relaxed mb-3 sm:mb-4 line-clamp-2">
             {artwork.shortDescription || artwork.description}
           </p>
 
           {/* Framing Selection */}
           {artwork.frameAvailable && (
-            <div className="mb-4">
+            <div className="mb-3">
               <label className="block text-[10px] font-sans font-bold tracking-wider text-neutral-900 uppercase mb-1.5">
                 Framing Option
               </label>
-              <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+              <div className="space-y-1 sm:space-y-1.5 max-h-28 sm:max-h-36 overflow-y-auto pr-1">
                 {STANDARD_FRAME_OPTIONS.map((frame) => (
                   <button
                     key={frame.id}
                     onClick={() => setSelectedFrame(frame)}
-                    className={`w-full text-left p-2 border text-xs font-sans transition-all flex items-center justify-between ${
+                    className={`w-full text-left p-1.5 sm:p-2 border text-xs font-sans transition-all flex items-center justify-between ${
                       selectedFrame.id === frame.id
                         ? 'border-black bg-neutral-50 font-medium'
                         : 'border-neutral-200 hover:border-neutral-400'
                     }`}
                   >
                     <div className="min-w-0 pr-2">
-                      <span className="text-neutral-900 block truncate">{frame.name}</span>
-                      <span className="text-[10px] text-neutral-500 truncate block">{frame.material}</span>
+                      <span className="text-neutral-900 block truncate text-[11px] sm:text-xs">{frame.name}</span>
+                      <span className="text-[9.5px] sm:text-[10px] text-neutral-500 truncate block">{frame.material}</span>
                     </div>
-                    <span className="text-neutral-900 font-semibold flex-shrink-0">
+                    <span className="text-neutral-900 font-semibold flex-shrink-0 text-[11px] sm:text-xs">
                       {frame.price === 0 ? 'Included' : `+${formatPrice(frame.price)}`}
                     </span>
                   </button>
@@ -226,19 +227,19 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
           )}
 
           {/* Certificate Badge */}
-          <div className="bg-neutral-50 p-2.5 border border-neutral-200 mb-4 flex items-center gap-2">
+          <div className="bg-neutral-50 p-2 sm:p-2.5 border border-neutral-200 mb-3 sm:mb-4 flex items-center gap-2">
             <ShieldCheck size={16} className="text-black flex-shrink-0" />
-            <p className="text-[11px] font-sans text-neutral-600">
+            <p className="text-[10.5px] sm:text-[11px] font-sans text-neutral-600 leading-tight">
               Includes signed Certificate of Authenticity &amp; insured courier.
             </p>
           </div>
 
-          {/* Actions */}
-          <div className="mt-auto pt-2 flex gap-2">
+          {/* Sticky Actions on Mobile / In-flow on Desktop */}
+          <div className="mt-auto pt-2.5 pb-1 border-t border-neutral-100 md:border-0 flex gap-2 sticky bottom-0 bg-white z-10">
             <button
               onClick={handleAddToCart}
               disabled={added || isOutOfStock}
-              className={`flex-1 py-3 px-4 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors ${
+              className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors ${
                 isOutOfStock
                   ? 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
                   : 'bg-black text-white hover:bg-neutral-800'
@@ -261,7 +262,7 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
 
             <button
               onClick={handleWishlistToggle}
-              className={`w-11 h-11 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-neutral-900 transition-transform duration-200 ${
+              className={`w-10 h-10 sm:w-11 sm:h-11 border border-neutral-300 bg-white hover:border-black flex items-center justify-center text-neutral-900 transition-transform duration-200 flex-shrink-0 ${
                 heartPulsing ? 'scale-125' : ''
               }`}
               aria-label={isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -274,11 +275,11 @@ export default function ProductQuickView({ artwork, onClose }: ProductQuickViewP
             </button>
           </div>
 
-          <div className="text-center mt-3">
+          <div className="text-center mt-2 pb-0.5">
             <Link
               href={`/products/${artwork.slug || artwork.id}`}
               onClick={onClose}
-              className="text-[11px] font-sans font-bold tracking-wider text-neutral-600 hover:text-black inline-flex items-center gap-1 uppercase underline underline-offset-4"
+              className="text-[10.5px] sm:text-[11px] font-sans font-bold tracking-wider text-neutral-600 hover:text-black inline-flex items-center gap-1 uppercase underline underline-offset-4"
             >
               <span>View Full Details</span>
               <ArrowRight size={11} />
