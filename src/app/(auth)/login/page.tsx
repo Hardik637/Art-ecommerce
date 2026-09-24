@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { Suspense } from 'react';
+import { isFirebaseConfigured } from '@/lib/firebase';
 
 function LoginForm() {
   const router = useRouter();
@@ -23,6 +24,14 @@ function LoginForm() {
     setError('');
 
     try {
+      if (isFirebaseConfigured()) {
+        const { signInWithEmail } = await import('@/lib/firebase');
+        await signInWithEmail(email, password);
+        router.push(redirect);
+        router.refresh();
+        return;
+      }
+
       const { createClient } = await import('@/lib/supabase/client');
       const supabase = createClient();
 
@@ -34,23 +43,35 @@ function LoginForm() {
         router.push(redirect);
         router.refresh();
       }
-    } catch {
-      setError('Something went wrong. Please try again.');
+    } catch (err: any) {
+      setError(err?.message || 'Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
-    const { createClient } = await import('@/lib/supabase/client');
-    const supabase = createClient();
+    try {
+      if (isFirebaseConfigured()) {
+        const { signInWithGoogle } = await import('@/lib/firebase');
+        await signInWithGoogle();
+        router.push(redirect);
+        router.refresh();
+        return;
+      }
 
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${redirect}`,
-      },
-    });
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${redirect}`,
+        },
+      });
+    } catch (err: any) {
+      setError(err?.message || 'Google sign in failed.');
+    }
   };
 
   const handleDemoAccess = () => {

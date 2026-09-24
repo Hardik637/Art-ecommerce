@@ -2,10 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, ArrowRight, Check } from 'lucide-react';
 import { Suspense } from 'react';
+import { isFirebaseConfigured } from '@/lib/firebase';
 
 function RegisterForm() {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -22,6 +25,13 @@ function RegisterForm() {
     setError('');
 
     try {
+      if (isFirebaseConfigured()) {
+        const { signUpWithEmail } = await import('@/lib/firebase');
+        await signUpWithEmail(form.email, form.password, form.name);
+        setSuccess(true);
+        return;
+      }
+
       const { createClient } = await import('@/lib/supabase/client');
       const supabase = createClient();
 
@@ -40,23 +50,34 @@ function RegisterForm() {
       } else {
         setSuccess(true);
       }
-    } catch {
-      setError('Registration failed. Please try again.');
+    } catch (err: any) {
+      setError(err?.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignup = async () => {
-    const { createClient } = await import('@/lib/supabase/client');
-    const supabase = createClient();
+    try {
+      if (isFirebaseConfigured()) {
+        const { signInWithGoogle } = await import('@/lib/firebase');
+        await signInWithGoogle();
+        router.push('/');
+        return;
+      }
 
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+    } catch (err: any) {
+      setError(err?.message || 'Google sign up failed.');
+    }
   };
 
   if (success) {

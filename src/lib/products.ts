@@ -1,5 +1,10 @@
 import { Product, MajorCategory } from '@/types/art';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
+import {
+  isFirebaseAdminConfigured,
+  getFirebaseProducts,
+  getFirebaseProductById,
+} from '@/lib/firebase/server';
 import { ARTWORKS } from '@/lib/artCatalog';
 import { getCustomProducts } from '@/lib/customProducts';
 
@@ -77,7 +82,19 @@ export async function getProducts(options: ProductQueryOptions = {}): Promise<Pr
 
   const customProducts = getCustomProducts();
 
-  // 1. Check Supabase
+  // 1. Check Firebase Firestore
+  if (isFirebaseAdminConfigured()) {
+    try {
+      const fbProducts = await getFirebaseProducts(options);
+      if (fbProducts && fbProducts.length > 0) {
+        return [...customProducts, ...fbProducts];
+      }
+    } catch (err) {
+      console.warn('[Products Service] Firebase query failed, using fallbacks:', err);
+    }
+  }
+
+  // 2. Check Supabase
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
@@ -209,6 +226,15 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   const custom = getCustomProducts().find((p) => p.slug === slug || p.id === slug);
   if (custom) return custom;
 
+  if (isFirebaseAdminConfigured()) {
+    try {
+      const fbProduct = await getFirebaseProductById(slug);
+      if (fbProduct) return fbProduct;
+    } catch {
+      // fallback
+    }
+  }
+
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
@@ -234,6 +260,15 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 export async function getProductById(id: string): Promise<Product | null> {
   const custom = getCustomProducts().find((p) => p.id === id || p.slug === id);
   if (custom) return custom;
+
+  if (isFirebaseAdminConfigured()) {
+    try {
+      const fbProduct = await getFirebaseProductById(id);
+      if (fbProduct) return fbProduct;
+    } catch {
+      // fallback
+    }
+  }
 
   if (isSupabaseConfigured()) {
     try {

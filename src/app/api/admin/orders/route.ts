@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/adminAuth';
-import { fetchAllAdminOrders, updateOrderStatus, cancelOrder } from '@/lib/orders';
+import { fetchAllAdminOrders, updateOrderStatus, cancelOrder } from '@/lib/orders.server';
 import { Order } from '@/types/art';
 
 export async function GET() {

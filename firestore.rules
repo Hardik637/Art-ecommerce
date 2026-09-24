@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Products Collection
+    // Public read access for the catalog; writes restricted to admin
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Orders Collection
+    // Customers can view their own orders; order creation permitted; admin can manage all
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read: if request.auth != null && 
+        (resource.data.userId == request.auth.uid || 
+         resource.data.customer.email == request.auth.token.email ||
+         request.auth.token.admin == true);
+      allow update, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Users Collection
+    // User profile documents accessible only by the owner or admin
+    match /users/{userId} {
+      allow read, write: if request.auth != null && 
+        (request.auth.uid == userId || request.auth.token.admin == true);
+    }
+  }
+}

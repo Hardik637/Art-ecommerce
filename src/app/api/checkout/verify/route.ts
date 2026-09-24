@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { getOrderById, updateOrderPaymentSuccess, decrementStock } from '@/lib/orders';
+import { getOrderById, updateOrderPaymentSuccess, decrementStock } from '@/lib/orders.server';
 
 export async function POST(req: Request) {
   try {

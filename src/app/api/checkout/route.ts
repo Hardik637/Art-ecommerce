@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 import { getProductById } from '@/lib/products';
 import { STANDARD_FRAME_OPTIONS } from '@/lib/artCatalog';
-import { saveOrder } from '@/lib/orders';
+import { saveOrder } from '@/lib/orders.server';
 import { calculateShipping } from '@/lib/shipping';
 import { validateCoupon } from '@/lib/coupons';
 import { Order, OrderItem } from '@/types/art';

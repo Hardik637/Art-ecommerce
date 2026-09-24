@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/adminAuth';
+import { isFirebaseAdminConfigured, uploadArtworkImageToStorage } from '@/lib/firebase/server';
 import fs from 'fs';
 import path from 'path';
 
@@ -51,6 +52,25 @@ export async function POST(req: NextRequest) {
     // Generate extension and safe filename
     const ext = path.extname(file.name) || (file.type === 'image/png' ? '.png' : '.jpg');
     const safeName = `artwork_${Date.now()}_${Math.random().toString(36).substring(2, 8)}${ext}`;
+
+    // 1. Attempt upload to Firebase Storage if configured
+    if (isFirebaseAdminConfigured()) {
+      try {
+        const firebaseUrl = await uploadArtworkImageToStorage(buffer, safeName, file.type);
+        if (firebaseUrl) {
+          return NextResponse.json({
+            success: true,
+            url: firebaseUrl,
+            fileName: safeName,
+            size: file.size,
+            mimeType: file.type,
+            provider: 'firebase-storage',
+          });
+        }
+      } catch (storageErr) {
+        console.warn('[Admin Upload] Firebase storage upload failed, falling back:', storageErr);
+      }
+    }
 
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
 

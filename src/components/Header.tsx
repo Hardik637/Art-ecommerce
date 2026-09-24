@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import AnnouncementBar from './AnnouncementBar';
 import FindYourPieceModal from './FindYourPieceModal';
+import { isFirebaseConfigured } from '@/lib/firebase';
 
 export default function Header() {
   const pathname = usePathname();
@@ -35,6 +36,26 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
+
+    if (isFirebaseConfigured()) {
+      let unsub: (() => void) | undefined;
+      import('@/lib/firebase').then(({ subscribeToAuth }) => {
+        unsub = subscribeToAuth((user) => {
+          if (user) {
+            setIsLoggedIn(true);
+            const name = user.displayName || user.email?.split('@')[0] || 'Collector';
+            setUserInitial(name.charAt(0).toUpperCase());
+          } else {
+            setIsLoggedIn(false);
+            setUserInitial(null);
+          }
+        });
+      });
+      return () => {
+        if (unsub) unsub();
+      };
+    }
+
     const supabase = createClient();
 
     supabase.auth.getUser().then(({ data: { user } }) => {

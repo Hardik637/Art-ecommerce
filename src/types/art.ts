@@ -244,3 +244,6 @@ export interface Order {
   createdAt: string;
   updatedAt: string;
 }
+
+export type OrderStatus = Order['fulfillmentStatus'];
+export type PaymentStatus = Order['paymentStatus'];
